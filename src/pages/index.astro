@@ -1,49 +1,82 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
+import ContainerLayout from '../layouts/ContainerLayout.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
-</html>
+<ContainerLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+	<section class="home">
+	<h1 class="visuallyhidden">Eva designs and builds for the web</h1>
+	<div class="intro">
+		<p>
+			<strong><a href="/about" class="inline-link">Tim Adler</a></strong>
+			spricht verständlich über Technik und baut Systeme, die echte Probleme lösen.
+		</p>
+	</div>
+</section>
+</ContainerLayout>
+
+
+<style lang="scss">
+  .visuallyhidden {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  .home {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xl);
+    padding-block-end: var(--space-3xl);
+  }
+
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .work {
+    padding-block: var(--space-3xl) var(--space-xl);
+  }
+
+  .intro {
+    padding-block-start: var(--space-2xl);
+    text-wrap: balance;
+    user-select: none;
+
+    p {
+      font-size: var(--step-4);
+      letter-spacing: var(--letter-spacing-condensed);
+      line-height: var(--line-height-tight);
+    }
+  }
+
+  .synth {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media (width > 640px) {
+      background: var(--gray-3);
+      border-radius: var(--radius-m);
+      padding: var(--space-xl) var(--space-l);
+    }
+  }
+
+  [data-sam-button] {
+    cursor: pointer;
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+</style>
