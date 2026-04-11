@@ -22,7 +22,6 @@ const projects = projectsData.all;
 >
   <section class="page">
     <h1>{t.work.title}</h1>
-    <p class="kicker">Arbeit</p>
     <p class="lead">Effizient großartige, digitale Produkte entwickeln</p>
     <p>
       Das Schöne an der digitalen Produktentwicklung ist: "Alles ist möglich, es ist nur
@@ -34,7 +33,7 @@ const projects = projectsData.all;
       dann die effizienteste technische Lösung, auch mit geeigneten Drittanbieter-Werkzeugen.
     </p>
 
-    <ContentSection title="Veröffentlichungen" center>
+    <ContentSection title="Veröffentlichungen">
       <p>Ein paar Veröffentlichungen, in denen ich versucht habe mein Wissen weiterzugeben.</p>
       <ul class="publications">
         <li>
@@ -70,14 +69,14 @@ const projects = projectsData.all;
       </ul>
     </ContentSection>
 
-    <ContentSection title="Open Source" center>
+    <ContentSection title="Open Source">
       <p>
         Leider noch viel zu selten habe ich selbst meinen Teil zur Open-Source-Community beigetragen.
       </p>
       <ProjectList lang={lang} items={openSource} />
     </ContentSection>
 
-    <ContentSection title="Projekte" center>
+    <ContentSection title="Projekte">
       <p>
         In den folgenden Projekten habe ich mitgeholfen etwas Neues zu beginnen. Vom Relaunch bis zur Neuentwicklung war alles dabei.
       </p>
@@ -89,22 +88,43 @@ const projects = projectsData.all;
 <style>
   .page {
     display: grid;
-    gap: var(--space-xl);
-    max-width: 72ch;
+    gap: var(--space-2xl);
+    max-width: 76ch;
     margin-inline: auto;
+  }
+
+  h1 {
+    margin: 0;
   }
 
   .kicker {
     margin: 0;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--color-text-muted);
+    color: var(--gray-10);
     font-size: var(--step--1);
   }
 
   .lead {
-    font-size: var(--step-1);
+    font-size: var(--step-3);
+    line-height: var(--line-height-tight);
+    max-width: 24ch;
     margin: 0;
+  }
+
+  .page > p:not(.kicker):not(.lead) {
+    margin: 0;
+    max-width: 66ch;
+    line-height: var(--line-height-snug);
+  }
+
+  .page :global(.content-section) {
+    border-top: 1px solid var(--gray-5);
+    padding-top: var(--space-xl);
+  }
+
+  .page :global(.content-section h2) {
+    font-size: var(--step-2);
   }
 
   .publications {
@@ -112,17 +132,33 @@ const projects = projectsData.all;
     margin: 0;
     padding: 0;
     display: grid;
-    gap: var(--space-l);
+    gap: var(--space-m);
   }
 
   .publications li {
     display: grid;
     gap: var(--space-m);
+    align-items: start;
+    padding: 0 0 var(--space-m);
+    border-bottom: 1px solid var(--gray-5);
 
     @media (width >= 760px) {
       grid-template-columns: 8rem 1fr;
-      align-items: start;
+      column-gap: var(--space-l);
     }
+  }
+
+  .publications li:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .publications p {
+    margin: 0;
+  }
+
+  .publications a {
+    font-weight: var(--font-weight-medium);
   }
 
   .publications img {
@@ -132,8 +168,34 @@ const projects = projectsData.all;
     object-fit: cover;
   }
 
+  .page :global(.project-list) {
+    gap: var(--space-m);
+  }
+
+  .page :global(.project-list > li) {
+    padding: 0 0 var(--space-m);
+    border-bottom: 1px solid var(--gray-5);
+  }
+
+  .page :global(.project-list > li:last-child) {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .page :global(.project-list article) {
+    display: grid;
+    gap: var(--space-xs);
+  }
+
+  .page :global(.project-list h3) {
+    margin: 0;
+    font-size: var(--step-1);
+    line-height: var(--line-height-tight);
+  }
+
   .subtitle {
     margin: 0;
     font-weight: var(--font-weight-medium);
+    color: var(--gray-11);
   }
 </style>

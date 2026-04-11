@@ -171,7 +171,7 @@ const career = [
         {capabilitySections.map((section) => (
           <section class="capability-section">
             <h3>{section.title}</h3>
-            <ul>
+            <ul class="capability-tags">
               {section.items.map((item) => (
                 <li>{item}</li>
               ))}
@@ -230,41 +230,102 @@ const career = [
 <style>
   .page {
     display: grid;
-    gap: var(--space-xl);
-    max-width: 72ch;
+    gap: var(--space-2xl);
+    max-width: 76ch;
     margin-inline: auto;
+  }
+
+  h1 {
+    margin: 0;
+  }
+
+  .page > p,
+  .lead {
+    max-width: 66ch;
+    margin: 0;
   }
 
   .lead {
     font-size: var(--step-1);
-    max-width: 62ch;
+    line-height: var(--line-height-snug);
   }
 
   .portrait {
-    width: min(100%, 22rem);
+    width: min(100%, 18rem);
     height: auto;
     border-radius: var(--radius-m);
+    justify-self: start;
+
+    @media (width >= 920px) {
+      float: right;
+      margin: 0 0 var(--space-l) var(--space-xl);
+      width: min(40vw, 20rem);
+    }
+  }
+
+  .page :global(.content-section) {
+    border-top: 1px solid var(--gray-5);
+    padding-top: var(--space-xl);
+  }
+
+  .page :global(.content-section h2) {
+    font-size: var(--step-2);
+    letter-spacing: var(--letter-spacing-condensed);
   }
 
   .capability-grid {
     display: grid;
     gap: var(--space-l);
-  }
 
-  ul {
-    margin: 0;
-    padding-left: 1.2rem;
-    display: grid;
-    gap: var(--space-2xs);
+    @media (width >= 760px) {
+      gap: var(--space-m);
+    }
   }
 
   .capability-section {
     display: grid;
-    gap: var(--space-xs);
+    gap: var(--space-s);
+
+    @media (width >= 760px) {
+      grid-template-columns: 10rem 1fr;
+      align-items: start;
+      column-gap: var(--space-l);
+    }
   }
 
   .capability-section h3 {
     margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: var(--step--1);
+    color: var(--gray-10);
+  }
+
+  .capability-tags {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: var(--space-xs);
+    flex-wrap: wrap;
+  }
+
+  .capability-tags li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+    padding: 0.18rem 0.45rem;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--gray-6);
+    background: var(--gray-3);
+    font-size: var(--step--1);
+    line-height: var(--line-height-single);
+    white-space: nowrap;
+  }
+
+  .capability-tags li::before {
+    content: "#";
+    color: var(--gray-10);
   }
 
   .timeline {
@@ -276,8 +337,13 @@ const career = [
   }
 
   .timeline article {
-    border-bottom: 1px solid var(--color-border-subtle);
-    padding-bottom: var(--space-s);
+    border-bottom: 1px solid var(--gray-5);
+    padding-bottom: var(--space-m);
+  }
+
+  .timeline li:last-child article {
+    border-bottom: 0;
+    padding-bottom: 0;
   }
 
   .timeline header {
@@ -297,8 +363,13 @@ const career = [
     margin: var(--space-2xs) 0 0;
   }
 
+  .timeline p {
+    color: var(--gray-11);
+  }
+
   .education {
     list-style: none;
+    margin: 0;
     padding: 0;
     display: grid;
     gap: var(--space-m);
@@ -307,13 +378,18 @@ const career = [
   .education li {
     display: grid;
     gap: var(--space-2xs);
-    border-bottom: 1px solid var(--color-border-subtle);
-    padding-bottom: var(--space-s);
+    border-bottom: 1px solid var(--gray-5);
+    padding-bottom: var(--space-m);
+  }
+
+  .education li:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
   }
 
   .education p,
   .education span,
   .timeline span {
-    color: var(--color-text-muted);
+    color: var(--gray-10);
   }
 </style>

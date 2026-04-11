@@ -81,9 +81,28 @@ const { lang, items } = Astro.props;
 
   .tags {
     margin: var(--space-s) 0 0;
-    padding-left: 1.2rem;
+    padding: 0;
+    list-style: none;
     display: flex;
     gap: var(--space-xs);
     flex-wrap: wrap;
+  }
+
+  .tags li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+    padding: 0.18rem 0.45rem;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--gray-6);
+    background: var(--gray-3);
+    font-size: var(--step--1);
+    line-height: var(--line-height-single);
+    white-space: nowrap;
+  }
+
+  .tags li::before {
+    content: "#";
+    color: var(--gray-10);
   }
 </style>
