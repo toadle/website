@@ -1,0 +1,76 @@
+---
+import { getCollection } from "astro:content";
+import ContainerLayout from "../../../layouts/ContainerLayout.astro";
+import FormattedDate from "../../../components/FormattedDate.astro";
+import { i18n } from "../../../i18n";
+
+const lang = "de";
+const t = i18n[lang];
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+<ContainerLayout
+  title={`${t.blog.title} · ${t.siteTitle}`}
+  description={t.siteDescription}
+  lang={lang}
+  padTop
+  padBottom
+>
+  <section class="page">
+    <header class="intro">
+      <h1>{t.blog.title}</h1>
+      <p>{t.blog.lead}</p>
+    </header>
+    <ul class="posts">
+      {posts.map((post) => (
+        <li>
+          <a href={`/de/blog/${post.id}/`}>
+            <h4 class="title">{post.data.title}</h4>
+            <p class="date">
+              <FormattedDate date={post.data.pubDate} locale="de-DE" />
+            </p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</ContainerLayout>
+
+<style>
+  .page {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .intro {
+    display: grid;
+    gap: var(--space-xs);
+    max-width: 60ch;
+  }
+
+  .posts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .posts a {
+    text-decoration: none;
+    display: grid;
+    gap: var(--space-xs);
+    padding-block: var(--space-xs);
+    border-bottom: 1px solid var(--gray-4);
+  }
+
+  .posts li:last-child a {
+    border-bottom: none;
+  }
+
+  .date {
+    font-size: var(--step--1);
+    color: var(--gray-10);
+  }
+</style>

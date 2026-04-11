@@ -5,7 +5,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("has title", async ({ page }) => {
-  await expect(page).toHaveTitle("Eva Decker");
+  await expect(page).toHaveTitle("Tim Adler");
 });
 
 test("changes theme", async ({ page }) => {

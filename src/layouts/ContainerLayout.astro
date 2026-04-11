@@ -5,12 +5,14 @@ import "../styles/animation.css";
 import type { TransitionAnimationPair } from "astro";
 
 import Header from "../components/Header/Header.astro";
+import Footer from "../components/Footer.astro";
 import Center from "../components/Center.astro";
 import BaseLayout from "./BaseLayout.astro";
 
 interface Props {
   title: string;
   description: string;
+  lang?: string;
   includeFooter?: boolean;
   padTop?: boolean;
   padBottom?: boolean;
@@ -18,8 +20,18 @@ interface Props {
   ogAlt?: string;
 }
 
-const { title, description, includeFooter, padTop, padBottom, ogImage, ogAlt } =
-  Astro.props;
+const {
+  title,
+  description,
+  lang = "de",
+  includeFooter,
+  padTop,
+  padBottom,
+  ogImage,
+  ogAlt,
+} = Astro.props;
+
+const shouldIncludeFooter = includeFooter ?? true;
 
 const forwards: TransitionAnimationPair = {
   old: {
@@ -62,11 +74,12 @@ const viewTransition = {
 <BaseLayout
   title={title}
   description={description}
+  lang={lang}
   ogImage={ogImage}
   ogAlt={ogAlt}
 >
   <script is:inline src="/scripts/preloadTheme.js"></script>
-  <Header />
+  <Header lang={lang} />
   <main
     class:list={["main", { padTop }, { padBottom }]}
     transition:animate={viewTransition}
@@ -75,6 +88,7 @@ const viewTransition = {
       <slot />
     </Center>
   </main>
+  {shouldIncludeFooter && <Footer />}
 </BaseLayout>
 
 <style>

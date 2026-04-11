@@ -1,0 +1,60 @@
+---
+import ContainerLayout from "../../layouts/ContainerLayout.astro";
+import { i18n } from "../../i18n";
+
+const lang = "de";
+const t = i18n[lang];
+---
+
+<ContainerLayout
+  title={`${t.work.title} · ${t.siteTitle}`}
+  description={t.siteDescription}
+  lang={lang}
+  padTop
+  padBottom
+>
+  <section class="page">
+    <h1>{t.work.title}</h1>
+    <p class="lead">{t.work.lead}</p>
+    <p>{t.work.body1}</p>
+    <p>{t.work.body2}</p>
+
+    {t.work.sections.map((section) => (
+      <section>
+        <h2>{section.title}</h2>
+        <p>{section.body}</p>
+      </section>
+    ))}
+
+    <section class="cta">
+      <p>{t.work.cta}</p>
+      <a class="cta-link" href="/de/about">
+        {t.work.ctaLink}
+      </a>
+    </section>
+  </section>
+</ContainerLayout>
+
+<style>
+  .page {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .lead {
+    font-size: var(--step-1);
+    max-width: 60ch;
+  }
+
+  .cta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+  }
+
+  .cta-link {
+    font-weight: var(--font-weight-bold);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+</style>

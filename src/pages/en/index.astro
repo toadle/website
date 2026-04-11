@@ -1,0 +1,179 @@
+---
+import { getCollection } from "astro:content";
+import ContainerLayout from "../../layouts/ContainerLayout.astro";
+import PixelArt from "../../components/PixelArt.astro";
+import { i18n } from "../../i18n";
+
+const lang = "en";
+const t = i18n[lang];
+const posts = (await getCollection("blog"))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+---
+
+<ContainerLayout
+  title={t.siteTitle}
+  description={t.siteDescription}
+  lang={lang}
+  padTop
+>
+  <section class="hero">
+    <div class="hero-text">
+      <p class="kicker">{t.home.kicker}</p>
+      <h1>{t.home.headline}</h1>
+      <p class="intro">{t.home.intro}</p>
+      <ul class="roles">
+        {t.home.roles.map((role) => (
+          <li>{role}</li>
+        ))}
+      </ul>
+      <div class="cta">
+        <a class="cta-link" href="/en/about">
+          {t.home.ctaPrimary}
+        </a>
+        <a class="cta-link" href="/en/work">
+          {t.home.ctaSecondary}
+        </a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <PixelArt />
+      <p class="art-caption">{t.home.artCaption}</p>
+    </div>
+  </section>
+
+  <section class="blog">
+    <div class="blog-header">
+      <h2>{t.home.blogTitle}</h2>
+      <a href="/en/blog">{t.home.blogLink}</a>
+    </div>
+    <ul class="blog-list">
+      {posts.map((post) => (
+        <li>
+          <a href={`/en/blog/${post.id}/`}>
+            <span class="title">{post.data.title}</span>
+            <span class="meta">
+              {post.data.pubDate.toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</ContainerLayout>
+
+<style>
+  .hero {
+    display: grid;
+    gap: var(--space-2xl);
+    align-items: center;
+    padding-block-end: var(--space-3xl);
+
+    @media (width >= 900px) {
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    }
+  }
+
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+  }
+
+  .kicker {
+    font-size: var(--step--1);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--gray-10);
+  }
+
+  .intro {
+    font-size: var(--step-2);
+    line-height: var(--line-height-snug);
+    max-width: 42ch;
+  }
+
+  .roles {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-2xs);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    margin-top: var(--space-s);
+  }
+
+  .cta-link {
+    font-weight: var(--font-weight-bold);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  .hero-art {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-s);
+    background: linear-gradient(140deg, var(--gray-2), var(--gray-1));
+    padding: var(--space-l);
+    border-radius: var(--radius-l);
+    box-shadow: var(--shadow-m);
+  }
+
+  .art-caption {
+    font-size: var(--step--1);
+    color: var(--gray-10);
+  }
+
+  .blog {
+    padding-block: var(--space-2xl) var(--space-3xl);
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  .blog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .blog-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .blog-list a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    padding-block: var(--space-xs);
+    border-bottom: 1px solid var(--gray-4);
+  }
+
+  .blog-list li:last-child a {
+    border-bottom: none;
+  }
+
+  .blog-list .title {
+    font-weight: var(--font-weight-bold);
+  }
+
+  .blog-list .meta {
+    font-size: var(--step--1);
+    color: var(--gray-10);
+  }
+</style>

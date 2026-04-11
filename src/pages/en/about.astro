@@ -1,0 +1,78 @@
+---
+import ContainerLayout from "../../layouts/ContainerLayout.astro";
+import { i18n } from "../../i18n";
+
+const lang = "en";
+const t = i18n[lang];
+---
+
+<ContainerLayout
+  title={`${t.about.title} · ${t.siteTitle}`}
+  description={t.siteDescription}
+  lang={lang}
+  padTop
+  padBottom
+>
+  <section class="page">
+    <h1>{t.about.title}</h1>
+    <p class="lead">{t.about.lead}</p>
+    <p>{t.about.lead2}</p>
+
+    <div class="grid">
+      <section>
+        <h2>{t.about.skillsTitle}</h2>
+        <ul>
+          {t.about.skills.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </section>
+      <section>
+        <h2>{t.about.approachTitle}</h2>
+        <p>{t.about.approachBody}</p>
+      </section>
+    </div>
+
+    <section>
+      <h2>{t.about.highlightsTitle}</h2>
+      <ul class="highlights">
+        {t.about.highlights.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </section>
+  </section>
+</ContainerLayout>
+
+<style>
+  .page {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .lead {
+    font-size: var(--step-1);
+    max-width: 62ch;
+  }
+
+  .grid {
+    display: grid;
+    gap: var(--space-l);
+
+    @media (width >= 900px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: start;
+    }
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: var(--space-2xs);
+  }
+
+  .highlights {
+    padding-left: 1.2rem;
+  }
+</style>

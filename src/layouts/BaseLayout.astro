@@ -9,18 +9,20 @@ import { ClientRouter } from "astro:transitions";
 export interface Props {
   title: string;
   description: string;
+  lang?: string;
   ogImage?: string;
   ogAlt?: string;
 }
 
-const { title, description, ogImage, ogAlt } = Astro.props;
+const { title, description, lang = "de", ogImage, ogAlt } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const pageTitle = Astro.url.pathname === "/" ? title : `${title}`;
+const ogLocale = lang === "en" ? "en_US" : "de_DE";
 ---
 
 <!doctype html>
-<html lang="en" transition:animate="none">
+<html lang={lang} transition:animate="none">
   <head>
     <meta charset="UTF-8" />
     <meta name="generator" content={Astro.generator} />
@@ -52,7 +54,7 @@ const pageTitle = Astro.url.pathname === "/" ? title : `${title}`;
     <link
       rel="alternate"
       type="application/rss+xml"
-      title="Dispatches from Eva Town"
+      title="toadle Blog"
       href={new URL("rss.xml", Astro.site)}
     />
     <meta name="description" content={description} />
@@ -60,15 +62,17 @@ const pageTitle = Astro.url.pathname === "/" ? title : `${title}`;
     <meta property="og:type" content="website" />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:site_name" content="Eva Decker" />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:site_name" content="Tim Adler" />
     <meta
       property="og:image"
       content={ogImage ?? `${Astro.url.origin}/og/default.png`}
     />
     <meta
       property="og:image:alt"
-      content={ogAlt ?? "Eva designs and builds things for the web."}
+      content={
+        ogAlt ?? "Tim Adler baut Technik, die funktioniert und echten Wert schafft."
+      }
     />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="manifest" href="/manifest.json" />

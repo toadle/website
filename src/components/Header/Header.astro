@@ -2,24 +2,23 @@
 import Logo from "./Logo.astro";
 import Center from "../Center.astro";
 import Icon from "../Icon/Icon.astro";
+import { i18n, type Locale } from "../../i18n";
+
+type Props = {
+  lang?: Locale;
+};
+
+const { lang = "de" } = Astro.props;
 
 const currentPath = Astro.url.pathname;
-const topLevelPath = currentPath.split("/")[1];
-
-const navigation = [
-  {
-    label: "Garden",
-    url: "/garden",
-  },
-  {
-    label: "About",
-    url: "/about",
-  },
-  {
-    label: "Now",
-    url: "/now",
-  },
-];
+const pathParts = currentPath.split("/").filter(Boolean);
+const currentLang: Locale =
+  pathParts[0] === "en" || pathParts[0] === "de" ? pathParts[0] : lang;
+const activeKey = pathParts.length <= 1 ? "home" : pathParts[1];
+const restPath = pathParts.slice(1).join("/");
+const otherLang: Locale = currentLang === "de" ? "en" : "de";
+const switchHref = restPath ? `/${otherLang}/${restPath}` : `/${otherLang}`;
+const navigation = i18n[currentLang].nav;
 ---
 
 <header>
@@ -30,13 +29,20 @@ const navigation = [
         {
           navigation.map((item) => (
             <a
-              href={item.url}
-              class={topLevelPath === item.url.split("/")[1] ? "active" : ""}
+              href={
+                item.url === "/"
+                  ? `/${currentLang}`
+                  : `/${currentLang}${item.url}`
+              }
+              class={activeKey === item.key ? "active" : ""}
             >
               {item.label}
             </a>
           ))
         }
+        <a class="lang" href={switchHref} aria-label="Switch language">
+          {otherLang.toUpperCase()}
+        </a>
         <button type="button" data-theme-toggle aria-label="Toggle theme">
           <Icon icon="sun" size="20" variant="line" className="sun" />
           <Icon icon="moon" size="20" variant="line" className="moon" />
