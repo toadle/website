@@ -1,0 +1,45 @@
+---
+interface Props {
+  title: string;
+  kicker?: string;
+  center?: boolean;
+}
+
+const { title, kicker, center = false } = Astro.props;
+---
+
+<section class:list={["content-section", center && "content-section--center"]}>
+  {kicker && <p class="kicker">{kicker}</p>}
+  <h2>{title}</h2>
+  <div class="body">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .content-section {
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .content-section--center {
+    text-align: center;
+  }
+
+  .kicker {
+    margin: 0;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    font-size: var(--step--1);
+  }
+
+  h2 {
+    margin: 0;
+  }
+
+  .body {
+    display: grid;
+    gap: var(--space-s);
+  }
+</style>

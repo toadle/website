@@ -5,7 +5,9 @@ import BlogPost from "../../../layouts/BlogPost.astro";
 type NavPost = { title: string; slug: string };
 
 export async function getStaticPaths() {
-  const posts = (await getCollection("blog")).sort(
+  const posts = (await getCollection("blog"))
+    .filter((post) => post.data.lang === "de" || !post.data.lang)
+    .sort(
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
   );
 
@@ -13,13 +15,19 @@ export async function getStaticPaths() {
     const prev = posts[index - 1];
     const next = posts[index + 1];
 
+    const normalizedSlug = post.id.replace(/--(de|en)$/, "");
+
     return {
-    params: { slug: post.id },
+    params: { slug: normalizedSlug },
     props: {
       ...post,
       lang: "de",
-      prevPost: prev ? { title: prev.data.title, slug: prev.id } : undefined,
-      nextPost: next ? { title: next.data.title, slug: next.id } : undefined,
+      prevPost: prev
+        ? { title: prev.data.title, slug: prev.id.replace(/--(de|en)$/, "") }
+        : undefined,
+      nextPost: next
+        ? { title: next.data.title, slug: next.id.replace(/--(de|en)$/, "") }
+        : undefined,
       translationHref: post.data.alternateLanguageUrl,
     },
   };

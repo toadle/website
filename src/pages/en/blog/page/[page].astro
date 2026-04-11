@@ -1,18 +1,33 @@
 ---
 import { getCollection } from "astro:content";
-import ContainerLayout from "../../../layouts/ContainerLayout.astro";
-import FormattedDate from "../../../components/FormattedDate.astro";
-import { i18n } from "../../../i18n";
+import ContainerLayout from "../../../../layouts/ContainerLayout.astro";
+import FormattedDate from "../../../../components/FormattedDate.astro";
+import { i18n } from "../../../../i18n";
 
 const lang = "en";
 const t = i18n[lang];
-const PAGE_SIZE = 5;
-const posts = (await getCollection("blog"))
-  .filter((post) => post.data.lang === "en" || !post.data.lang)
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-const firstPagePosts = posts.slice(0, PAGE_SIZE);
-const hasNextPage = posts.length > PAGE_SIZE;
+
+export async function getStaticPaths({ paginate }: { paginate: Function }) {
+  const pageSize = 5;
+  const posts = (await getCollection("blog"))
+    .filter((post) => post.data.lang === "en" || !post.data.lang)
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+  return paginate(posts, { pageSize }).filter(
+    (entry: { params: { page: string } }) => entry.params.page !== "1"
+  );
+}
+
+const { page } = Astro.props;
+
+const normalizePageUrl = (href: string | undefined) => {
+  if (!href) {
+    return undefined;
+  }
+  return href.endsWith("/page/1") ? "/en/blog" : href;
+};
 ---
+
 <ContainerLayout
   title={`${t.blog.title} · ${t.siteTitle}`}
   description={t.siteDescription}
@@ -20,13 +35,14 @@ const hasNextPage = posts.length > PAGE_SIZE;
   padTop
   padBottom
 >
-  <section class="page">
+  <section class="page-wrap">
     <header class="intro">
       <h1>{t.blog.title}</h1>
       <p>{t.blog.lead}</p>
     </header>
+
     <ul class="posts">
-      {firstPagePosts.map((post) => (
+      {page.data.map((post: any) => (
         <li>
           <a href={`/en/blog/${post.id.replace(/--(de|en)$/, "")}/`}>
             <h4 class="title">{post.data.title}</h4>
@@ -37,19 +53,21 @@ const hasNextPage = posts.length > PAGE_SIZE;
         </li>
       ))}
     </ul>
-    {
-      hasNextPage && (
-        <nav class="pagination" aria-label="Blog pagination">
-          <span>Page 1</span>
-          <a href="/en/blog/page/2">Next page →</a>
-        </nav>
-      )
-    }
+
+    <nav class="pagination" aria-label="Blog pagination">
+      {normalizePageUrl(page.url.prev) ? (
+        <a href={normalizePageUrl(page.url.prev)}>← Previous page</a>
+      ) : (
+        <span />
+      )}
+      <span>Page {page.currentPage}</span>
+      {page.url.next ? <a href={page.url.next}>Next page →</a> : <span />}
+    </nav>
   </section>
 </ContainerLayout>
 
 <style>
-  .page {
+  .page-wrap {
     display: grid;
     gap: var(--space-xl);
   }

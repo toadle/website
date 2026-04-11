@@ -7,6 +7,7 @@ const blog = defineCollection({
 	// Type-check frontmatter using a schema
 	schema: ({ image }) =>
 		z.object({
+				lang: z.enum(['de', 'en']).optional(),
 			title: z.string(),
 			description: z.string(),
 			// Transform string to Date object

@@ -9,6 +9,14 @@ type NavItem = {
 type LocaleStrings = {
   siteTitle: string;
   siteDescription: string;
+  sectionLabels: {
+    about: string;
+    work: string;
+    openSource: string;
+    publications: string;
+    projects: string;
+    capabilities: string;
+  };
   nav: NavItem[];
   home: {
     kicker: string;
@@ -69,6 +77,14 @@ export const i18n: Record<Locale, LocaleStrings> = {
     siteTitle: "Tim Adler",
     siteDescription:
       "Ich helfe Teams schnell großartige Technik zu bauen, die funktioniert und echten Wert schafft.",
+    sectionLabels: {
+      about: "Über mich",
+      work: "Arbeit",
+      openSource: "Open Source",
+      publications: "Veröffentlichungen",
+      projects: "Projekte",
+      capabilities: "Das kann ich",
+    },
     nav: [
       { key: "home", label: "Home", url: "/" },
       { key: "about", label: "Über mich", url: "/about" },
@@ -192,6 +208,14 @@ export const i18n: Record<Locale, LocaleStrings> = {
     siteTitle: "Tim Adler",
     siteDescription:
       "I help teams ship great tech fast: clear systems that work and deliver real value.",
+    sectionLabels: {
+      about: "About",
+      work: "Work",
+      openSource: "Open Source",
+      publications: "Publications",
+      projects: "Projects",
+      capabilities: "What I do",
+    },
     nav: [
       { key: "home", label: "Home", url: "/" },
       { key: "about", label: "About", url: "/about" },

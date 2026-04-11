@@ -1,9 +1,147 @@
 ---
 import ContainerLayout from "../../layouts/ContainerLayout.astro";
+import ContentSection from "../../components/ContentSection.astro";
 import { i18n } from "../../i18n";
+import portrait from "../../assets/legacy/ich.png";
 
 const lang = "en";
 const t = i18n[lang];
+
+const capabilitySections = [
+  {
+    title: "Frontend",
+    items: [
+      "HTML",
+      "CSS",
+      "SASS",
+      "JavaScript",
+      "React",
+      "React Native",
+      "Redux",
+      "SwiftUI",
+      "JAMStack",
+      "Microformats",
+      "jQuery",
+      "Bootstrap",
+    ],
+  },
+  {
+    title: "Backend",
+    items: [
+      "Ruby On Rails",
+      "Ruby",
+      "Golang",
+      "Swift",
+      "GraphQL",
+      "JSONAPI",
+      "Node.js",
+      "Python",
+      "Django",
+      "Docker",
+      "Amazon Web Services",
+    ],
+  },
+  {
+    title: "Databases",
+    items: ["MySQL", "Postgres", "Redis", "Oracle", "ElasticSearch"],
+  },
+  {
+    title: "Third Parties",
+    items: [
+      "Github",
+      "Stripe",
+      "CircleCI",
+      "Github Actions",
+      "SalesForce",
+      "Contentful",
+      "GSuite",
+      "AWS",
+      "Teachable",
+      "Recurly",
+      "RevenueCat",
+      "Facebook Ads",
+      "Google Ads",
+      "AppStore",
+      "Zapier",
+      "Mailchimp",
+      "Mandrill",
+      "Braze",
+    ],
+  },
+  {
+    title: "Methods",
+    items: [
+      "Git",
+      "TDD",
+      "SCRUM",
+      "Design Thinking",
+      "Rapid Prototyping",
+      "Lean Startup",
+      "Business Model Canvas",
+    ],
+  },
+];
+
+const career = [
+  {
+    role: "CTO",
+    years: "2020 - today",
+    organization: "Chefkoch",
+    url: "https://www.chefkoch.de",
+  },
+  {
+    role: "Managing Director",
+    years: "2019 - 2020",
+    organization: "Innovation Lab",
+    url: "https://greenhouse.media",
+  },
+  {
+    role: "Head of Technology",
+    years: "2017 - 2019",
+    organization: "Innovation Lab",
+    url: "https://greenhouse.media",
+  },
+  {
+    role: "Head of Development",
+    years: "2013 - 2017",
+    organization: "Startup Incubator / Company Builder",
+    url: "https://www.hanseventures.com",
+  },
+  {
+    role: "Project Manager",
+    years: "2011 - 2012",
+    organization: "Operations / Digital",
+    url: "https://www.guj.de",
+  },
+  {
+    role: "Product Manager",
+    years: "2010",
+    organization: "iPad Version of a News Magazine",
+    url: "https://www.stern.de",
+  },
+  {
+    role: "Management Trainee",
+    years: "2009",
+    organization: "International Publisher",
+    url: "https://www.guj.de",
+  },
+  {
+    role: "Web Developer",
+    years: "2006 - 2008",
+    organization: "Advertising Agency",
+  },
+  {
+    role: "Designer, Developer",
+    years: "2006 - 2008",
+    organization: "Self employed",
+  },
+  {
+    role: "Java Developer",
+    years: "2004",
+    organization: "Direct Marketing Company",
+    url: "https://www.az-direct.com",
+  },
+];
 ---
 
 <ContainerLayout
@@ -15,32 +153,76 @@ const t = i18n[lang];
 >
   <section class="page">
     <h1>{t.about.title}</h1>
-    <p class="lead">{t.about.lead}</p>
-    <p>{t.about.lead2}</p>
+    <img class="portrait" src={portrait.src} width={portrait.width} height={portrait.height} alt="Portrait of Tim Adler" />
+    <p class="lead">
+      For more than 15 years I have been working as a designer, developer and
+      technical manager. From my first steps as a junior programmer to leading
+      as CTO, I have contributed to technical product development in hands-on roles.
+    </p>
+    <p>
+      I like not only to help decide, but also to execute: from programming to the
+      daily status meeting. Across all roles, I have been a translator between
+      business requirements and technical constraints.
+    </p>
 
-    <div class="grid">
-      <section>
-        <h2>{t.about.skillsTitle}</h2>
-        <ul>
-          {t.about.skills.map((item) => (
-            <li>{item}</li>
-          ))}
-        </ul>
-      </section>
-      <section>
-        <h2>{t.about.approachTitle}</h2>
-        <p>{t.about.approachBody}</p>
-      </section>
-    </div>
-
-    <section>
-      <h2>{t.about.highlightsTitle}</h2>
-      <ul class="highlights">
-        {t.about.highlights.map((item) => (
-          <li>{item}</li>
+    <ContentSection title="What I do" kicker="Capabilities">
+      <div class="capability-grid">
+        {capabilitySections.map((section) => (
+          <section class="capability-section">
+            <h3>{section.title}</h3>
+            <ul>
+              {section.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </section>
         ))}
+      </div>
+    </ContentSection>
+
+    <ContentSection title="Experience" kicker="Where I came from">
+      <ol class="timeline">
+        {career.map((entry) => (
+          <li>
+            <article>
+              <header>
+                <h3>{entry.role}</h3>
+                <span>{entry.years}</span>
+              </header>
+              {
+                entry.url ? (
+                  <a href={entry.url} target="_blank" rel="noopener noreferrer">
+                    {entry.organization}
+                  </a>
+                ) : (
+                  <p>{entry.organization}</p>
+                )
+              }
+            </article>
+          </li>
+        ))}
+      </ol>
+    </ContentSection>
+
+    <ContentSection title="Education">
+      <ul class="education">
+        <li>
+          <strong>Diploma in Media Studies</strong>
+          <span>2004 - 2008</span>
+          <p>University Paderborn</p>
+        </li>
+        <li>
+          <strong>Certified SCRUM Master</strong>
+          <span>2015</span>
+          <p>IT agile</p>
+        </li>
+        <li>
+          <strong>IT Specialist</strong>
+          <span>2001 - 2004</span>
+          <p>International Media Corporation</p>
+        </li>
       </ul>
-    </section>
+    </ContentSection>
   </section>
 </ContainerLayout>
 
@@ -48,6 +230,8 @@ const t = i18n[lang];
   .page {
     display: grid;
     gap: var(--space-xl);
+    max-width: 72ch;
+    margin-inline: auto;
   }
 
   .lead {
@@ -55,14 +239,15 @@ const t = i18n[lang];
     max-width: 62ch;
   }
 
-  .grid {
+  .portrait {
+    width: min(100%, 22rem);
+    height: auto;
+    border-radius: var(--radius-m);
+  }
+
+  .capability-grid {
     display: grid;
     gap: var(--space-l);
-
-    @media (width >= 900px) {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      align-items: start;
-    }
   }
 
   ul {
@@ -72,7 +257,62 @@ const t = i18n[lang];
     gap: var(--space-2xs);
   }
 
-  .highlights {
-    padding-left: 1.2rem;
+  .capability-section {
+    display: grid;
+    gap: var(--space-xs);
+  }
+
+  .capability-section h3 {
+    margin: 0;
+  }
+
+  .timeline {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  .timeline article {
+    border-bottom: 1px solid var(--color-border-subtle);
+    padding-bottom: var(--space-s);
+  }
+
+  .timeline header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-s);
+    flex-wrap: wrap;
+  }
+
+  .timeline h3 {
+    margin: 0;
+  }
+
+  .timeline a,
+  .timeline p {
+    margin: var(--space-2xs) 0 0;
+  }
+
+  .education {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  .education li {
+    display: grid;
+    gap: var(--space-2xs);
+    border-bottom: 1px solid var(--color-border-subtle);
+    padding-bottom: var(--space-s);
+  }
+
+  .education p,
+  .education span,
+  .timeline span {
+    color: var(--color-text-muted);
   }
 </style>

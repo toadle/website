@@ -1,0 +1,18 @@
+{
+  "contentType": "blogPost",
+  "fields": {
+    "slug": "slug",
+    "title": "title",
+    "description": "description",
+    "body": "body",
+    "publishedAt": "publishedAt",
+    "updatedAt": "updatedAt",
+    "heroImage": "heroImage",
+    "alternateLanguageSlug": "alternateLanguageSlug"
+  },
+  "localeMap": {
+    "de-DE": "de",
+    "en-US": "en"
+  },
+  "fallbackLocale": "de-DE"
+}
