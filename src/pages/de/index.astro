@@ -1,7 +1,6 @@
 ---
 import { getCollection } from "astro:content";
 import ContainerLayout from "../../layouts/ContainerLayout.astro";
-import PixelArt from "../../components/PixelArt.astro";
 import { i18n } from "../../i18n";
 
 const lang = "de";
@@ -36,10 +35,6 @@ const posts = (await getCollection("blog"))
         </a>
       </div>
     </div>
-    <div class="hero-art">
-      <PixelArt />
-      <p class="art-caption">{t.home.artCaption}</p>
-    </div>
   </section>
 
   <section class="blog">
@@ -72,10 +67,6 @@ const posts = (await getCollection("blog"))
     gap: var(--space-2xl);
     align-items: center;
     padding-block-end: var(--space-3xl);
-
-    @media (width >= 900px) {
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
-    }
   }
 
   .hero-text {
@@ -117,22 +108,6 @@ const posts = (await getCollection("blog"))
     font-weight: var(--font-weight-bold);
     text-decoration: underline;
     text-underline-offset: 0.15em;
-  }
-
-  .hero-art {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-s);
-    background: linear-gradient(140deg, var(--gray-2), var(--gray-1));
-    padding: var(--space-l);
-    border-radius: var(--radius-l);
-    box-shadow: var(--shadow-m);
-  }
-
-  .art-caption {
-    font-size: var(--step--1);
-    color: var(--gray-10);
   }
 
   .blog {

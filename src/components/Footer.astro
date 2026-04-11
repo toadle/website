@@ -45,25 +45,6 @@ const rightLinks = [
       <p>{t.home.intro}</p>
       <small>&copy; {today.getFullYear()} Tim Adler</small>
     </section>
-
-    <div class="avatar-wrap" aria-hidden="true">
-      <svg
-        class="avatar"
-        viewBox="0 0 16 16"
-        shape-rendering="crispEdges"
-        role="img"
-        aria-label="Pixel avatar"
-      >
-        <rect x="0" y="0" width="16" height="16" class="bg" />
-        <rect x="3" y="2" width="10" height="1" class="hair" />
-        <rect x="2" y="3" width="12" height="2" class="hair" />
-        <rect x="2" y="5" width="12" height="6" class="skin" />
-        <rect x="4" y="7" width="2" height="1" class="eye" />
-        <rect x="10" y="7" width="2" height="1" class="eye" />
-        <rect x="5" y="9" width="6" height="1" class="mouth" />
-        <rect x="1" y="11" width="14" height="3" class="shirt" />
-      </svg>
-    </div>
   </Center>
 </footer>
 
@@ -122,42 +103,5 @@ const rightLinks = [
 
   .mission small {
     color: var(--gray-10);
-  }
-
-  .avatar-wrap {
-    border: 1px dashed var(--gray-6);
-    border-radius: var(--radius-l);
-    padding: var(--space-s);
-    width: fit-content;
-  }
-
-  .avatar {
-    width: 96px;
-    height: 96px;
-    display: block;
-  }
-
-  .bg {
-    fill: var(--gray-2);
-  }
-
-  .hair {
-    fill: var(--gray-11);
-  }
-
-  .skin {
-    fill: var(--gray-5);
-  }
-
-  .eye {
-    fill: var(--gray-12);
-  }
-
-  .mouth {
-    fill: var(--gray-10);
-  }
-
-  .shirt {
-    fill: var(--gray-8);
   }
 </style>

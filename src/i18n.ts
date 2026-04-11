@@ -17,7 +17,6 @@ type LocaleStrings = {
     roles: string[];
     ctaPrimary: string;
     ctaSecondary: string;
-    artCaption: string;
     cards: {
       title: string;
       body: string;
@@ -89,7 +88,6 @@ export const i18n: Record<Locale, LocaleStrings> = {
       ],
       ctaPrimary: "Mehr über mich",
       ctaSecondary: "Arbeiten ansehen",
-      artCaption: "Pixelgruß aus der toadle-Welt.",
       cards: [
         {
           title: "Was ich mache",
@@ -213,7 +211,6 @@ export const i18n: Record<Locale, LocaleStrings> = {
       ],
       ctaPrimary: "More about me",
       ctaSecondary: "See my work",
-      artCaption: "A pixel hello from toadle world.",
       cards: [
         {
           title: "What I do",
