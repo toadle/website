@@ -3,7 +3,7 @@ lang: 'en'
 title: 'The one IT skill I wished everybody had'
 description: 'There is a **big gap in understanding between developers and business-people**. Sometimes we are not aware of this gap, for example when we engage in emotional '
 pubDate: '2016-07-02T00:00:00.000+02:00'
-heroImage: '../../assets/blog/legacy/the-one-it-skill-i-wished-everybody-had-08a309c3.jpg'
+heroImage: '../../../assets/blog/legacy/the-one-it-skill-i-wished-everybody-had-08a309c3.jpg'
 ---
 
 There is a **big gap in understanding between developers and business-people**. Sometimes we are not aware of this gap, for example when we engage in emotional arguments about "how long things will take" or "if refactoring or features are more important". But most of the time it is quite apparent that we have to work hard in meetings/workshops and discussions to clear up requirements and estimate complexities/timings between the guys implementing and the guys requiring something of a digital product.

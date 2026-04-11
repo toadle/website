@@ -1,12 +1,14 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import BlogPost from "../../../layouts/BlogPost.astro";
+import { isEntryInLocale } from "../../../lib/contentLocale";
+import { normalizeBlogSlug } from "../../../lib/contentSlug";
 
 type NavPost = { title: string; slug: string };
 
 export async function getStaticPaths() {
   const posts = (await getCollection("blog"))
-    .filter((post) => post.data.lang === "de" || !post.data.lang)
+    .filter((post) => isEntryInLocale(post.id, "de", post.data.lang))
     .sort(
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
   );
@@ -15,7 +17,7 @@ export async function getStaticPaths() {
     const prev = posts[index - 1];
     const next = posts[index + 1];
 
-    const normalizedSlug = post.id.replace(/--(de|en)$/, "");
+    const normalizedSlug = normalizeBlogSlug(post.id);
 
     return {
     params: { slug: normalizedSlug },
@@ -23,10 +25,10 @@ export async function getStaticPaths() {
       ...post,
       lang: "de",
       prevPost: prev
-        ? { title: prev.data.title, slug: prev.id.replace(/--(de|en)$/, "") }
+        ? { title: prev.data.title, slug: normalizeBlogSlug(prev.id) }
         : undefined,
       nextPost: next
-        ? { title: next.data.title, slug: next.id.replace(/--(de|en)$/, "") }
+        ? { title: next.data.title, slug: normalizeBlogSlug(next.id) }
         : undefined,
       translationHref: post.data.alternateLanguageUrl,
     },

@@ -4,7 +4,7 @@ title: 'Terminal as an App-Launcher alternative on the Mac'
 description: 'I''m a very big fan of the productivity improvements that only using keyboard shortcuts brings. You trade the learning of some button pushes for a lot of speed i'
 pubDate: '2020-10-21T21:30:00.000+02:00'
 alternateLanguageUrl: '/de/blog/terminal-as-launchbar-alfred-alternative-auf-dem-mac/'
-heroImage: '../../assets/blog/legacy/terminal-as-an-app-launcher-alternative-on-the-mac-6c8908c2.jpg'
+heroImage: '../../../assets/blog/legacy/terminal-as-an-app-launcher-alternative-on-the-mac-6c8908c2.jpg'
 ---
 
 I'm a very big fan of the productivity improvements that only using keyboard shortcuts brings. You trade the learning of some button pushes for a lot of speed in your workflows while maintaining precision. I find using tools like [Launchbar](https://obdev.at/products/launchbar/index.html) or [Alfred](https://www.alfredapp.com) or [Quicksilver](https://qsapp.com) (when that was still a thing) very satisfying. Even the current version of the Mac's Spotlight-searchbar is something I like very much. 

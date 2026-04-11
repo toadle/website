@@ -4,7 +4,7 @@ title: 'Terminal als App-Launcher-Alternative auf dem Mac'
 description: 'Ich bin ein sehr großer Fan der Produktivitätsverbesserungen, die nur durch die Verwendung von Tastaturkürzeln möglich sind. Man tauscht das Erlernen einiger Ta'
 pubDate: '2020-10-21T21:30:00.000+02:00'
 alternateLanguageUrl: '/en/blog/terminal-as-an-app-launcher-alternative-on-the-mac/'
-heroImage: '../../assets/blog/legacy/terminal-as-launchbar-alfred-alternative-auf-dem-mac-6c8908c2.jpg'
+heroImage: '../../../assets/blog/legacy/terminal-as-launchbar-alfred-alternative-auf-dem-mac-6c8908c2.jpg'
 ---
 
 Ich bin ein sehr großer Fan der Produktivitätsverbesserungen, die nur durch die Verwendung von Tastaturkürzeln möglich sind. Man tauscht das Erlernen einiger Tastendrücke gegen eine Menge Geschwindigkeit seiner Workflows bei gleichzeitiger Wahrung der Präzision. Ich finde die Verwendung von Tools wie [Launchbar](https://obdev.at/products/launchbar/index.html) oder [Alfred](https://www.alfredapp.com) oder [Quicksilver](https://qsapp.com) (als es das noch gab) sehr befriedigend. Sogar die aktuelle Version der Spotlight-Suchleiste des Mac macht da einen guten Job. 

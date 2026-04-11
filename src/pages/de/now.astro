@@ -2,12 +2,13 @@
 import { getCollection, render } from "astro:content";
 import ContainerLayout from "../../layouts/ContainerLayout.astro";
 import { i18n } from "../../i18n";
+import { isEntryInLocale } from "../../lib/contentLocale";
 
 const lang = "de";
 const t = i18n[lang];
 
 const rawEntries = (await getCollection("now"))
-  .filter((entry) => !entry.data.lang || entry.data.lang === lang)
+  .filter((entry) => isEntryInLocale(entry.id, lang, entry.data.lang))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 const entries = await Promise.all(

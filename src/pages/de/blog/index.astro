@@ -3,12 +3,14 @@ import { getCollection } from "astro:content";
 import ContainerLayout from "../../../layouts/ContainerLayout.astro";
 import FormattedDate from "../../../components/FormattedDate.astro";
 import { i18n } from "../../../i18n";
+import { isEntryInLocale } from "../../../lib/contentLocale";
+import { normalizeBlogSlug } from "../../../lib/contentSlug";
 
 const lang = "de";
 const t = i18n[lang];
 const PAGE_SIZE = 5;
 const posts = (await getCollection("blog"))
-  .filter((post) => post.data.lang === "de" || !post.data.lang)
+  .filter((post) => isEntryInLocale(post.id, "de", post.data.lang))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 const firstPagePosts = posts.slice(0, PAGE_SIZE);
 const hasNextPage = posts.length > PAGE_SIZE;
@@ -28,7 +30,7 @@ const hasNextPage = posts.length > PAGE_SIZE;
     <ul class="posts">
       {firstPagePosts.map((post) => (
         <li>
-          <a href={`/de/blog/${post.id.replace(/--(de|en)$/, "")}/`}>
+          <a href={`/de/blog/${normalizeBlogSlug(post.id)}/`}>
             <h4 class="title">{post.data.title}</h4>
             <p class="date">
               <FormattedDate date={post.data.pubDate} locale="de-DE" />

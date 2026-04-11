@@ -3,7 +3,7 @@ lang: 'en'
 title: 'When RSPEC with Capybara fails with NotFound while serving AJAX-requests'
 description: '"Concurrency is a bitch" this famous quote by **any developer ever** can haunt your everyday work like crazy. Why? Because mainly race-conditions and concurrenc'
 pubDate: '2015-09-11T00:00:00.000+02:00'
-heroImage: '../../assets/blog/legacy/when-rspec-with-capybara-fails-with-notfound-while-serving-ajax-requests-f2f3fdb9.png'
+heroImage: '../../../assets/blog/legacy/when-rspec-with-capybara-fails-with-notfound-while-serving-ajax-requests-f2f3fdb9.png'
 ---
 
 "Concurrency is a bitch" this famous quote by **any developer ever** can haunt your everyday work like crazy. Why? Because mainly race-conditions and concurrency does not fit the "normal" way of thinking about code, which normally works like a cursor that processes stuff sequentially.
