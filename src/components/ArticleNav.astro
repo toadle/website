@@ -1,0 +1,75 @@
+---
+import { i18n, type Locale } from "../i18n";
+
+type PostLink = {
+  title: string;
+  slug: string;
+};
+
+type TranslationLink = {
+  href: string;
+  label?: string;
+};
+
+type Props = {
+  lang: Locale;
+  prev?: PostLink;
+  next?: PostLink;
+  translationLink?: TranslationLink;
+};
+
+const { lang, prev, next, translationLink } = Astro.props;
+const t = i18n[lang].blog.articleNav;
+const normalizeHref = (href: string) => (href.startsWith("/") ? href : `/${href}`);
+---
+
+{(prev || next || translationLink) && (
+  <nav class="article-nav" aria-label="Article navigation">
+    <div class="prev-next">
+      {prev ? <a href={`/${lang}/blog/${prev.slug}`}>← {t.prev}: {prev.title}</a> : <span />}
+      {next ? <a href={`/${lang}/blog/${next.slug}`}>{t.next}: {next.title} →</a> : <span />}
+    </div>
+    {translationLink && (
+      <p class="translation">
+        <a href={normalizeHref(translationLink.href)}>{translationLink.label ?? t.readIn}</a>
+      </p>
+    )}
+  </nav>
+)}
+
+<style>
+  .article-nav {
+    border-top: 1px solid var(--gray-4);
+    padding-top: var(--space-m);
+    margin-top: var(--space-l);
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .prev-next {
+    display: grid;
+    gap: var(--space-xs);
+  }
+
+  .prev-next a,
+  .translation a {
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+
+  .translation {
+    margin: 0;
+    color: var(--gray-11);
+    font-size: var(--step--1);
+  }
+
+  @media (min-width: 48rem) {
+    .prev-next {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .prev-next a:last-child {
+      text-align: right;
+    }
+  }
+</style>

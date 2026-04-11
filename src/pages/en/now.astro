@@ -6,9 +6,9 @@ import { i18n } from "../../i18n";
 const lang = "en";
 const t = i18n[lang];
 
-const rawEntries = (await getCollection("now")).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-);
+const rawEntries = (await getCollection("now"))
+  .filter((entry) => !entry.data.lang || entry.data.lang === lang)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 const entries = await Promise.all(
   rawEntries.map(async (entry) => {
@@ -45,7 +45,7 @@ const toEmbedUrl = (url: string) => {
   <section class="page">
     <header class="intro">
       <h1>{t.now.title}</h1>
-      <p class="lead">What I’m up to.</p>
+      <p class="lead">{t.now.lead}</p>
     </header>
 
     <ol class="timeline">

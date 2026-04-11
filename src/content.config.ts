@@ -12,6 +12,7 @@ const blog = defineCollection({
 			// Transform string to Date object
 			pubDate: z.coerce.date(),
 			updatedDate: z.coerce.date().optional(),
+			alternateLanguageUrl: z.string().optional(),
 			heroImage: image().optional(),
 		}),
 });
@@ -20,6 +21,7 @@ const now = defineCollection({
 	loader: glob({ base: './src/content/now', pattern: '**/*.md' }),
 	schema: z.object({
 		date: z.coerce.date(),
+		lang: z.enum(['de', 'en']).optional(),
 		label: z.string(),
 		quote: z.string().optional(),
 		opinion: z.string().optional(),

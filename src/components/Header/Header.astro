@@ -87,6 +87,15 @@ const navigation = i18n[currentLang].nav;
 
     toggleButton &&
       toggleButton.addEventListener("click", () => handleToggleTheme());
+
+    const langLink = document.querySelector("a.lang");
+    langLink?.addEventListener("click", (event) => {
+      const link = event.currentTarget as HTMLAnchorElement;
+      const nextLang = link.getAttribute("href")?.split("/")[1];
+      if (nextLang === "de" || nextLang === "en") {
+        window.localStorage.setItem("lang", nextLang);
+      }
+    });
   }
 
   function handleToggleTheme() {

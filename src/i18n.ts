@@ -57,6 +57,11 @@ type LocaleStrings = {
   blog: {
     title: string;
     lead: string;
+    articleNav: {
+      prev: string;
+      next: string;
+      readIn: string;
+    };
   };
 };
 
@@ -178,6 +183,11 @@ export const i18n: Record<Locale, LocaleStrings> = {
     blog: {
       title: "Blog",
       lead: "Texte, Notizen und Erkenntnisse aus Produkt, Technik und Teamarbeit.",
+      articleNav: {
+        prev: "Voriger Artikel",
+        next: "Nächster Artikel",
+        readIn: "Diesen Artikel auf Englisch lesen",
+      },
     },
   },
   en: {
@@ -297,6 +307,11 @@ export const i18n: Record<Locale, LocaleStrings> = {
     blog: {
       title: "Blog",
       lead: "Notes and insights on product, technology, and team work.",
+      articleNav: {
+        prev: "Previous article",
+        next: "Next article",
+        readIn: "Read this article in German",
+      },
     },
   },
 };

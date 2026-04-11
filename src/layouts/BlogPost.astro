@@ -7,11 +7,29 @@ import Center from '../components/Center.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header/Header.astro';
+import ArticleNav from '../components/ArticleNav.astro';
+import type { Locale } from '../i18n';
 
-type Props = CollectionEntry<'blog'>['data'] & { lang?: string };
+type NavPost = { title: string; slug: string };
 
-const { title, description, pubDate, updatedDate, heroImage, lang = "de" } =
-  Astro.props;
+type Props = CollectionEntry<'blog'>['data'] & {
+  lang?: Locale;
+  prevPost?: NavPost;
+  nextPost?: NavPost;
+  translationHref?: string;
+};
+
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  heroImage,
+  lang = "de",
+  prevPost,
+  nextPost,
+  translationHref,
+} = Astro.props;
 
 ---
 <BaseLayout title={title} description={description} lang={lang}>
@@ -45,6 +63,18 @@ const { title, description, pubDate, updatedDate, heroImage, lang = "de" } =
             <hr />
           </div>
           <slot />
+          <ArticleNav
+            lang={lang === "en" ? "en" : "de"}
+            prev={prevPost}
+            next={nextPost}
+            translationLink={
+              translationHref
+                ? {
+                    href: translationHref,
+                  }
+                : undefined
+            }
+          />
         </div>
       </article>
     </Center>
@@ -55,6 +85,7 @@ const { title, description, pubDate, updatedDate, heroImage, lang = "de" } =
 <style>
   .main {
     padding-block: var(--space-3xl);
+    width: 100%;
   }
 
   .article {
@@ -72,7 +103,9 @@ const { title, description, pubDate, updatedDate, heroImage, lang = "de" } =
   .prose {
     display: grid;
     gap: var(--space-l);
-    max-width: 72ch;
+    width: min(100%, 72ch);
+    justify-self: center;
+    margin-inline: auto;
   }
 
   .title {

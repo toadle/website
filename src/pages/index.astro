@@ -1,3 +1,36 @@
 ---
-return Astro.redirect("/de");
 ---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Redirecting…</title>
+		<noscript>
+			<meta http-equiv="refresh" content="0; url=/en" />
+		</noscript>
+	</head>
+	<body>
+		<script>
+			const resolveTarget = () => {
+				try {
+					const stored = window.localStorage.getItem("lang");
+					if (stored === "de" || stored === "en") {
+						return stored;
+					}
+				} catch {
+					// Ignore storage read errors and fall back to navigator language.
+				}
+
+				const browserLang = navigator.language?.toLowerCase() ?? "";
+				if (browserLang.startsWith("de")) return "de";
+				if (browserLang.startsWith("en")) return "en";
+				return "en";
+			};
+
+			const target = resolveTarget();
+			window.location.replace(`/${target}`);
+		</script>
+	</body>
+</html>

@@ -2,20 +2,47 @@
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import BlogPost from "../../../layouts/BlogPost.astro";
 
+type NavPost = { title: string; slug: string };
+
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
-  return posts.map((post) => ({
+  const posts = (await getCollection("blog")).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  );
+
+  return posts.map((post, index) => {
+    const prev = posts[index - 1];
+    const next = posts[index + 1];
+
+    return {
     params: { slug: post.id },
-    props: { ...post, lang: "en" },
-  }));
+    props: {
+      ...post,
+      lang: "en",
+      prevPost: prev ? { title: prev.data.title, slug: prev.id } : undefined,
+      nextPost: next ? { title: next.data.title, slug: next.id } : undefined,
+      translationHref: post.data.alternateLanguageUrl,
+    },
+  };
+  });
 }
 
-type Props = CollectionEntry<"blog"> & { lang: "en" };
+type Props = CollectionEntry<"blog"> & {
+  lang: "en";
+  prevPost?: NavPost;
+  nextPost?: NavPost;
+  translationHref?: string;
+};
 
-const post = Astro.props;
+const post = Astro.props as Props;
 const { Content } = await render(post);
 ---
 
-<BlogPost {...post.data} lang={post.lang}>
+<BlogPost
+  {...post.data}
+  lang={post.lang}
+  prevPost={post.prevPost}
+  nextPost={post.nextPost}
+  translationHref={post.translationHref}
+>
   <Content />
 </BlogPost>
