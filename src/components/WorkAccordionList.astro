@@ -1,0 +1,225 @@
+---
+import type { Language, WorkEntry } from "../content/work";
+
+interface Props {
+  lang: Language;
+  items: WorkEntry[];
+}
+
+const { lang, items } = Astro.props;
+---
+
+<ul class="work-list">
+  {items.map((item) => (
+    <li class="work-list__item">
+      <details>
+        <summary>
+          <span class="work-list__lead">
+            <span class="work-list__chevron" aria-hidden="true"></span>
+            <span class="work-list__title">{item.title[lang]}</span>
+          </span>
+          <span class="work-list__meta">
+            <span class="work-list__summary">{item.summary[lang]}</span>
+            {item.year && <span class="work-list__year">{item.year}</span>}
+          </span>
+        </summary>
+
+        <div class:list={["work-list__panel", item.image && "work-list__panel--with-image"]}>
+          {item.image && (
+            <img
+              src={item.image.src}
+              width={item.image.width}
+              height={item.image.height}
+              alt={item.image.alt[lang]}
+              loading="lazy"
+            />
+          )}
+
+          <div class="work-list__content">
+            {item.subtitle && <p class="work-list__subtitle">{item.subtitle[lang]}</p>}
+            <p>{item.description[lang]}</p>
+
+            {item.url && (
+              <p class="work-list__link">
+                <a href={item.url} target="_blank" rel="noopener noreferrer">
+                  {item.linkText ?? item.url}
+                </a>
+              </p>
+            )}
+
+            {item.technologies && item.technologies.length > 0 && (
+              <ul class="work-list__tags">
+                {item.technologies.map((tech) => (
+                  <li>{tech}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      </details>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .work-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .work-list__item {
+    border-bottom: 1px solid var(--gray-5);
+  }
+
+  .work-list__item:last-child {
+    border-bottom: 0;
+  }
+
+  details {
+    padding-block: var(--space-m);
+  }
+
+  summary {
+    list-style: none;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-l);
+    cursor: pointer;
+    align-items: start;
+    overflow: visible;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .work-list__lead {
+    min-width: 0;
+    position: relative;
+    padding-inline-start: 0;
+  }
+
+  .work-list__title {
+    display: block;
+    font-size: var(--step-1);
+    line-height: var(--line-height-tight);
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .work-list__chevron {
+    position: absolute;
+    left: -1.5rem;
+    top: 0.8rem;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-right: 2px solid var(--gray-9);
+    border-bottom: 2px solid var(--gray-9);
+    transform: translateY(-50%) rotate(-45deg);
+    transform-origin: center;
+    transition: transform 180ms ease, border-color 180ms ease;
+  }
+
+  details[open] .work-list__chevron {
+    transform: translateY(-50%) rotate(45deg);
+  }
+
+  .work-list__meta {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-l);
+    align-items: baseline;
+    color: var(--gray-11);
+    line-height: var(--line-height-snug);
+    text-align: right;
+  }
+
+  .work-list__summary {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .work-list__year {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .work-list__panel {
+    display: grid;
+    gap: var(--space-m);
+    margin-top: var(--space-m);
+    padding-inline-start: 0;
+  }
+
+  .work-list__content {
+    display: grid;
+    gap: var(--space-xs);
+  }
+
+  .work-list__content p {
+    margin: 0;
+  }
+
+  .work-list__subtitle {
+    font-weight: var(--font-weight-medium);
+    color: var(--gray-11);
+  }
+
+  .work-list__link a {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  .work-list__panel img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-s);
+    object-fit: cover;
+  }
+
+  .work-list__tags {
+    margin: var(--space-s) 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: var(--space-xs);
+    flex-wrap: wrap;
+  }
+
+  .work-list__tags li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+    padding: 0.18rem 0.45rem;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--gray-6);
+    background: var(--gray-3);
+    font-size: var(--step--1);
+    line-height: var(--line-height-single);
+    white-space: nowrap;
+  }
+
+  .work-list__tags li::before {
+    content: "#";
+    color: var(--gray-10);
+  }
+
+  summary:focus-visible {
+    outline: 2px solid var(--gray-9);
+    outline-offset: 0.25rem;
+    border-radius: var(--radius-xs);
+  }
+
+  @media (width >= 760px) {
+    .work-list__panel--with-image {
+      grid-template-columns: 8rem minmax(0, 1fr);
+      column-gap: var(--space-l);
+      align-items: start;
+    }
+  }
+</style>

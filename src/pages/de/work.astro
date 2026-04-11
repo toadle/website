@@ -1,16 +1,16 @@
 ---
 import ContainerLayout from "../../layouts/ContainerLayout.astro";
 import ContentSection from "../../components/ContentSection.astro";
-import ProjectList from "../../components/ProjectList.astro";
+import WorkAccordionList from "../../components/WorkAccordionList.astro";
 import { i18n } from "../../i18n";
-import projectsData from "../../content/work/projects.json";
-import productishCover from "../../assets/legacy/productish.jpg";
+import {
+  openSourceEntries,
+  projectEntries,
+  publicationEntries,
+} from "../../content/work";
 
 const lang = "de";
 const t = i18n[lang];
-
-const openSource = projectsData.openSource;
-const projects = projectsData.all;
 ---
 
 <ContainerLayout
@@ -34,73 +34,15 @@ const projects = projectsData.all;
     </p>
 
     <ContentSection title="Veröffentlichungen">
-      <p>Ein paar Veröffentlichungen, in denen ich versucht habe mein Wissen weiterzugeben.</p>
-      <ul class="publications">
-        <li>
-          <img src="/images/legacy/publications/digitales-produktmanagement.jpg" alt="Cover von Digitales Produktmanagement" loading="lazy" />
-          <div>
-            <a href="https://www.springer.com/de/book/9783658306281#aboutAuthors" target="_blank" rel="noopener noreferrer">Digitales Produktmanagement</a>
-            <p class="subtitle">Methoden - Instrumente - Praxisbeispiele</p>
-            <p>
-              In diesem deutschen Buch über digitales Produktmanagement habe ich ein Kapitel darüber geschrieben, wie Produkte effizient erstellt und geliefert werden können.
-            </p>
-          </div>
-        </li>
-        <li>
-          <img src="/images/legacy/publications/programmierbar-cto-special-18.jpg" alt="Artwork der programmier.bar Folge CTO-SPECIAL #18" loading="lazy" />
-          <div>
-            <a href="https://www.programmier.bar/podcast/cto-special-18-tim-adler-von-chefkoch" target="_blank" rel="noopener noreferrer">programmier.bar</a>
-            <p class="subtitle">CTO-SPECIAL #18</p>
-            <p>
-              In dieser Folge sprach ich noch als CTO von Chefkoch über meinen Lebenslauf und warum bei mir das Pendel immer zwischen Hands-on-Development und Management wechselt.
-            </p>
-          </div>
-        </li>
-        <li>
-          <img src="/images/legacy/publications/git-kurz-gut-2-auflage-oreilly.jpg" alt="Cover von Git - kurz & gut (2. Auflage)" loading="lazy" />
-          <div>
-            <a href="https://www.oreilly.com/library/view/git-kurz/9781098141141/" target="_blank" rel="noopener noreferrer">Git - kurz &amp; gut (2. Auflage)</a>
-            <p class="subtitle">Kapitelbeitrag: Git-Onlinedienste im Unternehmen</p>
-            <p>
-              In der zweiten Auflage habe ich den Teil "Git-Onlinedienste im Unternehmen" geschrieben.
-            </p>
-          </div>
-        </li>
-        <li>
-          <img src="/images/legacy/publications/linux-magazin-2024-07.jpg" alt="Heftcover Linux-Magazin Ausgabe 07/2024" loading="lazy" />
-          <div>
-            <a href="https://www.linux-magazin.de/ausgaben/2024/07/git-einfuehrung/" target="_blank" rel="noopener noreferrer">Linux-Magazin 07/2024: Titelstory zu Git</a>
-            <p class="subtitle">Die ersten Schritte mit Git und einer Code-Hosting-Plattform</p>
-            <p>
-              Für die Ausgabe <a href="https://www.linux-magazin.de/magazine/2024/07/" target="_blank" rel="noopener noreferrer">07/2024</a> habe ich die Titelstory geschrieben und einen praxisnahen Einstieg in Git und Code-Hosting-Plattformen gegeben.
-            </p>
-          </div>
-        </li>
-        <li>
-          <img src={productishCover.src} width={productishCover.width} height={productishCover.height} alt="Coverbild des Productish Podcasts" loading="lazy" />
-          <div>
-            <p>Productish Podcast</p>
-            <p class="subtitle">Ein Podcast über Konflikte und Herausforderungen im digitalen Produktmanagement</p>
-            <p>
-              Zusammen mit meinem Kollegen und Freund Tim Herbig moderierte ich über etwa 15 Folgen einen Podcast, in dem wir wiederkehrende Probleme und Konflikte im digitalen Produktmanagement diskutierten.
-            </p>
-          </div>
-        </li>
-      </ul>
+      <WorkAccordionList lang={lang} items={publicationEntries} />
     </ContentSection>
 
     <ContentSection title="Open Source">
-      <p>
-        Leider noch viel zu selten habe ich selbst meinen Teil zur Open-Source-Community beigetragen.
-      </p>
-      <ProjectList lang={lang} items={openSource} />
+      <WorkAccordionList lang={lang} items={openSourceEntries} />
     </ContentSection>
 
     <ContentSection title="Projekte">
-      <p>
-        In den folgenden Projekten habe ich mitgeholfen etwas Neues zu beginnen. Vom Relaunch bis zur Neuentwicklung war alles dabei.
-      </p>
-      <ProjectList lang={lang} items={projects} />
+      <WorkAccordionList lang={lang} items={projectEntries} />
     </ContentSection>
   </section>
 </ContainerLayout>
@@ -139,83 +81,10 @@ const projects = projectsData.all;
   }
 
   .page :global(.content-section) {
-    border-top: 1px solid var(--gray-5);
     padding-top: var(--space-xl);
   }
 
   .page :global(.content-section h2) {
     font-size: var(--step-2);
-  }
-
-  .publications {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: var(--space-m);
-  }
-
-  .publications li {
-    display: grid;
-    gap: var(--space-m);
-    align-items: start;
-    padding: 0 0 var(--space-m);
-    border-bottom: 1px solid var(--gray-5);
-
-    @media (width >= 760px) {
-      grid-template-columns: 8rem 1fr;
-      column-gap: var(--space-l);
-    }
-  }
-
-  .publications li:last-child {
-    border-bottom: 0;
-    padding-bottom: 0;
-  }
-
-  .publications p {
-    margin: 0;
-  }
-
-  .publications a {
-    font-weight: var(--font-weight-medium);
-  }
-
-  .publications img {
-    width: 100%;
-    height: auto;
-    border-radius: var(--radius-s);
-    object-fit: cover;
-  }
-
-  .page :global(.project-list) {
-    gap: var(--space-m);
-  }
-
-  .page :global(.project-list > li) {
-    padding: 0 0 var(--space-m);
-    border-bottom: 1px solid var(--gray-5);
-  }
-
-  .page :global(.project-list > li:last-child) {
-    border-bottom: 0;
-    padding-bottom: 0;
-  }
-
-  .page :global(.project-list article) {
-    display: grid;
-    gap: var(--space-xs);
-  }
-
-  .page :global(.project-list h3) {
-    margin: 0;
-    font-size: var(--step-1);
-    line-height: var(--line-height-tight);
-  }
-
-  .subtitle {
-    margin: 0;
-    font-weight: var(--font-weight-medium);
-    color: var(--gray-11);
   }
 </style>
