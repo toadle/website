@@ -14,7 +14,9 @@
             "approve": true,
             "matchCommandLine": true
         },
-        "git rev-parse": true
+        "git rev-parse": true,
+        "git remote": true,
+        "gh": true
     }
 }
 
