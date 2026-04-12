@@ -19,15 +19,15 @@ Here is how to change that.
 
 First you need a Terminal that you can launch the same way with `Cmd+Space`. I'd suggest using [iTerm](https://iterm2.com). Under `Preferences -> Keys -> Hotkey` you can create a system-wide hotkey that will show/hide iTerm.
 
-![iTerm Hotkey](//images.ctfassets.net/zbv7lbwbpya6/2Yj4KvAp9Ous3ZDqFB9emF/cb03d069c2218b9e25dbc8e15ad56c5b/Bildschirmfoto_2020-10-21_um_21.55.15.png){: .my-4}
+![iTerm Hotkey](//images.ctfassets.net/zbv7lbwbpya6/2Yj4KvAp9Ous3ZDqFB9emF/cb03d069c2218b9e25dbc8e15ad56c5b/Bildschirmfoto_2020-10-21_um_21.55.15.png)
 
 Next you should set the window to appear somewhat similar by setting `Profiles -> Window -> Style` to `Full-Width Top of Screen`. 
 
-![Bildschirmfoto 2020-10-21 um 22.00.20](//images.ctfassets.net/zbv7lbwbpya6/7no2wr6osGTF62za4Iw3Y/905a2c8522978933edbd0a546d875e9d/Bildschirmfoto_2020-10-21_um_22.00.20.png){: .my-4}
+![Bildschirmfoto 2020-10-21 um 22.00.20](//images.ctfassets.net/zbv7lbwbpya6/7no2wr6osGTF62za4Iw3Y/905a2c8522978933edbd0a546d875e9d/Bildschirmfoto_2020-10-21_um_22.00.20.png)
 
 This way you'll get a nice shell-window on the top-half of your screen by just pushing `Cmd+Space`. By the way I use [fishshell](http://fishshell.com) as my standard shell and the sys-info tool is [archey](https://formulae.brew.sh/formula/archey).
 
-![Bildschirmfoto 2020-10-21 um 22.01.25](//images.ctfassets.net/zbv7lbwbpya6/3GfGxP15wh7Gc4xBz19EIT/a058e8412d47e19c785d2dc2fed0aefe/Bildschirmfoto_2020-10-21_um_22.01.25.jpg){: .my-4}
+![Bildschirmfoto 2020-10-21 um 22.01.25](//images.ctfassets.net/zbv7lbwbpya6/3GfGxP15wh7Gc4xBz19EIT/a058e8412d47e19c785d2dc2fed0aefe/Bildschirmfoto_2020-10-21_um_22.01.25.jpg)
 
 Now for the needed scripts to launch apps.
 
@@ -52,7 +52,7 @@ Now you have two ways of using this:
 - Or you can type `l <something>` and the list will already be filtered by `something`. Best case, you can just hit `Enter` and be done.
 
 Here is what it looks like:
-[![asciicast](https://asciinema.org/a/pHyO3R5HnxTEwkg0Qc81G7EWP.svg){: .my-4}](https://asciinema.org/a/pHyO3R5HnxTEwkg0Qc81G7EWP)
+[![asciicast](https://asciinema.org/a/pHyO3R5HnxTEwkg0Qc81G7EWP.svg)](https://asciinema.org/a/pHyO3R5HnxTEwkg0Qc81G7EWP)
 
 Here is how it works:
 

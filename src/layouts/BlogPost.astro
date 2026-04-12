@@ -2,13 +2,12 @@
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
-import ContainerLayout from './ContainerLayout.astro';
 import Center from '../components/Center.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header/Header.astro';
 import ArticleNav from '../components/ArticleNav.astro';
-import type { Locale } from '../i18n';
+import { i18n, type Locale } from '../i18n';
 
 type NavPost = { title: string; slug: string };
 
@@ -31,6 +30,9 @@ const {
   translationHref,
 } = Astro.props;
 
+const t = i18n[lang].blog.articleNav;
+const normalizeHref = (href: string) => (href.startsWith("/") ? href : `/${href}`);
+
 ---
 <BaseLayout title={title} description={description} lang={lang}>
   <Header lang={lang} />
@@ -42,20 +44,29 @@ const {
         </div>
         <div class="prose">
           <div class="title">
-            <div class="date">
-              <FormattedDate
-                date={pubDate}
-                locale={lang === "en" ? "en-US" : "de-DE"}
-              />
+            <div class="meta-row">
+              <div class="date">
+                <FormattedDate
+                  date={pubDate}
+                  locale={lang === "en" ? "en-US" : "de-DE"}
+                />
+                {
+                  updatedDate && (
+                    <div class="last-updated-on">
+                      {lang === "en" ? "Last updated on" : "Zuletzt aktualisiert am"}{" "}
+                      <FormattedDate
+                        date={updatedDate}
+                        locale={lang === "en" ? "en-US" : "de-DE"}
+                      />
+                    </div>
+                  )
+                }
+              </div>
               {
-                updatedDate && (
-                  <div class="last-updated-on">
-                    {lang === "en" ? "Last updated on" : "Zuletzt aktualisiert am"}{" "}
-                    <FormattedDate
-                      date={updatedDate}
-                      locale={lang === "en" ? "en-US" : "de-DE"}
-                    />
-                  </div>
+                translationHref && (
+                  <a class="translation-link" href={normalizeHref(translationHref)}>
+                    {t.readIn}
+                  </a>
                 )
               }
             </div>
@@ -67,13 +78,6 @@ const {
             lang={lang === "en" ? "en" : "de"}
             prev={prevPost}
             next={nextPost}
-            translationLink={
-              translationHref
-                ? {
-                    href: translationHref,
-                  }
-                : undefined
-            }
           />
         </div>
       </article>
@@ -90,6 +94,7 @@ const {
 
   .article {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-l);
     width: 100%;
   }
@@ -101,11 +106,13 @@ const {
   }
 
   .prose {
-    display: grid;
-    gap: var(--space-l);
-    width: min(100%, 72ch);
-    justify-self: center;
+    width: 100%;
+    max-width: none;
     margin-inline: auto;
+  }
+
+  .prose > :global(* + *) {
+    margin-top: var(--space-l);
   }
 
   .title {
@@ -113,9 +120,36 @@ const {
     gap: var(--space-xs);
   }
 
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-s);
+  }
+
   .date {
     color: var(--gray-10);
     font-size: var(--step--1);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-s);
+  }
+
+  .translation-link {
+    color: var(--gray-11);
+    font-size: var(--step--1);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+
+  .prose
+    > :global(
+      p:not(:has(img, picture, video, iframe, figure))
+        + p:not(:has(img, picture, video, iframe, figure))
+    ) {
+    margin-top: 0;
+    text-indent: 1.5em;
   }
 
   hr {

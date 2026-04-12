@@ -19,15 +19,15 @@ Aber...das lässt sich ändern. Hier ist wie:
 
 Zuerst benötigt ihr ein Terminal, das man auf die gleiche Weise mit `Cmd+Leertaste` starten kann. Ich würde vorschlagen, [iTerm](https://iterm2.com) zu verwenden. Unter `Einstellungen -> Tasten -> Hotkey` kann man einen systemweiten Hotkey erstellen, der iTerm ein- und ausblendet.
 
-![iTerm Hotkey](//images.ctfassets.net/zbv7lbwbpya6/2Yj4KvAp9Ous3ZDqFB9emF/cb03d069c2218b9e25dbc8e15ad56c5b/Bildschirmfoto_2020-10-21_um_21.55.15.png){: .my-4}
+![iTerm Hotkey](//images.ctfassets.net/zbv7lbwbpya6/2Yj4KvAp9Ous3ZDqFB9emF/cb03d069c2218b9e25dbc8e15ad56c5b/Bildschirmfoto_2020-10-21_um_21.55.15.png)
 
 Als nächstes solltet ihr das Fenster so einstellen, dass es ähnlich aussieht wie Launchbar, indem ihr `Profiles -> Window -> Style` auf `Full-Width Top of Screen` setzt. 
 
-![Bildschirmfoto 2020-10-21 um 22.00.20](//images.ctfassets.net/zbv7lbwbpya6/7no2wr6osGTF62za4Iw3Y/905a2c8522978933edbd0a546d875e9d/Bildschirmfoto_2020-10-21_um_22.00.20.png){: .my-4}
+![Bildschirmfoto 2020-10-21 um 22.00.20](//images.ctfassets.net/zbv7lbwbpya6/7no2wr6osGTF62za4Iw3Y/905a2c8522978933edbd0a546d875e9d/Bildschirmfoto_2020-10-21_um_22.00.20.png)
 
 Auf diese Weise erhalten Sie ein schönes Shell-Fenster in der oberen Hälfte Ihres Bildschirms, indem Sie einfach `Cmd+Space` drücken. Übrigens benutze ich [fishshell](http://fishshell.com) als meine Standard-Shell und das sys-info-Tool ist [archey](https://formulae.brew.sh/formula/archey).
 
-![Bildschirmfoto 2020-10-21 um 22.01.25](//images.ctfassets.net/zbv7lbwbpya6/3GfGxP15wh7Gc4xBz19EIT/a058e8412d47e19c785d2dc2fed0aefe/Bildschirmfoto_2020-10-21_um_22.01.25.jpg){: .my-4}
+![Bildschirmfoto 2020-10-21 um 22.01.25](//images.ctfassets.net/zbv7lbwbpya6/3GfGxP15wh7Gc4xBz19EIT/a058e8412d47e19c785d2dc2fed0aefe/Bildschirmfoto_2020-10-21_um_22.01.25.jpg)
 
 Nun zu den benötigten Skripten zum Starten von Anwendungen.
 
@@ -52,7 +52,7 @@ Nun gibt es zwei Möglichkeiten:
 - Oder man kann einfach `l <irgendwas>` tippen und die Liste wird bereits nach `irgendwas` gefiltert. Im besten Fall könnt ihr einfach `Enter` drücken und fertig.
 
 So sieht das Ganze aus:
-[![asciicast](https://asciinema.org/a/pHyO3R5HnxTEwkg0Qc81G7EWP.svg){: .my-4}](https://asciinema.org/a/pHyO3R5HnxTEwkg0Qc81G7EWP)
+[![asciicast](https://asciinema.org/a/pHyO3R5HnxTEwkg0Qc81G7EWP.svg)](https://asciinema.org/a/pHyO3R5HnxTEwkg0Qc81G7EWP)
 
 Und so funktioniert es:
 
