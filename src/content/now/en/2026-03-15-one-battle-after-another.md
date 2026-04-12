@@ -15,4 +15,4 @@ richlink:
   backlink: true
 ---
 
-Short review will be added.
+I loved the beginning, Perfidia, and the sensei, but the finale in particular left me with a lot of question marks.

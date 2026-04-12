@@ -15,4 +15,5 @@ richlink:
   backlink: true
 ---
 
-Short review will be added.
+People generally imagine Frankenstein's story differently from how it is in the original.
+This film captures that very well.

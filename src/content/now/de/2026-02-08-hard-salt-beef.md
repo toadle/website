@@ -10,6 +10,7 @@ rating:
   display: "8/10"
 richlink:
   title: "Hard Salt Beef"
+  show: "A Knight of the Seven Kingdoms"
   url: "https://www.imdb.com/de/title/tt32314131/?ref_=rt_t_7"
   kind: movie
   backlink: true

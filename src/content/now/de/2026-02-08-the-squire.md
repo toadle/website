@@ -10,6 +10,7 @@ rating:
   display: "8/10"
 richlink:
   title: "The Squire"
+  show: "A Knight of the Seven Kingdoms"
   url: "https://www.imdb.com/de/title/tt32314197/?ref_=rt_t_9"
   kind: movie
   backlink: true

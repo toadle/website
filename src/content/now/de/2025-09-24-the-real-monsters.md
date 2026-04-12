@@ -10,6 +10,7 @@ rating:
   display: "7/10"
 richlink:
   title: "The Real Monsters"
+  show: "Alien: Earth"
   url: "https://www.imdb.com/de/title/tt32572889/?ref_=rt_t_24"
   kind: movie
   backlink: true

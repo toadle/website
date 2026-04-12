@@ -10,9 +10,8 @@ rating:
   display: "10/10"
 richlink:
   title: "The We We Are"
+  show: "Severance"
   url: "https://www.imdb.com/de/title/tt13424098/?ref_=rt_t_37"
   kind: movie
   backlink: true
 ---
-
-Short review will be added.

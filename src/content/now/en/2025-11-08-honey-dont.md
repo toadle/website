@@ -15,4 +15,4 @@ richlink:
   backlink: true
 ---
 
-Short review will be added.
+Nice movie with a solid twist, but overall rather average.

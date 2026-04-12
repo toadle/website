@@ -15,4 +15,4 @@ richlink:
   backlink: true
 ---
 
-Short review will be added.
+A very entertaining action movie that is clearly more fun than most other films in the series.

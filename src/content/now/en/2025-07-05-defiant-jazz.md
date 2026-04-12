@@ -10,9 +10,8 @@ rating:
   display: "8/10"
 richlink:
   title: "Defiant Jazz"
+  show: "Severance"
   url: "https://www.imdb.com/de/title/tt13424094/?ref_=rt_t_39"
   kind: movie
   backlink: true
 ---
-
-Short review will be added.

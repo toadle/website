@@ -39,6 +39,7 @@ const now = defineCollection({
 		richlink: z
 			.object({
 				title: z.string(),
+				show: z.string().optional(),
 				url: z.string().url(),
 				kind: z.enum(['movie', 'recommendation']),
 				backlink: z.boolean().default(true),

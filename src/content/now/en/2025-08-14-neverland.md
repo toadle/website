@@ -10,9 +10,8 @@ rating:
   display: "8/10"
 richlink:
   title: "Neverland"
+  show: "Alien: Earth"
   url: "https://www.imdb.com/de/title/tt13623634/?ref_=rt_t_33"
   kind: movie
   backlink: true
 ---
-
-Short review will be added.

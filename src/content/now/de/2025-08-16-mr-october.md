@@ -10,6 +10,7 @@ rating:
   display: "7/10"
 richlink:
   title: "Mr. October"
+  show: "Alien: Earth"
   url: "https://www.imdb.com/de/title/tt32572892/?ref_=rt_t_32"
   kind: movie
   backlink: true

@@ -1,5 +1,6 @@
 export type RichlinkInput = {
   title: string;
+  show?: string;
   url: string;
   kind?: "movie" | "recommendation";
   backlink?: boolean;
@@ -12,6 +13,7 @@ export type RichlinkInput = {
 
 export type Richlink = {
   title: string;
+  show?: string;
   url: string;
   kind: "movie" | "recommendation";
   backlink: boolean;
@@ -42,6 +44,7 @@ export const toRichlink = (input: RichlinkInput): Richlink => {
 
   return {
     title: input.title.trim(),
+    show: input.show?.trim() || undefined,
     url: input.url,
     kind: input.kind ?? "movie",
     backlink: input.backlink ?? true,

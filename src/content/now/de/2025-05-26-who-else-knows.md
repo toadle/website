@@ -10,6 +10,7 @@ rating:
   display: "9/10"
 richlink:
   title: "Who Else Knows?"
+  show: "Andor"
   url: "https://www.imdb.com/de/title/tt20603320/?ref_=rt_t_45"
   kind: movie
   backlink: true

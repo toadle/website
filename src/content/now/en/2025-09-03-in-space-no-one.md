@@ -10,9 +10,8 @@ rating:
   display: "9/10"
 richlink:
   title: "In Space, No One..."
+  show: "Alien: Earth"
   url: "https://www.imdb.com/de/title/tt32572899/?ref_=rt_t_27"
   kind: movie
   backlink: true
 ---
-
-Short review will be added.

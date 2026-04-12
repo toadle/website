@@ -15,4 +15,4 @@ richlink:
   backlink: true
 ---
 
-Short review will be added.
+This film is excellent. I would not have guessed it was a Stephen King story. There was criticism that the ending is a bit too on the nose, but I did not feel that way. It kept me thinking right to the end.

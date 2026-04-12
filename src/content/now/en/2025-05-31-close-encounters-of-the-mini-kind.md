@@ -10,9 +10,8 @@ rating:
   display: "8/10"
 richlink:
   title: "Close Encounters of the Mini Kind"
+  show: "Love, Death & Robots"
   url: "https://www.imdb.com/de/title/tt36663022/?ref_=rt_t_42"
   kind: movie
   backlink: true
 ---
-
-Short review will be added.

@@ -3,6 +3,7 @@ import { resolveRichlinkCover } from "../lib/richlinkCover";
 
 type Richlink = {
   title: string;
+  show?: string;
   url: string;
   kind?: "movie" | "recommendation";
   backlink?: boolean;
@@ -19,6 +20,8 @@ interface Props {
 
 const { link } = Astro.props;
 const cover = await resolveRichlinkCover(link);
+const pageLocale = Astro.url.pathname.startsWith("/en/") ? "en" : "de";
+const showConnector = pageLocale === "en" ? "from" : "aus";
 ---
 
 <div class="richlink-wrap">
@@ -28,9 +31,8 @@ const cover = await resolveRichlinkCover(link);
     </a>
   )}
   <p class="richlink">
-    <a href={link.url} rel="noopener noreferrer" target="_blank">
-      {link.title}
-    </a>
+    <a href={link.url} rel="noopener noreferrer" target="_blank">{link.title}</a>
+    {link.show && <span class="richlink__show">{showConnector} {link.show}</span>}
     {link.backlink && <span class="richlink__meta">IMDb</span>}
   </p>
 </div>
@@ -141,6 +143,10 @@ const cover = await resolveRichlinkCover(link);
   .richlink__meta {
     font-size: var(--step--1);
     color: var(--gray-10);
+  }
+
+  .richlink__show {
+    color: var(--gray-11);
   }
 
   .richlink__description {

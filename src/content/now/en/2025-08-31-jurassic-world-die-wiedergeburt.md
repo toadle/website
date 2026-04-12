@@ -15,4 +15,4 @@ richlink:
   backlink: true
 ---
 
-Short review will be added.
+It was exactly as full of plot holes as I expected. I watched it on a plane, and it was fine for that.

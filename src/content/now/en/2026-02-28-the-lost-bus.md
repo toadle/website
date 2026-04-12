@@ -15,4 +15,4 @@ richlink:
   backlink: true
 ---
 
-Short review will be added.
+With his docu-style, Paul Greengrass made some of my absolute favorite films. This one is okay too, but not as good as the others.

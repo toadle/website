@@ -10,9 +10,8 @@ rating:
   display: "8/10"
 richlink:
   title: "What a Festive Evening"
+  show: "Andor"
   url: "https://www.imdb.com/de/title/tt20603302/?ref_=rt_t_50"
   kind: movie
   backlink: true
 ---
-
-Short review will be added.

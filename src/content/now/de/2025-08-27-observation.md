@@ -10,6 +10,7 @@ rating:
   display: "8/10"
 richlink:
   title: "Observation"
+  show: "Alien: Earth"
   url: "https://www.imdb.com/de/title/tt32572896/?ref_=rt_t_30"
   kind: movie
   backlink: true

@@ -15,4 +15,4 @@ richlink:
   backlink: true
 ---
 
-Short review will be added.
+This is simply a really good film. The ultimate twist alone is that the missile impact is always only 20 minutes away.

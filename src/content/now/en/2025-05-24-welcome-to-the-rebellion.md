@@ -10,9 +10,8 @@ rating:
   display: "8/10"
 richlink:
   title: "Welcome to the Rebellion"
+  show: "Andor"
   url: "https://www.imdb.com/de/title/tt20603310/?ref_=rt_t_48"
   kind: movie
   backlink: true
 ---
-
-Short review will be added.

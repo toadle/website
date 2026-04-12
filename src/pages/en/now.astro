@@ -107,7 +107,7 @@ const formatNowDate = (date: Date) =>
   const button = document.querySelector("[data-load-more-button]");
 
   if (list instanceof HTMLElement && button instanceof HTMLButtonElement) {
-    const classifyRichlinkCover = (cover) => {
+    const classifyRichlinkCover = (cover: Element) => {
       const image = cover.querySelector("img");
 
       if (!image) {
@@ -141,7 +141,7 @@ const formatNowDate = (date: Date) =>
       }
     };
 
-    const initRichlinkCovers = (root) => {
+    const initRichlinkCovers = (root: ParentNode) => {
       root
         .querySelectorAll(".richlink-cover[data-auto-cover]")
         .forEach((cover) => classifyRichlinkCover(cover));
