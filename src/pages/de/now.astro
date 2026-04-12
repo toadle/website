@@ -3,13 +3,18 @@ import { getCollection, render } from "astro:content";
 import ContainerLayout from "../../layouts/ContainerLayout.astro";
 import { i18n } from "../../i18n";
 import { isEntryInLocale } from "../../lib/contentLocale";
+import { sortNowEntries } from "../../lib/nowImport/sortNowEntries";
+import NowRating from "../../components/NowRating.astro";
+import Richlink from "../../components/Richlink.astro";
 
 const lang = "de";
 const t = i18n[lang];
 
-const rawEntries = (await getCollection("now"))
-  .filter((entry) => isEntryInLocale(entry.id, lang, entry.data.lang))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const rawEntries = sortNowEntries(
+  (await getCollection("now")).filter((entry) =>
+    isEntryInLocale(entry.id, lang, entry.data.lang)
+  )
+);
 
 const entries = await Promise.all(
   rawEntries.map(async (entry) => {
@@ -34,6 +39,13 @@ const toEmbedUrl = (url: string) => {
   }
   return "";
 };
+
+const formatNowDate = (date: Date) =>
+  date.toLocaleDateString("de-DE", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
 ---
 
 <ContainerLayout
@@ -52,14 +64,17 @@ const toEmbedUrl = (url: string) => {
     <ol class="timeline">
       {entries.map(({ entry, Content }) => (
         <li>
-          <time datetime={entry.data.date.toISOString()}>{entry.data.label}</time>
+          <time datetime={entry.data.date.toISOString()}>{formatNowDate(entry.data.date)}</time>
+          {entry.data.rating && <NowRating rating={entry.data.rating} label="Meine Bewertung" />}
           {entry.data.quote && <blockquote>{entry.data.quote}</blockquote>}
           {entry.body?.trim() && (
             <div class="body">
               <Content />
             </div>
           )}
+          {entry.data.reviewText && <p class="opinion">{entry.data.reviewText}</p>}
           {entry.data.opinion && <p class="opinion">{entry.data.opinion}</p>}
+          {entry.data.richlink && <Richlink link={entry.data.richlink} />}
           {entry.data.youtube && (
             <div class="embed">
               <iframe

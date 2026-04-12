@@ -1,0 +1,18 @@
+---
+date: 2026-02-28
+lang: de
+type: rating
+label: "28. Feb 2026"
+sourceId: "tt21103218"
+rating:
+  value: 8
+  scaleMax: 10
+  display: "8/10"
+richlink:
+  title: "The Lost Bus"
+  url: "https://www.imdb.com/de/title/tt21103218/?ref_=rt_t_3"
+  kind: movie
+  backlink: true
+---
+
+Kurzreview folgt.

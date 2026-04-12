@@ -1,0 +1,149 @@
+---
+import { resolveRichlinkCover } from "../lib/richlinkCover";
+
+type Richlink = {
+  title: string;
+  url: string;
+  kind?: "movie" | "recommendation";
+  backlink?: boolean;
+  description?: string;
+  cover?: {
+    src: string;
+    alt: string;
+  };
+};
+
+interface Props {
+  link: Richlink;
+}
+
+const { link } = Astro.props;
+const cover = await resolveRichlinkCover(link);
+---
+
+<div class="richlink-wrap">
+  {cover && (
+    <a class="richlink-cover" data-auto-cover href={link.url} rel="noopener noreferrer" target="_blank">
+      <img src={cover.src} alt={cover.alt} loading="lazy" decoding="async" />
+    </a>
+  )}
+  <p class="richlink">
+    <a href={link.url} rel="noopener noreferrer" target="_blank">
+      {link.title}
+    </a>
+    {link.backlink && <span class="richlink__meta">IMDb</span>}
+  </p>
+</div>
+{link.description && <p class="richlink__description">{link.description}</p>}
+
+<script is:inline>
+  const classifyRichlinkCover = (cover) => {
+    const image = cover.querySelector("img");
+
+    if (!image) {
+      return;
+    }
+
+    const update = () => {
+      const width = image.naturalWidth;
+      const height = image.naturalHeight;
+
+      if (!width || !height) {
+        return;
+      }
+
+      const ratio = width / height;
+      cover.classList.remove("is-poster", "is-square", "is-landscape");
+
+      if (ratio > 1.2) {
+        cover.classList.add("is-landscape");
+      } else if (ratio >= 0.85) {
+        cover.classList.add("is-square");
+      } else {
+        cover.classList.add("is-poster");
+      }
+    };
+
+    if (image.complete) {
+      update();
+      return;
+    }
+
+    image.addEventListener("load", update, { once: true });
+  };
+
+  const initRichlinkCovers = () => {
+    document
+      .querySelectorAll(".richlink-cover[data-auto-cover]")
+      .forEach((cover) => classifyRichlinkCover(cover));
+  };
+
+  initRichlinkCovers();
+  document.addEventListener("astro:after-swap", initRichlinkCovers);
+</script>
+
+<style>
+  .richlink-wrap {
+    display: grid;
+    gap: var(--space-2xs);
+    align-content: start;
+  }
+
+  .richlink-cover {
+    display: inline-flex;
+    width: clamp(5.5rem, 24vw, 8rem);
+    aspect-ratio: 2 / 3;
+    border-radius: var(--radius-s);
+    overflow: hidden;
+    border: 1px solid var(--gray-5);
+    background: var(--gray-2);
+  }
+
+  .richlink-cover img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .richlink-cover.is-square {
+    aspect-ratio: 1 / 1;
+  }
+
+  .richlink-cover.is-square img {
+    object-fit: contain;
+  }
+
+  .richlink-cover.is-landscape {
+    aspect-ratio: 16 / 9;
+    width: min(100%, clamp(8rem, 40vw, 14rem));
+  }
+
+  .richlink-cover.is-landscape img {
+    object-fit: contain;
+  }
+
+  .richlink {
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--step-0);
+  }
+
+  .richlink a {
+    text-underline-offset: 2px;
+    text-decoration-thickness: 1px;
+  }
+
+  .richlink__meta {
+    font-size: var(--step--1);
+    color: var(--gray-10);
+  }
+
+  .richlink__description {
+    margin: 0;
+    color: var(--gray-10);
+    font-size: var(--step--1);
+  }
+</style>

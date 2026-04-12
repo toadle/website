@@ -1,0 +1,18 @@
+---
+date: 2025-08-16
+lang: en
+type: rating
+label: "Aug 16, 2025"
+sourceId: "tt32572892"
+rating:
+  value: 7
+  scaleMax: 10
+  display: "7/10"
+richlink:
+  title: "Mr. October"
+  url: "https://www.imdb.com/de/title/tt32572892/?ref_=rt_t_32"
+  kind: movie
+  backlink: true
+---
+
+Short review will be added.

@@ -23,9 +23,34 @@ const now = defineCollection({
 	schema: z.object({
 		date: z.coerce.date(),
 		lang: z.enum(['de', 'en']).optional(),
+		type: z.enum(['standard', 'rating']).optional(),
 		label: z.string(),
 		quote: z.string().optional(),
 		opinion: z.string().optional(),
+		reviewText: z.string().optional(),
+		sourceId: z.string().optional(),
+		rating: z
+			.object({
+				value: z.number().int().min(1),
+				scaleMax: z.number().int().min(1).default(10),
+				display: z.string().optional(),
+			})
+			.optional(),
+		richlink: z
+			.object({
+				title: z.string(),
+				url: z.string().url(),
+				kind: z.enum(['movie', 'recommendation']),
+				backlink: z.boolean().default(true),
+				description: z.string().optional(),
+				cover: z
+					.object({
+						src: z.string().url(),
+						alt: z.string(),
+					})
+					.optional(),
+			})
+			.optional(),
 		youtube: z.string().url().optional(),
 		image: z
 			.object({

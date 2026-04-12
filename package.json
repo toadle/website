@@ -6,7 +6,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "import:imdb-now": "npx tsx scripts/migrations/imdb-now-import.ts"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.13",

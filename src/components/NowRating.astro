@@ -1,0 +1,40 @@
+---
+type Rating = {
+  value: number;
+  scaleMax: number;
+  display?: string;
+};
+
+interface Props {
+  rating: Rating;
+  label?: string;
+}
+
+const { rating, label = "Rating" } = Astro.props;
+const display = rating.display || `${rating.value}/${rating.scaleMax}`;
+---
+
+<p class="now-rating" aria-label={`${label}: ${display}`}>
+  <span class="now-rating__label">{label}</span>
+  <strong class="now-rating__value">{display}</strong>
+</p>
+
+<style>
+  .now-rating {
+    margin: 0;
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--space-xs);
+  }
+
+  .now-rating__label {
+    font-size: var(--step--1);
+    color: var(--gray-10);
+    letter-spacing: 0.02em;
+  }
+
+  .now-rating__value {
+    font-size: var(--step-1);
+    line-height: 1;
+  }
+</style>

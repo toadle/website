@@ -1,0 +1,18 @@
+---
+date: 2025-05-14
+lang: en
+type: rating
+label: "May 14, 2025"
+sourceId: "tt20603306"
+rating:
+  value: 8
+  scaleMax: 10
+  display: "8/10"
+richlink:
+  title: "Messenger"
+  url: "https://www.imdb.com/de/title/tt20603306/?ref_=rt_t_49"
+  kind: movie
+  backlink: true
+---
+
+Short review will be added.
