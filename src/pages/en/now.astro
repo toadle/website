@@ -41,6 +41,17 @@ const splitLead = (lead: string) => {
 
 const leadParts = splitLead(t.now.lead);
 
+const formatUpdatedDate = (date: Date) =>
+  date.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+
+const updatedLabel = rawEntries[0]?.data?.date
+  ? `Updated ${formatUpdatedDate(rawEntries[0].data.date)}.`
+  : leadParts.updated;
+
 const formatNowDate = (date: Date) =>
   date.toLocaleDateString("en-US", {
     day: "numeric",
@@ -60,7 +71,7 @@ const formatNowDate = (date: Date) =>
     <header class="intro">
       <h1>{t.now.title}</h1>
       <p class="lead">{leadParts.summary}</p>
-      {leadParts.updated && <p class="updated">{leadParts.updated}</p>}
+      {updatedLabel && <p class="updated">{updatedLabel}</p>}
     </header>
 
     <ol id="now-timeline" class="timeline" data-load-more-list data-locale={lang}>
