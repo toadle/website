@@ -153,8 +153,10 @@ const career = [
   padBottom
 >
   <section class="page">
-    <h1>Services</h1>
-    <p class="lead">Ship digital products with clarity and speed.</p>
+    <header class="intro">
+      <h1>Services</h1>
+      <p class="lead">Ship digital products with clarity and speed.</p>
+    </header>
     <p>
       I help teams turn product ideas into reliable digital outcomes through
       focused execution, pragmatic technology choices, and a delivery setup that
@@ -219,7 +221,12 @@ const career = [
     margin-inline: auto;
   }
 
-  h1 {
+  .intro {
+    display: grid;
+    gap: var(--space-xs);
+  }
+
+  .intro h1 {
     margin: 0;
   }
 
@@ -228,6 +235,7 @@ const career = [
     line-height: var(--line-height-tight);
     max-width: 24ch;
     margin: 0;
+    color: var(--gray-12);
   }
 
   .page > p:not(.lead) {

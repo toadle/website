@@ -153,8 +153,10 @@ const career = [
   padBottom
 >
   <section class="page">
-    <h1>Leistungen</h1>
-    <p class="lead">Digitale Produkte schneller auf den Punkt bringen.</p>
+    <header class="intro">
+      <h1>Leistungen</h1>
+      <p class="lead">Digitale Produkte schneller auf den Punkt bringen.</p>
+    </header>
     <p>
       Ich unterstuetze Teams dabei, aus Ideen belastbare digitale Produkte zu machen:
       mit klarem Fokus, pragmatischer Technik und einem Setup, das auch unter
@@ -219,7 +221,12 @@ const career = [
     margin-inline: auto;
   }
 
-  h1 {
+  .intro {
+    display: grid;
+    gap: var(--space-xs);
+  }
+
+  .intro h1 {
     margin: 0;
   }
 
@@ -228,6 +235,7 @@ const career = [
     line-height: var(--line-height-tight);
     max-width: 24ch;
     margin: 0;
+    color: var(--gray-12);
   }
 
   .page > p:not(.lead) {
