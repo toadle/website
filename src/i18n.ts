@@ -1,7 +1,7 @@
 export type Locale = "de" | "en";
 
 type NavItem = {
-  key: "home" | "about" | "work" | "now" | "blog";
+  key: "home" | "about" | "services" | "projects" | "now" | "blog";
   label: string;
   url: string;
 };
@@ -11,6 +11,7 @@ type LocaleStrings = {
   siteDescription: string;
   sectionLabels: {
     about: string;
+    services: string;
     work: string;
     openSource: string;
     publications: string;
@@ -79,6 +80,7 @@ export const i18n: Record<Locale, LocaleStrings> = {
       "Ich helfe Teams schnell großartige Technik zu bauen, die funktioniert und echten Wert schafft.",
     sectionLabels: {
       about: "Über mich",
+      services: "Leistungen",
       work: "Arbeit",
       openSource: "Open Source",
       publications: "Veröffentlichungen",
@@ -87,10 +89,11 @@ export const i18n: Record<Locale, LocaleStrings> = {
     },
     nav: [
       { key: "home", label: "Home", url: "/" },
-      { key: "about", label: "Über mich", url: "/about" },
-      { key: "work", label: "Arbeit", url: "/work" },
+      { key: "services", label: "Leistungen", url: "/leistungen" },
+      { key: "projects", label: "Projekte", url: "/projekte" },
       { key: "now", label: "Now", url: "/now" },
       { key: "blog", label: "Blog", url: "/blog" },
+      { key: "about", label: "Über", url: "/about" },
     ],
     home: {
       kicker: "Willkommen.",
@@ -103,14 +106,14 @@ export const i18n: Record<Locale, LocaleStrings> = {
         "Als Freelancer buchbar.",
       ],
       ctaPrimary: "Mehr über mich",
-      ctaSecondary: "Arbeiten ansehen",
+      ctaSecondary: "Leistungen ansehen",
       cards: [
         {
           title: "Was ich mache",
           body:
             "Ich baue digitale Produkte von der Idee bis zum Launch, strukturiere Teams und reduziere Komplexität.",
-          link: "Mehr zu meiner Arbeit",
-          href: "/work",
+          link: "Mehr zu meinen Leistungen",
+          href: "/leistungen",
         },
         {
           title: "Jetzt",
@@ -210,6 +213,7 @@ export const i18n: Record<Locale, LocaleStrings> = {
       "I help teams ship great tech fast: clear systems that work and deliver real value.",
     sectionLabels: {
       about: "About",
+      services: "Services",
       work: "Work",
       openSource: "Open Source",
       publications: "Publications",
@@ -218,10 +222,11 @@ export const i18n: Record<Locale, LocaleStrings> = {
     },
     nav: [
       { key: "home", label: "Home", url: "/" },
-      { key: "about", label: "About", url: "/about" },
-      { key: "work", label: "Work", url: "/work" },
+      { key: "services", label: "Services", url: "/services" },
+      { key: "projects", label: "Projects", url: "/projects" },
       { key: "now", label: "Now", url: "/now" },
       { key: "blog", label: "Blog", url: "/blog" },
+      { key: "about", label: "About", url: "/about" },
     ],
     home: {
       kicker: "Welcome.",
@@ -234,14 +239,14 @@ export const i18n: Record<Locale, LocaleStrings> = {
         "Available as a freelancer.",
       ],
       ctaPrimary: "More about me",
-      ctaSecondary: "See my work",
+      ctaSecondary: "See services",
       cards: [
         {
           title: "What I do",
           body:
             "I build digital products from idea to launch, structure teams, and reduce complexity.",
-          link: "More on my work",
-          href: "/work",
+          link: "More on my services",
+          href: "/services",
         },
         {
           title: "Now",

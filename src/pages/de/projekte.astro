@@ -1,0 +1,69 @@
+---
+import ContainerLayout from "../../layouts/ContainerLayout.astro";
+import ContentSection from "../../components/ContentSection.astro";
+import WorkAccordionList from "../../components/WorkAccordionList.astro";
+import { i18n } from "../../i18n";
+import { openSourceEntries, publicationEntries } from "../../content/work";
+
+const lang = "de";
+const t = i18n[lang];
+---
+
+<ContainerLayout
+  title={`Projekte · ${t.siteTitle}`}
+  description={t.siteDescription}
+  lang={lang}
+  padTop
+  padBottom
+>
+  <section class="page">
+    <h1>Projekte</h1>
+    <p class="lead">Veröffentlichungen und Open-Source-Projekte gebuendelt.</p>
+    <p>
+      Hier findest du veroeffentlichte Inhalte und oeffentliche Softwareprojekte:
+      von Artikeln und Podcastbeitraegen bis zu Open-Source-Tools.
+    </p>
+
+    <ContentSection title="Veröffentlichungen">
+      <WorkAccordionList lang={lang} items={publicationEntries} />
+    </ContentSection>
+
+    <ContentSection title="Open Source">
+      <WorkAccordionList lang={lang} items={openSourceEntries} />
+    </ContentSection>
+  </section>
+</ContainerLayout>
+
+<style>
+  .page {
+    display: grid;
+    gap: var(--space-2xl);
+    max-width: 76ch;
+    margin-inline: auto;
+  }
+
+  h1 {
+    margin: 0;
+  }
+
+  .lead {
+    font-size: var(--step-3);
+    line-height: var(--line-height-tight);
+    max-width: 30ch;
+    margin: 0;
+  }
+
+  .page > p:not(.lead) {
+    margin: 0;
+    max-width: 66ch;
+    line-height: var(--line-height-snug);
+  }
+
+  .page :global(.content-section) {
+    padding-top: var(--space-xl);
+  }
+
+  .page :global(.content-section h2) {
+    font-size: var(--step-2);
+  }
+</style>
