@@ -7,6 +7,142 @@ import { projectEntries } from "../../content/work";
 
 const lang = "de";
 const t = i18n[lang];
+
+const capabilitySections = [
+  {
+    title: "Frontend",
+    items: [
+      "HTML",
+      "CSS",
+      "SASS",
+      "JavaScript",
+      "React",
+      "React Native",
+      "Redux",
+      "SwiftUI",
+      "JAMStack",
+      "Microformats",
+      "jQuery",
+      "Bootstrap",
+    ],
+  },
+  {
+    title: "Backend",
+    items: [
+      "Ruby On Rails",
+      "Ruby",
+      "Golang",
+      "Swift",
+      "GraphQL",
+      "JSONAPI",
+      "Node.js",
+      "Python",
+      "Django",
+      "Docker",
+      "Amazon Web Services",
+    ],
+  },
+  {
+    title: "Datenbanken",
+    items: ["MySQL", "Postgres", "Redis", "Oracle", "ElasticSearch"],
+  },
+  {
+    title: "Drittanbieter",
+    items: [
+      "Github",
+      "Stripe",
+      "CircleCI",
+      "Github Actions",
+      "SalesForce",
+      "Contentful",
+      "GSuite",
+      "AWS",
+      "Teachable",
+      "Recurly",
+      "RevenueCat",
+      "Facebook Ads",
+      "Google Ads",
+      "AppStore",
+      "Zapier",
+      "Mailchimp",
+      "Mandrill",
+      "Braze",
+    ],
+  },
+  {
+    title: "Methoden",
+    items: [
+      "Git",
+      "TDD",
+      "SCRUM",
+      "Design Thinking",
+      "Rapid Prototyping",
+      "Lean Startup",
+      "Business Model Canvas",
+    ],
+  },
+];
+
+const career = [
+  {
+    role: "CTO",
+    years: "2020 - heute",
+    organization: "Chefkoch",
+    url: "https://www.chefkoch.de",
+  },
+  {
+    role: "Managing Director",
+    years: "2019 - 2020",
+    organization: "Innovation Lab",
+    url: "https://greenhouse.media",
+  },
+  {
+    role: "Head of Technology",
+    years: "2017 - 2019",
+    organization: "Innovation Lab",
+    url: "https://greenhouse.media",
+  },
+  {
+    role: "Head of Development",
+    years: "2013 - 2017",
+    organization: "Startup Inkubator / Company Builder",
+    url: "https://www.hanseventures.com",
+  },
+  {
+    role: "Projektleiter",
+    years: "2011 - 2012",
+    organization: "Operations / Digital",
+    url: "https://www.guj.de",
+  },
+  {
+    role: "Produktmanager",
+    years: "2010",
+    organization: "iPad Version Nachrichten Magazin",
+    url: "https://www.stern.de",
+  },
+  {
+    role: "Management Trainee",
+    years: "2009",
+    organization: "Internationaler Verlag",
+    url: "https://www.guj.de",
+  },
+  {
+    role: "Web Developer",
+    years: "2006 - 2008",
+    organization: "Werbeagentur",
+  },
+  {
+    role: "Designer, Entwickler",
+    years: "2006 - 2008",
+    organization: "Selbststaendig",
+  },
+  {
+    role: "Java-Entwickler",
+    years: "2004",
+    organization: "Direktmarketing-Unternehmen",
+    url: "https://www.az-direct.com",
+  },
+];
 ---
 
 <ContainerLayout
@@ -29,6 +165,45 @@ const t = i18n[lang];
       ich verbinde Produktdenken und Engineering, reduziere Komplexitaet und schaffe
       in kurzer Zeit sichtbare Fortschritte.
     </p>
+
+    <ContentSection title="Das kann ich" kicker="Kompetenzen">
+      <div class="capability-grid">
+        {capabilitySections.map((section) => (
+          <section class="capability-section">
+            <h3>{section.title}</h3>
+            <ul class="capability-tags">
+              {section.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    </ContentSection>
+
+    <ContentSection title="Berufserfahrung" kicker="Daher komme ich">
+      <ol class="timeline">
+        {career.map((entry) => (
+          <li>
+            <article>
+              <header>
+                <h3>{entry.role}</h3>
+                <span>{entry.years}</span>
+              </header>
+              {
+                entry.url ? (
+                  <a href={entry.url} target="_blank" rel="noopener noreferrer">
+                    {entry.organization}
+                  </a>
+                ) : (
+                  <p>{entry.organization}</p>
+                )
+              }
+            </article>
+          </li>
+        ))}
+      </ol>
+    </ContentSection>
 
     <ContentSection title="Ausgewaehlte Kundenprojekte">
       <WorkAccordionList lang={lang} items={projectEntries} />
@@ -67,5 +242,103 @@ const t = i18n[lang];
 
   .page :global(.content-section h2) {
     font-size: var(--step-2);
+  }
+
+  .capability-grid {
+    display: grid;
+    gap: var(--space-l);
+
+    @media (width >= 760px) {
+      gap: var(--space-m);
+    }
+  }
+
+  .capability-section {
+    display: grid;
+    gap: var(--space-s);
+
+    @media (width >= 760px) {
+      grid-template-columns: 10rem 1fr;
+      align-items: start;
+      column-gap: var(--space-l);
+    }
+  }
+
+  .capability-section h3 {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: var(--step--1);
+    color: var(--gray-10);
+  }
+
+  .capability-tags {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: var(--space-xs);
+    flex-wrap: wrap;
+  }
+
+  .capability-tags li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+    padding: 0.18rem 0.45rem;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--gray-6);
+    background: var(--gray-3);
+    font-size: var(--step--1);
+    line-height: var(--line-height-single);
+    white-space: nowrap;
+  }
+
+  .capability-tags li::before {
+    content: "#";
+    color: var(--gray-10);
+  }
+
+  .timeline {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  .timeline article {
+    border-bottom: 1px solid var(--gray-5);
+    padding-bottom: var(--space-m);
+  }
+
+  .timeline li:last-child article {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .timeline header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-s);
+    flex-wrap: wrap;
+  }
+
+  .timeline h3 {
+    margin: 0;
+  }
+
+  .timeline a,
+  .timeline p {
+    margin: var(--space-2xs) 0 0;
+  }
+
+  .timeline p {
+    color: var(--gray-11);
+  }
+
+  .timeline span {
+    color: var(--gray-10);
   }
 </style>
