@@ -3,7 +3,6 @@ date: 2025-07-05
 lang: de
 type: rating
 label: "5. Jul 2025"
-sourceId: "tt13424098"
 rating:
   value: 10
   scaleMax: 10

@@ -3,7 +3,6 @@ date: 2026-02-28
 lang: de
 type: rating
 label: "28. Feb 2026"
-sourceId: "tt21103218"
 rating:
   value: 8
   scaleMax: 10

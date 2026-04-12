@@ -3,7 +3,6 @@ date: 2025-08-14
 lang: de
 type: rating
 label: "14. Aug 2025"
-sourceId: "tt13623634"
 rating:
   value: 8
   scaleMax: 10

@@ -28,7 +28,6 @@ const now = defineCollection({
 		quote: z.string().optional(),
 		opinion: z.string().optional(),
 		reviewText: z.string().optional(),
-		sourceId: z.string().optional(),
 		rating: z
 			.object({
 				value: z.number().int().min(1),

@@ -3,7 +3,6 @@ date: 2025-05-26
 lang: de
 type: rating
 label: "26. Mai 2025"
-sourceId: "tt20603308"
 rating:
   value: 8
   scaleMax: 10

@@ -3,7 +3,6 @@ date: 2025-12-29
 lang: de
 type: rating
 label: "29. Dez 2025"
-sourceId: "tt31227572"
 rating:
   value: 8
   scaleMax: 10
