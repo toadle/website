@@ -6,9 +6,10 @@ import { i18n, type Locale } from "../../i18n";
 
 type Props = {
   lang?: Locale;
+  languageSwitchHref?: string;
 };
 
-const { lang = "de" } = Astro.props;
+const { lang = "de", languageSwitchHref } = Astro.props;
 
 const currentPath = Astro.url.pathname;
 const pathParts = currentPath.split("/").filter(Boolean);
@@ -29,9 +30,10 @@ const mappedRestParts =
     ? [switchSegmentMap[restParts[0]] ?? restParts[0], ...restParts.slice(1)]
     : [];
 const mappedRestPath = mappedRestParts.join("/");
-const switchHref = mappedRestPath
+const computedSwitchHref = mappedRestPath
   ? `/${otherLang}/${mappedRestPath}`
   : `/${otherLang}`;
+const switchHref = languageSwitchHref ?? computedSwitchHref;
 const navigation = i18n[currentLang].nav;
 ---
 

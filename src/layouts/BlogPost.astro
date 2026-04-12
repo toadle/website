@@ -32,10 +32,14 @@ const {
 
 const t = i18n[lang].blog.articleNav;
 const normalizeHref = (href: string) => (href.startsWith("/") ? href : `/${href}`);
+const otherLang: Locale = lang === "de" ? "en" : "de";
+const blogLanguageSwitchHref = translationHref
+  ? normalizeHref(translationHref)
+  : `/${otherLang}/blog`;
 
 ---
 <BaseLayout title={title} description={description} lang={lang}>
-  <Header lang={lang} />
+  <Header lang={lang} languageSwitchHref={blogLanguageSwitchHref} />
   <main class="main">
     <Center>
       <article class="article">
