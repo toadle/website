@@ -15,4 +15,4 @@ richlink:
   backlink: true
 ---
 
-Kurzreview folgt.
+Sehr unterhaltsamer Action-Film, der deutlich mehr Spaß macht als die meisten anderen Filme der Reihe.

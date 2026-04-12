@@ -15,4 +15,4 @@ richlink:
   backlink: true
 ---
 
-Kurzreview folgt.
+Das war eine fürchterliche letzte Folge.

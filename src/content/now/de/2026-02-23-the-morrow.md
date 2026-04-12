@@ -15,4 +15,4 @@ richlink:
   backlink: true
 ---
 
-Kurzreview folgt.
+"There are nine kingdoms, ser." Made my day.

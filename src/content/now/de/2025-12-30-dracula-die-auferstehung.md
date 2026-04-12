@@ -15,4 +15,4 @@ richlink:
   backlink: true
 ---
 
-Kurzreview folgt.
+Was ein Quatsch.

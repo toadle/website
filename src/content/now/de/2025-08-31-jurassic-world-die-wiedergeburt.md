@@ -15,4 +15,4 @@ richlink:
   backlink: true
 ---
 
-Kurzreview folgt.
+Es war genau so löchrig, wie ich mir die Story vorgestellt habe. Habs im Flugzeug geschaut und dafür hats gereicht.

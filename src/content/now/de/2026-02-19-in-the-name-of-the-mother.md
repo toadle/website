@@ -15,4 +15,4 @@ richlink:
   backlink: true
 ---
 
-Kurzreview folgt.
+Ich habe selte so wenig gewollt, dass jemand seinen Helm abnimmt.

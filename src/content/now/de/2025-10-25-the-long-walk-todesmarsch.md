@@ -15,4 +15,4 @@ richlink:
   backlink: true
 ---
 
-Kurzreview folgt.
+Dieser Film ist große Klasse. Dass das eine Steven King Geschichte ist, hätte ich nicht gedacht. Es gab Kritik, dass das Ende etwas zu plakativ ist, aber das fand ich nicht. Hat mich bis zum Schluss nachdenklich gemacht.

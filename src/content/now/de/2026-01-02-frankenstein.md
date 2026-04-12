@@ -15,4 +15,5 @@ richlink:
   backlink: true
 ---
 
-Kurzreview folgt.
+Also die Geschichte von Frankenstein stellt man sich gemeinhin anders vor, als sie im Original ist. 
+Dieser Film fängt das sehr gut ein.

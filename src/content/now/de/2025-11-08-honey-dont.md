@@ -15,4 +15,4 @@ richlink:
   backlink: true
 ---
 
-Kurzreview folgt.
+Netter Film mit ordentlichem Twist. Aber eher durchschnittlich. 

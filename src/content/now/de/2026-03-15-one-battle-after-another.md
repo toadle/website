@@ -15,4 +15,4 @@ richlink:
   backlink: true
 ---
 
-Kurzreview folgt.
+Fand den Anfang, Perfidia und den Sensei super, aber gerade das Finale hatte für mich lauter Fragezeichen. 

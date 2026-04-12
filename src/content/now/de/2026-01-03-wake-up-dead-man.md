@@ -15,4 +15,5 @@ richlink:
   backlink: true
 ---
 
-Kurzreview folgt.
+Ich mag Ryan Johnson ja sehr, aber das hier war im Vergleich zu an deren "Knives Out"-Filme nur so mittelmäßig.
+Aber schön Mila Kunis mal wieder zu sehen.

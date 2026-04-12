@@ -15,4 +15,4 @@ richlink:
   backlink: true
 ---
 
-Kurzreview folgt.
+Das ist einfach ein richtig guter Film. Der absolute Twist ist alleine schon, dass der Raketeneinschlag immer nur 20min entfernt ist.
