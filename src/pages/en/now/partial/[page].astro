@@ -1,0 +1,61 @@
+---
+import { getCollection, render } from "astro:content";
+import NowTimelineItem from "../../../../components/NowTimelineItem.astro";
+import { isEntryInLocale } from "../../../../lib/contentLocale";
+import { sortNowEntries } from "../../../../lib/nowImport/sortNowEntries";
+
+const lang = "en";
+const PAGE_SIZE = 10;
+
+const formatNowDate = (date: Date) =>
+  date.toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+
+const rawEntries = sortNowEntries(
+  (await getCollection("now")).filter((entry) =>
+    isEntryInLocale(entry.id, lang, entry.data.lang)
+  )
+);
+
+export async function getStaticPaths() {
+  const lang = "en";
+  const PAGE_SIZE = 10;
+
+  const rawEntries = sortNowEntries(
+    (await getCollection("now")).filter((entry) =>
+      isEntryInLocale(entry.id, lang, entry.data.lang)
+    )
+  );
+
+  const totalPages = Math.ceil(rawEntries.length / PAGE_SIZE);
+
+  return Array.from({ length: Math.max(totalPages - 1, 0) }, (_, index) => ({
+    params: { page: String(index + 2) },
+  }));
+}
+
+const page = Number.parseInt(Astro.params.page ?? "1", 10);
+const start = (page - 1) * PAGE_SIZE;
+const end = start + PAGE_SIZE;
+
+const entries = await Promise.all(
+  rawEntries.slice(start, end).map(async (entry) => {
+    const { Content } = await render(entry);
+    return { entry, Content };
+  })
+);
+---
+
+<ol>
+  {entries.map(({ entry, Content }) => (
+    <NowTimelineItem
+      entry={entry}
+      Content={Content}
+      dateText={formatNowDate(entry.data.date)}
+      ratingLabel="My rating"
+    />
+  ))}
+</ol>

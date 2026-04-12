@@ -1,0 +1,63 @@
+---
+import NowRating from "./NowRating.astro";
+import Richlink from "./Richlink.astro";
+
+interface Props {
+  entry: any;
+  Content: any;
+  dateText: string;
+  ratingLabel: string;
+}
+
+const { entry, Content, dateText, ratingLabel } = Astro.props;
+
+const toEmbedUrl = (url: string) => {
+  try {
+    const parsed = new URL(url);
+
+    if (parsed.hostname.includes("youtube.com")) {
+      const id = parsed.searchParams.get("v");
+      if (id) return `https://www.youtube.com/embed/${id}`;
+    }
+
+    if (parsed.hostname.includes("youtu.be")) {
+      const id = parsed.pathname.replace("/", "");
+      if (id) return `https://www.youtube.com/embed/${id}`;
+    }
+  } catch {
+    return "";
+  }
+
+  return "";
+};
+---
+
+<li class="now-timeline-item" data-now-item>
+  <time datetime={entry.data.date.toISOString()}>{dateText}</time>
+  {entry.data.rating && <NowRating rating={entry.data.rating} label={ratingLabel} />}
+  {entry.data.quote && <blockquote>{entry.data.quote}</blockquote>}
+  {entry.body?.trim() && (
+    <div class="body">
+      <Content />
+    </div>
+  )}
+  {entry.data.reviewText && <p class="opinion">{entry.data.reviewText}</p>}
+  {entry.data.opinion && <p class="opinion">{entry.data.opinion}</p>}
+  {entry.data.richlink && <Richlink link={entry.data.richlink} />}
+  {entry.data.youtube && (
+    <div class="embed">
+      <iframe
+        src={toEmbedUrl(entry.data.youtube)}
+        title="YouTube video"
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </div>
+  )}
+  {entry.data.image && (
+    <figure>
+      <img src={entry.data.image.src} alt={entry.data.image.alt} loading="lazy" />
+    </figure>
+  )}
+</li>

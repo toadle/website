@@ -4,8 +4,7 @@ import ContainerLayout from "../../layouts/ContainerLayout.astro";
 import { i18n } from "../../i18n";
 import { isEntryInLocale } from "../../lib/contentLocale";
 import { sortNowEntries } from "../../lib/nowImport/sortNowEntries";
-import NowRating from "../../components/NowRating.astro";
-import Richlink from "../../components/Richlink.astro";
+import NowTimelineItem from "../../components/NowTimelineItem.astro";
 
 const lang = "en";
 const t = i18n[lang];
@@ -24,22 +23,8 @@ const entries = await Promise.all(
   })
 );
 
-const toEmbedUrl = (url: string) => {
-  try {
-    const parsed = new URL(url);
-    if (parsed.hostname.includes("youtube.com")) {
-      const id = parsed.searchParams.get("v");
-      if (id) return `https://www.youtube.com/embed/${id}`;
-    }
-    if (parsed.hostname.includes("youtu.be")) {
-      const id = parsed.pathname.replace("/", "");
-      if (id) return `https://www.youtube.com/embed/${id}`;
-    }
-  } catch (err) {
-    return "";
-  }
-  return "";
-};
+const initialEntries = entries.slice(0, PAGE_SIZE);
+const totalPages = Math.ceil(entries.length / PAGE_SIZE);
 
 const formatNowDate = (date: Date) =>
   date.toLocaleDateString("en-US", {
@@ -62,51 +47,26 @@ const formatNowDate = (date: Date) =>
       <p class="lead">{t.now.lead}</p>
     </header>
 
-    <ol id="now-timeline" class="timeline" data-load-more-list data-page-size={PAGE_SIZE}>
-      {entries.map(({ entry, Content }, index) => (
-        <li data-load-more-item hidden={index >= PAGE_SIZE}>
-          <time datetime={entry.data.date.toISOString()}>{formatNowDate(entry.data.date)}</time>
-          {entry.data.rating && <NowRating rating={entry.data.rating} label="My rating" />}
-          {entry.data.quote && <blockquote>{entry.data.quote}</blockquote>}
-          {entry.body?.trim() && (
-            <div class="body">
-              <Content />
-            </div>
-          )}
-          {entry.data.reviewText && <p class="opinion">{entry.data.reviewText}</p>}
-          {entry.data.opinion && <p class="opinion">{entry.data.opinion}</p>}
-          {entry.data.richlink && <Richlink link={entry.data.richlink} />}
-          {entry.data.youtube && (
-            <div class="embed">
-              <iframe
-                src={toEmbedUrl(entry.data.youtube)}
-                title="YouTube video"
-                loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              ></iframe>
-            </div>
-          )}
-          {entry.data.image && (
-            <figure>
-              <img
-                src={entry.data.image.src}
-                alt={entry.data.image.alt}
-                loading="lazy"
-              />
-            </figure>
-          )}
-        </li>
+    <ol id="now-timeline" class="timeline" data-load-more-list data-locale={lang}>
+      {initialEntries.map(({ entry, Content }) => (
+        <NowTimelineItem
+          entry={entry}
+          Content={Content}
+          dateText={formatNowDate(entry.data.date)}
+          ratingLabel="My rating"
+        />
       ))}
     </ol>
 
-    {entries.length > PAGE_SIZE && (
+    {totalPages > 1 && (
       <div class="load-more-wrap">
         <button
           type="button"
           class="load-more"
           data-load-more-button
           aria-controls="now-timeline"
+          data-current-page="1"
+          data-total-pages={String(totalPages)}
         >
           Load more
         </button>
@@ -120,25 +80,91 @@ const formatNowDate = (date: Date) =>
   const button = document.querySelector("[data-load-more-button]");
 
   if (list instanceof HTMLElement && button instanceof HTMLButtonElement) {
-    const items = Array.from(list.querySelectorAll("[data-load-more-item]"));
-    const pageSizeRaw = Number.parseInt(list.dataset.pageSize ?? "10", 10);
-    const pageSize = Number.isFinite(pageSizeRaw) && pageSizeRaw > 0 ? pageSizeRaw : 10;
-    let visibleCount = Math.min(pageSize, items.length);
+    const classifyRichlinkCover = (cover) => {
+      const image = cover.querySelector("img");
 
-    const update = () => {
-      items.forEach((item, index) => {
-        item.hidden = index >= visibleCount;
-      });
+      if (!image) {
+        return;
+      }
 
-      button.hidden = visibleCount >= items.length;
+      const update = () => {
+        const width = image.naturalWidth;
+        const height = image.naturalHeight;
+
+        if (!width || !height) {
+          return;
+        }
+
+        const ratio = width / height;
+        cover.classList.remove("is-poster", "is-square", "is-landscape");
+
+        if (ratio > 1.2) {
+          cover.classList.add("is-landscape");
+        } else if (ratio >= 0.85) {
+          cover.classList.add("is-square");
+        } else {
+          cover.classList.add("is-poster");
+        }
+      };
+
+      if (image.complete) {
+        update();
+      } else {
+        image.addEventListener("load", update, { once: true });
+      }
     };
 
-    button.addEventListener("click", () => {
-      visibleCount = Math.min(visibleCount + pageSize, items.length);
-      update();
+    const initRichlinkCovers = (root) => {
+      root
+        .querySelectorAll(".richlink-cover[data-auto-cover]")
+        .forEach((cover) => classifyRichlinkCover(cover));
+    };
+
+    const locale = list.dataset.locale ?? "en";
+    let currentPage = Number.parseInt(button.dataset.currentPage ?? "1", 10);
+    const totalPages = Number.parseInt(button.dataset.totalPages ?? "1", 10);
+
+    const updateButton = () => {
+      button.hidden = currentPage >= totalPages;
+    };
+
+    button.addEventListener("click", async () => {
+      const nextPage = currentPage + 1;
+
+      if (nextPage > totalPages || button.disabled) {
+        return;
+      }
+
+      button.disabled = true;
+
+      try {
+        const response = await fetch(`/${locale}/now/partial/${nextPage}/`);
+        if (!response.ok) {
+          return;
+        }
+
+        const html = await response.text();
+        const documentFragment = new DOMParser().parseFromString(html, "text/html");
+        const items = Array.from(documentFragment.querySelectorAll("[data-now-item]"));
+
+        if (!items.length) {
+          currentPage = totalPages;
+          updateButton();
+          return;
+        }
+
+        items.forEach((item) => list.appendChild(item));
+        initRichlinkCovers(list);
+
+        currentPage = nextPage;
+        button.dataset.currentPage = String(currentPage);
+        updateButton();
+      } finally {
+        button.disabled = false;
+      }
     });
 
-    update();
+    updateButton();
   }
 </script>
 
@@ -187,18 +213,14 @@ const formatNowDate = (date: Date) =>
     border-radius: 999px;
   }
 
-  .timeline li {
+  .timeline :global(.now-timeline-item) {
     position: relative;
     padding-left: var(--space-2xl);
     display: grid;
     gap: var(--space-xs);
   }
 
-  .timeline li[hidden] {
-    display: none;
-  }
-
-  .timeline li::before {
+  .timeline :global(.now-timeline-item)::before {
     content: "";
     position: absolute;
     left: 2px;
@@ -211,25 +233,25 @@ const formatNowDate = (date: Date) =>
     box-shadow: 0 0 0 2px var(--gray-1);
   }
 
-  .timeline time {
+  .timeline :global(time) {
     font-size: var(--step--1);
     color: var(--gray-10);
     letter-spacing: 0.02em;
   }
 
-  .timeline p {
+  .timeline :global(p) {
     margin: 0;
     font-size: var(--step-0);
     max-width: 70ch;
   }
 
-  .timeline .body :global(p) {
+  .timeline :global(.body p) {
     margin: 0;
     font-size: var(--step-0);
     max-width: 70ch;
   }
 
-  .timeline blockquote {
+  .timeline :global(blockquote) {
     margin: 0;
     padding-left: var(--space-m);
     border-left: 2px solid var(--gray-6);
@@ -238,23 +260,23 @@ const formatNowDate = (date: Date) =>
     line-height: var(--line-height-snug);
   }
 
-  .timeline .opinion {
+  .timeline :global(.opinion) {
     color: var(--gray-10);
     font-style: italic;
   }
 
-  .timeline figure {
+  .timeline :global(figure) {
     margin: 0;
   }
 
-  .timeline img {
+  .timeline :global(img) {
     width: 100%;
     border-radius: var(--radius-m);
     border: 1px solid var(--gray-4);
     display: block;
   }
 
-  .embed {
+  .timeline :global(.embed) {
     position: relative;
     padding-top: 56.25%;
     border-radius: var(--radius-m);
@@ -263,7 +285,7 @@ const formatNowDate = (date: Date) =>
     background: var(--gray-2);
   }
 
-  .embed iframe {
+  .timeline :global(.embed iframe) {
     position: absolute;
     inset: 0;
     width: 100%;
