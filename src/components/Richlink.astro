@@ -37,49 +37,51 @@ const cover = await resolveRichlinkCover(link);
 {link.description && <p class="richlink__description">{link.description}</p>}
 
 <script is:inline>
-  const classifyRichlinkCover = (cover) => {
-    const image = cover.querySelector("img");
+  (() => {
+    const classifyRichlinkCover = (cover) => {
+      const image = cover.querySelector("img");
 
-    if (!image) {
-      return;
-    }
-
-    const update = () => {
-      const width = image.naturalWidth;
-      const height = image.naturalHeight;
-
-      if (!width || !height) {
+      if (!image) {
         return;
       }
 
-      const ratio = width / height;
-      cover.classList.remove("is-poster", "is-square", "is-landscape");
+      const update = () => {
+        const width = image.naturalWidth;
+        const height = image.naturalHeight;
 
-      if (ratio > 1.2) {
-        cover.classList.add("is-landscape");
-      } else if (ratio >= 0.85) {
-        cover.classList.add("is-square");
-      } else {
-        cover.classList.add("is-poster");
+        if (!width || !height) {
+          return;
+        }
+
+        const ratio = width / height;
+        cover.classList.remove("is-poster", "is-square", "is-landscape");
+
+        if (ratio > 1.2) {
+          cover.classList.add("is-landscape");
+        } else if (ratio >= 0.85) {
+          cover.classList.add("is-square");
+        } else {
+          cover.classList.add("is-poster");
+        }
+      };
+
+      if (image.complete) {
+        update();
+        return;
       }
+
+      image.addEventListener("load", update, { once: true });
     };
 
-    if (image.complete) {
-      update();
-      return;
-    }
+    const initRichlinkCovers = () => {
+      document
+        .querySelectorAll(".richlink-cover[data-auto-cover]")
+        .forEach((cover) => classifyRichlinkCover(cover));
+    };
 
-    image.addEventListener("load", update, { once: true });
-  };
-
-  const initRichlinkCovers = () => {
-    document
-      .querySelectorAll(".richlink-cover[data-auto-cover]")
-      .forEach((cover) => classifyRichlinkCover(cover));
-  };
-
-  initRichlinkCovers();
-  document.addEventListener("astro:after-swap", initRichlinkCovers);
+    initRichlinkCovers();
+    document.addEventListener("astro:after-swap", initRichlinkCovers);
+  })();
 </script>
 
 <style>
