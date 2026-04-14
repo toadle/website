@@ -42,7 +42,11 @@ Accept natural language input and map it to fields like:
 - `image`
 - markdown body
 
-If only one locale text is provided, use it as temporary fallback for both locales.
+Locale handling is strict by default:
+
+- Generate German copy for `de` and English copy for `en`.
+- If only one locale text is provided, derive the missing locale by translation/adaptation before writing files.
+- Do not duplicate one locale verbatim into the other locale unless the user explicitly asks for identical text.
 
 ## Pattern Inference
 
@@ -59,10 +63,18 @@ Then map to valid schema fields only.
 ## File Creation Logic
 
 1. Resolve date (default: today).
-2. Build slug from best available content (`title`, then `quote`, then `label`).
-3. Normalize slug to lowercase ASCII and dashes.
-4. Generate both locale files.
+2. Build a locale-specific slug basis from each locale's best available content (`title`, then `quote`, then `label`).
+3. Generate and normalize one slug per locale to lowercase ASCII and dashes.
+4. Create locale files with locale-matching slugs:
+   - `src/content/now/de/YYYY-MM-DD-<de-slug>.md`
+   - `src/content/now/en/YYYY-MM-DD-<en-slug>.md`
 5. Stop and ask before overwriting existing files.
+
+Slug quality rules:
+
+- `de` slug should reflect the German wording (e.g. umlaut transliteration like `ä -> ae`, `ö -> oe`, `ü -> ue`, `ß -> ss`).
+- `en` slug should reflect the English wording.
+- Slugs may differ across locales and should not be force-synchronized.
 
 ## Output Requirements
 
@@ -70,7 +82,7 @@ After execution, summarize:
 
 - Inferred post pattern
 - Paths of created files
-- Final date + slug
+- Final date + slug per locale (`de`, `en`)
 - Any fallback assumptions used
 - Validation commands and results
 

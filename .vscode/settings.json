@@ -16,7 +16,8 @@
         },
         "git rev-parse": true,
         "git remote": true,
-        "gh": true
+        "gh": true,
+        "mv": true
     }
 }
 
