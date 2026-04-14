@@ -2,7 +2,6 @@
 date: 2025-12-29
 lang: en
 type: rating
-label: "Dec 29, 2025"
 rating:
   value: 8
   scaleMax: 10

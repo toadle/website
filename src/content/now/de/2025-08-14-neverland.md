@@ -2,7 +2,6 @@
 date: 2025-08-14
 lang: de
 type: rating
-label: "14. Aug 2025"
 rating:
   value: 8
   scaleMax: 10

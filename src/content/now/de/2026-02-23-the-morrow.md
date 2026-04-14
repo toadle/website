@@ -2,7 +2,6 @@
 date: 2026-02-23
 lang: de
 type: rating
-label: "23. Feb 2026"
 rating:
   value: 9
   scaleMax: 10

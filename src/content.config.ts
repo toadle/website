@@ -24,7 +24,6 @@ const now = defineCollection({
 		date: z.coerce.date(),
 		lang: z.enum(['de', 'en']).optional(),
 		type: z.enum(['standard', 'rating']).optional(),
-		label: z.string(),
 		quote: z.string().optional(),
 		opinion: z.string().optional(),
 		reviewText: z.string().optional(),

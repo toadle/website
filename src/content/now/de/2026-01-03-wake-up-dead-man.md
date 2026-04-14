@@ -2,7 +2,6 @@
 date: 2026-01-03
 lang: de
 type: rating
-label: "3. Jan 2026"
 rating:
   value: 8
   scaleMax: 10

@@ -2,7 +2,6 @@
 date: 2025-08-31
 lang: en
 type: rating
-label: "Aug 31, 2025"
 rating:
   value: 6
   scaleMax: 10

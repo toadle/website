@@ -2,7 +2,6 @@
 date: 2025-09-24
 lang: en
 type: rating
-label: "Sep 24, 2025"
 rating:
   value: 7
   scaleMax: 10

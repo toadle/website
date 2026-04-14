@@ -2,7 +2,6 @@
 date: 2025-10-25
 lang: de
 type: rating
-label: "25. Okt 2025"
 rating:
   value: 10
   scaleMax: 10

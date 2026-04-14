@@ -2,7 +2,6 @@
 date: 2025-05-31
 lang: en
 type: rating
-label: "May 31, 2025"
 rating:
   value: 8
   scaleMax: 10
