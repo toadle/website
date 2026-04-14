@@ -3,6 +3,7 @@ import { getCollection, render } from "astro:content";
 import ContainerLayout from "../../layouts/ContainerLayout.astro";
 import { i18n } from "../../i18n";
 import { isEntryInLocale } from "../../lib/contentLocale";
+import { normalizeNowSlug } from "../../lib/contentSlug";
 import { sortNowEntries } from "../../lib/sortNowEntries";
 import NowTimelineItem from "../../components/NowTimelineItem.astro";
 
@@ -81,6 +82,7 @@ const formatNowDate = (date: Date) =>
           Content={Content}
           dateText={formatNowDate(entry.data.date)}
           ratingLabel="My rating"
+          dateHref={`/${lang}/now/${normalizeNowSlug(entry.id)}/`}
         />
       ))}
     </ol>

@@ -60,6 +60,8 @@ type LocaleStrings = {
     lead: string;
     microblogTitle: string;
     updatesTitle: string;
+    detailDatePrefix: string;
+    fromNowLinkLabel: string;
     updates: string[];
   };
   blog: {
@@ -191,6 +193,8 @@ export const i18n: Record<Locale, LocaleStrings> = {
         "Hier sammle ich kurze Updates, Microblog-Notizen und Dinge, die mich gerade beschäftigen. Stand: 3. Februar 2026.",
       microblogTitle: "Microblog",
       updatesTitle: "Updates",
+      detailDatePrefix: "am",
+      fromNowLinkLabel: "in Tim's Now",
       updates: [
         "Ausbau des persönlichen Blogs und der Ressourcenseite.",
         "Workshops zu Produktstrategie und Technikausrichtung in Planung.",
@@ -324,6 +328,8 @@ export const i18n: Record<Locale, LocaleStrings> = {
         "Short updates, microblog notes, and what I’m currently focused on. Updated February 3, 2026.",
       microblogTitle: "Microblog",
       updatesTitle: "Updates",
+      detailDatePrefix: "on",
+      fromNowLinkLabel: "in Tim's Now",
       updates: [
         "Expanding the personal blog and resource page.",
         "Workshops on product strategy and technical direction in planning.",

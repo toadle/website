@@ -2,6 +2,7 @@
 import { getCollection, render } from "astro:content";
 import NowTimelineItem from "../../../../components/NowTimelineItem.astro";
 import { isEntryInLocale } from "../../../../lib/contentLocale";
+import { normalizeNowSlug } from "../../../../lib/contentSlug";
 import { sortNowEntries } from "../../../../lib/sortNowEntries";
 
 const lang = "en";
@@ -56,6 +57,7 @@ const entries = await Promise.all(
       Content={Content}
       dateText={formatNowDate(entry.data.date)}
       ratingLabel="My rating"
+      dateHref={`/${lang}/now/${normalizeNowSlug(entry.id)}/`}
     />
   ))}
 </ol>

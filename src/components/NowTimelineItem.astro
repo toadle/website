@@ -7,9 +7,20 @@ interface Props {
   Content: any;
   dateText: string;
   ratingLabel: string;
+  dateHref?: string;
+  hideDate?: boolean;
+  hideBody?: boolean;
 }
 
-const { entry, Content, dateText, ratingLabel } = Astro.props;
+const {
+  entry,
+  Content,
+  dateText,
+  ratingLabel,
+  dateHref,
+  hideDate = false,
+  hideBody = false,
+} = Astro.props;
 
 const toEmbedUrl = (url: string) => {
   try {
@@ -33,10 +44,14 @@ const toEmbedUrl = (url: string) => {
 ---
 
 <li class="now-timeline-item" data-now-item>
-  <time datetime={entry.data.date.toISOString()}>{dateText}</time>
+  {!hideDate && (
+    <time datetime={entry.data.date.toISOString()}>
+      {dateHref ? <a href={dateHref}>{dateText}</a> : dateText}
+    </time>
+  )}
   {entry.data.rating && <NowRating rating={entry.data.rating} label={ratingLabel} />}
   {entry.data.quote && <blockquote>{entry.data.quote}</blockquote>}
-  {entry.body?.trim() && (
+  {!hideBody && entry.body?.trim() && (
     <div class="body">
       <Content />
     </div>
