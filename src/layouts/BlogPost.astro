@@ -107,6 +107,7 @@ const blogLanguageSwitchHref = translationHref
     width: 100%;
     height: auto;
     display: block;
+    border-radius: var(--radius-s);
   }
 
   .prose {
@@ -154,6 +155,28 @@ const blogLanguageSwitchHref = translationHref
     ) {
     margin-top: 0;
     text-indent: 1.5em;
+  }
+
+  .prose :global(pre) {
+    padding: var(--space-m) var(--space-l);
+    border-radius: var(--radius-s);
+    overflow-x: auto;
+    line-height: var(--line-height-snug);
+  }
+
+  .prose :global(pre code) {
+    display: block;
+    line-height: inherit;
+  }
+
+  .prose :global(img) {
+    border-radius: var(--radius-s);
+  }
+
+  .prose :global(picture img) {
+    width: 100%;
+    height: auto;
+    display: block;
   }
 
   hr {
