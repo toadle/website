@@ -19,14 +19,15 @@ interface Props {
   variant?: "now" | "blog";
 }
 
-const { link, variant = "now" } = Astro.props;
+const { link, variant } = Astro.props;
+const effectiveVariant = variant ?? (Astro.url.pathname.includes('/blog/') ? 'blog' : 'now');
 const { title, description, cover } = await resolveRichlinkDetails(link);
 const hasCover = Boolean(cover);
 const pageLocale = Astro.url.pathname.startsWith("/en/") ? "en" : "de";
 const showConnector = pageLocale === "en" ? "from" : "aus";
 ---
 
-{variant === "blog" ? (
+{effectiveVariant === "blog" ? (
   <a
     class:list={[
       "richlink-wrap",

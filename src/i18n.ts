@@ -79,7 +79,7 @@ export const i18n: Record<Locale, LocaleStrings> = {
   de: {
     siteTitle: "Tim Adler",
     siteDescription:
-      "Ich helfe Teams schnell großartige Technik zu bauen, die funktioniert und echten Wert schafft.",
+      "Tim Adler entwickelt digitale Produkte und spricht verständlich über Technik.",
     sectionLabels: {
       about: "Über mich",
       services: "Leistungen",
@@ -101,11 +101,11 @@ export const i18n: Record<Locale, LocaleStrings> = {
       kicker: "Willkommen.",
       headline: "Ich bin Tim Adler.",
       intro:
-        "Ich spreche verständlich über Technik und helfe Teams schnell großartige Systeme zu bauen, die funktionieren und echten Wert schaffen.",
+        "Ich spiele gern auf digitalen Spielplätzen und spreche verständlich über Technik. Ich helfe Teams dabei, zuverlässige Systeme zu bauen.",
       roles: [
         "Gelernter Programmierer.",
-        "Erfahrener Projekt-Flüsterer.",
-        "Als Freelancer buchbar.",
+        "Arbeitet an Produkt, Code und Teamprozessen.",
+        "Als Freelancer in Projekten auf Zeit.",
       ],
       ctaPrimary: "Mehr über mich",
       ctaSecondary: "Leistungen ansehen",
@@ -138,7 +138,7 @@ export const i18n: Record<Locale, LocaleStrings> = {
     about: {
       title: "Über mich",
       lead:
-        "Ich bin Tim Adler. Seit über 15 Jahren arbeite ich als Designer, Entwickler und Technik-Manager. Ich entwickle digitale Produkte, mache komplexe Technik verständlich und helfe Teams, ihre Projekte wieder in den Griff zu bekommen.",
+        "Ich bin Tim Adler. Seit über 15 Jahren arbeite ich als Designer, Entwickler und Technik-Manager. Ich entwickle digitale Produkte, mache komplexe Technik verständlich und unterstütze Teams dabei, Projekte strukturiert umzusetzen.",
       lead2:
         "Ich packe gern selbst mit an: vom Programmieren bis zum täglichen Status-Meeting. Meine Rolle ist oft die Übersetzung zwischen Geschäftsanforderungen und technischen Rahmenbedingungen. Kollegen bescheinigen mir offene, direkte Kommunikation, ein Händchen für Organisation und den Blick fürs Wesentliche.",
       skillsTitle: "Das kann ich",
@@ -156,17 +156,17 @@ export const i18n: Record<Locale, LocaleStrings> = {
         "Mitgründer und Product Lead bei einem B2B-Startup.",
         "Mehrere Jahre Erfahrung als Tech Lead in Agenturen.",
         "Open-Source-Beiträge und Konferenz-Talks zu moderner Webentwicklung.",
-        "Freelancer für Teams, die Tempo und Fokus brauchen.",
+        "Freelancer für Teams in produktnahen Technikprojekten.",
       ],
     },
     work: {
       title: "Arbeit",
       lead:
-        "Ich baue digitale Produkte, die klar, stabil und schnell sind. Am liebsten dort, wo Technik echten Nutzen bringt: im Alltag, im Unternehmen und in Teams, die mehr erreichen wollen.",
+        "Ich arbeite an digitalen Produkten, die verständlich und verlässlich sind. Besonders gern dort, wo Technik im Alltag und in Teams konkret hilft.",
       body1:
-        "Effizient großartige, digitale Produkte entwickeln. Das ist nicht einfach. Alles scheint möglich, was für viele zum Fluch wird. Ohne Priorisierung verzetteln wir uns. Anforderungen verändern sich, bevor sie überhaupt fertig beschrieben sind.",
+        "Digitale Produkte zu entwickeln ist selten geradlinig. Oft ist vieles gleichzeitig möglich, Prioritäten verschieben sich und Anforderungen ändern sich unterwegs.",
       body2:
-        "Genau hier unterstütze ich: beim Strukturieren, Fokussieren und Umsetzen. Ich helfe dabei, Produktideen schnell in belastbare Lösungen zu übersetzen.",
+        "Dabei unterstütze ich beim Strukturieren, Priorisieren und Umsetzen. So werden aus Produktideen belastbare Lösungen, die im Alltag bestehen.",
       sections: [
         {
           title: "Publikationen & Projekte",
@@ -176,12 +176,12 @@ export const i18n: Record<Locale, LocaleStrings> = {
         {
           title: "Open Source & Community",
           body:
-            "Open Source ist mein Zuhause. Ich teile gerne Lösungen, die andere weiterbringen, und lerne durch Austausch. Wenn etwas gut funktioniert, schreibe ich darüber oder stelle es öffentlich bereit.",
+            "Open Source ist ein wichtiger Teil meiner Arbeit. Ich teile Lösungen, lerne im Austausch und dokumentiere, was sich in der Praxis bewährt.",
         },
         {
           title: "Startups & Teams",
           body:
-            "Ich habe als Mitgründer und Product Lead in einem B2B-Startup gearbeitet, war Tech Lead in Agenturen und unterstütze Teams als Freelancer. Mein Fokus: Tempo, Fokus und Systeme, die skalieren.",
+            "Ich habe als Mitgründer und Product Lead in einem B2B-Startup gearbeitet, war Tech Lead in Agenturen und unterstütze Teams als Freelancer bei Produkt- und Technikfragen.",
         },
       ],
       cta: "Interesse an Zusammenarbeit?",
@@ -214,7 +214,7 @@ export const i18n: Record<Locale, LocaleStrings> = {
   en: {
     siteTitle: "Tim Adler",
     siteDescription:
-      "I help teams ship great tech fast: clear systems that work and deliver real value.",
+      "Tim Adler builds digital products and explains technology in clear language.",
     sectionLabels: {
       about: "About",
       services: "Services",
@@ -236,11 +236,11 @@ export const i18n: Record<Locale, LocaleStrings> = {
       kicker: "Welcome.",
       headline: "I’m Tim Adler.",
       intro:
-        "I translate technology into clear language and help teams build strong systems that work and create real value.",
+        "I like to play on digital playgrounds and explain technology in plain language. I help teams build reliable systems.",
       roles: [
         "Trained programmer.",
-        "Experienced project whisperer.",
-        "Available as a freelancer.",
+        "Works across product, code, and team processes.",
+        "Available as a freelancer for fixed-term projects.",
       ],
       ctaPrimary: "More about me",
       ctaSecondary: "See services",
@@ -273,7 +273,7 @@ export const i18n: Record<Locale, LocaleStrings> = {
     about: {
       title: "About",
       lead:
-        "I’m Tim Adler. For more than 15 years I’ve worked as a designer, developer, and tech manager. I build digital products, make complex tech understandable, and help teams get projects back on track.",
+        "I’m Tim Adler. For more than 15 years I’ve worked as a designer, developer, and tech manager. I build digital products, explain complex technology in clear terms, and support teams in delivering projects with structure.",
       lead2:
         "I like to work hands-on, from writing code to running daily standups. My role is often the bridge between business needs and technical realities. Colleagues value my clear communication, organization, and focus on what matters.",
       skillsTitle: "What I’m good at",
@@ -291,17 +291,17 @@ export const i18n: Record<Locale, LocaleStrings> = {
         "Co-founder and Product Lead at a B2B startup.",
         "Several years as a Tech Lead in agencies.",
         "Open-source contributions and conference talks on modern web dev.",
-        "Freelancer for teams that need speed and focus.",
+        "Freelancer for teams working on product and technology initiatives.",
       ],
     },
     work: {
       title: "Work",
       lead:
-        "I build digital products that are clear, stable, and fast. Best when technology creates real value for people and teams.",
+        "I work on digital products that are clear and reliable, especially where technology helps people and teams in concrete ways.",
       body1:
-        "Shipping great digital products isn’t easy. Everything seems possible, which turns into chaos without prioritization. Requirements change before they’re even finished.",
+        "Building digital products is rarely linear. Many options compete at once, priorities shift, and requirements change along the way.",
       body2:
-        "That’s where I help: structure, focus, and execution. I translate product ideas into resilient solutions quickly.",
+        "That is where I support teams: with structure, prioritization, and execution. Product ideas become resilient solutions that hold up in day-to-day work.",
       sections: [
         {
           title: "Publications & Projects",
@@ -311,12 +311,12 @@ export const i18n: Record<Locale, LocaleStrings> = {
         {
           title: "Open Source & Community",
           body:
-            "Open source is home. I share solutions that help others and learn by exchanging ideas. When something works well, I write about it or publish it.",
+            "Open source is an important part of my work. I share solutions, learn through exchange, and document what works in practice.",
         },
         {
           title: "Startups & Teams",
           body:
-            "I’ve worked as a co-founder and product lead in a B2B startup, led teams in agencies, and support teams as a freelancer. My focus: speed, clarity, and scalable systems.",
+            "I’ve worked as a co-founder and product lead in a B2B startup, led teams in agencies, and support teams as a freelancer on product and engineering topics.",
         },
       ],
       cta: "Interested in working together?",
