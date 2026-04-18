@@ -27,6 +27,11 @@ const t = i18n[lang];
       daily status meeting. Across all roles, I have been a translator between
       business requirements and technical constraints.
     </p>
+    <ul class="claims">
+      {t.home.roles.map((role) => (
+        <li>{role}</li>
+      ))}
+    </ul>
 
   </section>
 </ContainerLayout>
@@ -52,6 +57,16 @@ const t = i18n[lang];
   .lead {
     font-size: var(--step-1);
     line-height: var(--line-height-snug);
+  }
+
+  .claims {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-2xs);
+    font-weight: var(--font-weight-medium);
+    max-width: 66ch;
   }
 
   .portrait {

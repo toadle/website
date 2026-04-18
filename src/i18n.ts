@@ -98,10 +98,10 @@ export const i18n: Record<Locale, LocaleStrings> = {
       { key: "about", label: "Über", url: "/about" },
     ],
     home: {
-      kicker: "Willkommen.",
-      headline: "Ich bin Tim Adler.",
+      kicker: "",
+      headline: "",
       intro:
-        "Ich spiele gern auf digitalen Spielplätzen und spreche verständlich über Technik. Ich helfe Teams dabei, zuverlässige Systeme zu bauen.",
+        "spielt gern auf digitalen Spielplätzen und spricht verständlich über Technik. Er hilft Teams dabei, zuverlässige Systeme zu bauen.",
       roles: [
         "Gelernter Programmierer.",
         "Arbeitet an Produkt, Code und Teamprozessen.",
@@ -233,10 +233,10 @@ export const i18n: Record<Locale, LocaleStrings> = {
       { key: "about", label: "About", url: "/about" },
     ],
     home: {
-      kicker: "Welcome.",
-      headline: "I’m Tim Adler.",
+      kicker: "",
+      headline: "",
       intro:
-        "I like to play on digital playgrounds and explain technology in plain language. I help teams build reliable systems.",
+        "likes to play on digital playgrounds and explains technology in plain language. He helps teams build reliable systems.",
       roles: [
         "Trained programmer.",
         "Works across product, code, and team processes.",

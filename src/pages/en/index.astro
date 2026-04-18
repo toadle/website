@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import ContainerLayout from "../../layouts/ContainerLayout.astro";
 import { i18n } from "../../i18n";
+import indexHero from "../../assets/index-hero.png";
 
 const lang = "en";
 const t = i18n[lang];
@@ -18,14 +19,11 @@ const posts = (await getCollection("blog"))
 >
   <section class="hero">
     <div class="hero-text">
-      <p class="kicker">{t.home.kicker}</p>
-      <h1>{t.home.headline}</h1>
-      <p class="intro">{t.home.intro}</p>
-      <ul class="roles">
-        {t.home.roles.map((role) => (
-          <li>{role}</li>
-        ))}
-      </ul>
+      {t.home.kicker && <p class="kicker">{t.home.kicker}</p>}
+      {t.home.headline && <h1>{t.home.headline}</h1>}
+      <p class="intro">
+        <a class="name-link" href="/en/about">Tim Adler</a> {t.home.intro}
+      </p>
       <div class="cta">
         <a class="cta-link" href="/en/about">
           {t.home.ctaPrimary}
@@ -35,6 +33,15 @@ const posts = (await getCollection("blog"))
         </a>
       </div>
     </div>
+    <img
+      class="hero-image"
+      src={indexHero.src}
+      width={indexHero.width}
+      height={indexHero.height}
+      alt="Tim Adler at work"
+      loading="eager"
+      decoding="async"
+    />
   </section>
 
   <section class="blog">
@@ -75,6 +82,13 @@ const posts = (await getCollection("blog"))
     gap: var(--space-m);
   }
 
+  .hero-image {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-s);
+    object-fit: cover;
+  }
+
   .kicker {
     font-size: var(--step--1);
     text-transform: uppercase;
@@ -83,18 +97,17 @@ const posts = (await getCollection("blog"))
   }
 
   .intro {
-    font-size: var(--step-2);
-    line-height: var(--line-height-snug);
-    max-width: 42ch;
+    font-size: var(--step-3);
+    line-height: var(--line-height-tight);
+    letter-spacing: -0.015em;
   }
 
-  .roles {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    gap: var(--space-2xs);
-    font-weight: var(--font-weight-medium);
+  .name-link {
+    font-weight: 600;
+    text-decoration-thickness: 0.1em;
+    text-underline-offset: 0.08em;
+    text-decoration-color: var(--gray-7);
+    text-decoration-skip-ink: none;
   }
 
   .cta {
