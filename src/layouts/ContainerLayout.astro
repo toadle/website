@@ -20,6 +20,7 @@ interface Props {
   padBottom?: boolean;
   ogImage?: string;
   ogAlt?: string;
+  feedLinks?: { title: string; href: string }[];
 }
 
 const {
@@ -32,6 +33,7 @@ const {
   padBottom,
   ogImage,
   ogAlt,
+  feedLinks,
 } = Astro.props;
 
 const shouldIncludeFooter = includeFooter ?? true;
@@ -80,6 +82,7 @@ const viewTransition = {
   lang={lang}
   ogImage={ogImage}
   ogAlt={ogAlt}
+  feedLinks={feedLinks}
 >
   <script is:inline src="/scripts/preloadTheme.js"></script>
   <Header lang={lang} languageSwitchHref={languageSwitchHref} />

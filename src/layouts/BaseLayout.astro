@@ -12,9 +12,10 @@ export interface Props {
   lang?: string;
   ogImage?: string;
   ogAlt?: string;
+  feedLinks?: { title: string; href: string }[];
 }
 
-const { title, description, lang = "de", ogImage, ogAlt } = Astro.props;
+const { title, description, lang = "de", ogImage, ogAlt, feedLinks = [] } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const pageTitle = Astro.url.pathname === "/" ? title : `${title}`;
@@ -51,12 +52,14 @@ const ogLocale = lang === "en" ? "en_US" : "de_DE";
     />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="canonical" href={canonicalURL} />
-    <link
-      rel="alternate"
-      type="application/rss+xml"
-      title="toadle Blog"
-      href={new URL("rss.xml", Astro.site)}
-    />
+    {feedLinks.map((feedLink) => (
+      <link
+        rel="alternate"
+        type="application/rss+xml"
+        title={feedLink.title}
+        href={new URL(feedLink.href, Astro.site)}
+      />
+    ))}
     <meta name="description" content={description} />
     <meta property="og:title" content={title} />
     <meta property="og:type" content="website" />

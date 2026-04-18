@@ -5,6 +5,7 @@ import FormattedDate from "../../../components/FormattedDate.astro";
 import { i18n } from "../../../i18n";
 import { isEntryInLocale } from "../../../lib/contentLocale";
 import { normalizeBlogSlug } from "../../../lib/contentSlug";
+import { getSectionFeedLinks } from "../../../lib/rss";
 
 const lang = "de";
 const t = i18n[lang];
@@ -19,6 +20,7 @@ const hasNextPage = posts.length > PAGE_SIZE;
   title={`${t.blog.title} · ${t.siteTitle}`}
   description={t.siteDescription}
   lang={lang}
+  feedLinks={getSectionFeedLinks(lang, "blog")}
   padTop
   padBottom
 >
