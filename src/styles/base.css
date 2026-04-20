@@ -12,7 +12,7 @@ body {
   flex-direction: column;
   align-items: flex-start;
   font-size: var(--step-0);
-  font-family: var(--font-sans);
+  font-family: var(--font-sans, "adapter-pe-variable"), sans-serif;
   font-weight: var(--font-weight-normal);
   line-height: var(--line-height-body);
   text-rendering: optimizelegibility;
@@ -72,7 +72,7 @@ small {
 
 code,
 pre {
-  font-family: var(--font-mono);
+  font-family: var(--font-mono, "adapter-pe-mono-variable"), monospace;
   font-feature-settings:
     "ss01", "ss02", "ss03", "ss04", "ss05", "ss06", "zero", "onum";
 }

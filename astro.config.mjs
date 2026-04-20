@@ -8,30 +8,4 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
 	site: 'https://example.com',
 	integrations: [mdx(), sitemap()],
-  experimental: {
-    fonts: [
-      {
-        provider: "local",
-        name: "HEX Franklin",
-        cssVariable: "--font-sans",
-        fallbacks: ["sans-serif"],
-        variants: [
-          {
-            src: ["./src/fonts/HEX_Franklin_v0.3_Variable.woff2"],
-          },
-        ],
-      },
-      {
-        provider: "local",
-        name: "MonoLisa",
-        cssVariable: "--font-mono",
-        fallbacks: ["monospace"],
-        variants: [
-          {
-            src: ["./src/fonts/MonoLisaVariableNormal.woff2"],
-          },
-        ],
-      },
-    ],
-  },
 });
