@@ -2,7 +2,9 @@
 import { i18n, type Locale } from "../i18n";
 import { Image } from "astro:assets";
 import Center from "./Center.astro";
-import avatarSerious from "../assets/avatar_normal.png";
+import avatarNormal from "../assets/avatar_normal.png";
+import avatarFunny1 from "../assets/avatar_funny1.png";
+import avatarFunny2 from "../assets/avatar_funny2.png";
 
 const currentPath = Astro.url.pathname;
 const firstSegment = currentPath.split("/").filter(Boolean)[0];
@@ -25,6 +27,11 @@ const rightLinks = [
 ];
 
 const footerText = t.footer;
+const footerAvatarSources = [
+  avatarNormal.src,
+  avatarFunny1.src,
+  avatarFunny2.src,
+];
 ---
 
 <footer class="site-footer">
@@ -53,13 +60,20 @@ const footerText = t.footer;
         <p class="mission-note">{footerText.note}</p>
       </section>
 
-      <aside class="footer-avatar" aria-hidden="true">
+      <aside
+        class="footer-avatar"
+        aria-hidden="true"
+        data-avatar-stamp
+        data-avatar-sources={JSON.stringify(footerAvatarSources)}
+      >
         <Image
-          src={avatarSerious}
+          src={avatarNormal}
           alt=""
           width={96}
           height={96}
           class="footer-note-avatar"
+          data-avatar-image
+          draggable="false"
           loading="lazy"
           decoding="async"
         />
@@ -67,6 +81,89 @@ const footerText = t.footer;
     </div>
   </Center>
 </footer>
+
+<script is:inline>
+  (() => {
+    const stampNodes = document.querySelectorAll("[data-avatar-stamp]");
+
+    for (const stampNode of stampNodes) {
+      if (!(stampNode instanceof HTMLElement)) {
+        continue;
+      }
+
+      const avatarImage = stampNode.querySelector("img[data-avatar-image]");
+      const rawSources = stampNode.getAttribute("data-avatar-sources");
+
+      if (!(avatarImage instanceof HTMLImageElement) || !rawSources) {
+        continue;
+      }
+
+      let sources = [];
+      try {
+        const parsed = JSON.parse(rawSources);
+        if (Array.isArray(parsed)) {
+          sources = parsed.filter((source) => typeof source === "string");
+        }
+      } catch {
+        sources = [];
+      }
+
+      if (sources.length === 0) {
+        continue;
+      }
+
+      let sourceIndex = 0;
+      avatarImage.src = sources[sourceIndex] ?? avatarImage.src;
+
+      const clearPressed = () => {
+        stampNode.classList.remove("is-pressed");
+      };
+
+      const onPointerDown = (event) => {
+        if (event.pointerType !== "mouse" && event.pointerType !== "touch") {
+          return;
+        }
+
+        if (event.pointerType === "mouse" && event.button !== 0) {
+          return;
+        }
+
+        stampNode.classList.add("is-pressed");
+        try {
+          stampNode.setPointerCapture(event.pointerId);
+        } catch {
+          // Ignore unsupported pointer capture in older engines.
+        }
+      };
+
+      const onPointerUp = (event) => {
+        if (!stampNode.classList.contains("is-pressed")) {
+          return;
+        }
+
+        clearPressed();
+
+        if (event.pointerType !== "mouse" && event.pointerType !== "touch") {
+          return;
+        }
+
+        sourceIndex = (sourceIndex + 1) % sources.length;
+        avatarImage.src = sources[sourceIndex];
+
+        try {
+          stampNode.releasePointerCapture(event.pointerId);
+        } catch {
+          // Ignore unsupported pointer capture release.
+        }
+      };
+
+      stampNode.addEventListener("pointerdown", onPointerDown);
+      stampNode.addEventListener("pointerup", onPointerUp);
+      stampNode.addEventListener("pointercancel", clearPressed);
+      stampNode.addEventListener("pointerleave", clearPressed);
+    }
+  })();
+</script>
 
 <style>
   .site-footer {
@@ -162,6 +259,9 @@ const footerText = t.footer;
     background: var(--gray-3);
     padding: 0.5rem;
     display: inline-grid;
+    user-select: none;
+    touch-action: manipulation;
+    transition: transform 120ms ease, box-shadow 120ms ease;
 
     /* Briefmarken-Stanzeffekt: 4 Lagen, je eine Kante, via intersect kombiniert */
     -webkit-mask:
@@ -191,6 +291,15 @@ const footerText = t.footer;
     }
   }
 
+  .footer-avatar:hover {
+    cursor: pointer;
+  }
+
+  .footer-avatar.is-pressed {
+    transform: translateY(1px) scale(0.99);
+    box-shadow: inset 0 1px 2px color-mix(in oklab, var(--gray-12) 20%, transparent);
+  }
+
   .footer-note-avatar {
     inline-size: 6rem;
     block-size: 6rem;
@@ -198,5 +307,6 @@ const footerText = t.footer;
     object-position: top;
     image-rendering: pixelated;
     display: block;
+    pointer-events: none;
   }
 </style>
