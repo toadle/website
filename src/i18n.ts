@@ -9,6 +9,13 @@ type NavItem = {
 type LocaleStrings = {
   siteTitle: string;
   siteDescription: string;
+  footer: {
+    note: string;
+    siteTitle: string;
+    siteOwnerLabel: string;
+    siteBodyPrefix: string;
+    siteBodySuffix: string;
+  };
   sectionLabels: {
     about: string;
     services: string;
@@ -80,6 +87,13 @@ export const i18n: Record<Locale, LocaleStrings> = {
     siteTitle: "Tim Adler",
     siteDescription:
       "Tim Adler entwickelt digitale Produkte und spricht verständlich über Technik.",
+    footer: {
+      note: "🧠 Wissenschaft und Therapie.",
+      siteTitle: "Über diese Webseite",
+      siteOwnerLabel: "Tim Adler",
+      siteBodyPrefix: "Persönliche Webseite von ",
+      siteBodySuffix: ". Kein Tracking, keine Werbung.",
+    },
     sectionLabels: {
       about: "Über mich",
       services: "Leistungen",
@@ -101,7 +115,7 @@ export const i18n: Record<Locale, LocaleStrings> = {
       kicker: "",
       headline: "",
       intro:
-        "spielt gern auf digitalen Spielplätzen und spricht verständlich über Technik. Er hilft Teams dabei, zuverlässige Systeme zu bauen.",
+        ", spiele gerne auf digitalen Spielplätzen, spreche verständlich über Technik und helfe Teams dabei, zuverlässige Systeme zu bauen.",
       roles: [
         "Gelernter Programmierer.",
         "Arbeitet an Produkt, Code und Teamprozessen.",
@@ -215,6 +229,13 @@ export const i18n: Record<Locale, LocaleStrings> = {
     siteTitle: "Tim Adler",
     siteDescription:
       "Tim Adler builds digital products and explains technology in clear language.",
+    footer: {
+      note: "🧠 Science and Therapy.",
+      siteTitle: "About this site",
+      siteOwnerLabel: "Tim Adler",
+      siteBodyPrefix: "Personal website of ",
+      siteBodySuffix: ". No tracking, no ads.",
+    },
     sectionLabels: {
       about: "About",
       services: "Services",
@@ -236,7 +257,7 @@ export const i18n: Record<Locale, LocaleStrings> = {
       kicker: "",
       headline: "",
       intro:
-        "likes to play on digital playgrounds and explains technology in plain language. He helps teams build reliable systems.",
+        ", enjoy digital playgrounds, explain technology in plain language, and help teams build reliable systems.",
       roles: [
         "Trained programmer.",
         "Works across product, code, and team processes.",

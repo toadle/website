@@ -1,8 +1,9 @@
 ---
 import { i18n, type Locale } from "../i18n";
+import { Image } from "astro:assets";
 import Center from "./Center.astro";
+import avatarSerious from "../assets/avatar_normal.png";
 
-const today = new Date();
 const currentPath = Astro.url.pathname;
 const firstSegment = currentPath.split("/").filter(Boolean)[0];
 const lang: Locale =
@@ -13,213 +14,59 @@ const leftLinks = [
   { label: "GitHub", href: "https://github.com/toadle" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/tim-adler-12ba11188/" },
   { label: "Mastodon", href: "https://mastodon.social/@toadle" },
+  { label: "Twitter", href: "https://x.com/toadle" },
 ];
 
 const rightLinks = [
   { label: "Instagram", href: "https://www.instagram.com/t.o.adler/" },
   { label: "Email", href: "mailto:hello@toadle.me" },
+  { label: "Blog RSS", href: `/${lang}/blog/rss.xml` },
+  { label: "Now RSS", href: `/${lang}/now/rss.xml` },
 ];
 
-const rssLinks = [
-  { label: "Blog", href: `/${lang}/blog/rss.xml` },
-  { label: "Now", href: `/${lang}/now/rss.xml` },
-];
-
-const copyAriaLabelPrefix = lang === "de" ? "RSS-Link kopieren fuer" : "Copy RSS link for";
+const footerText = t.footer;
 ---
 
 <footer class="site-footer">
   <Center>
     <div class="inner">
-    <div class="link-columns">
-      <ul>
-        {leftLinks.map((link) => (
-          <li><a href={link.href}>{link.label}</a></li>
-        ))}
-      </ul>
-      <ul>
-        <li><a href={rightLinks[0].href}>{rightLinks[0].label}</a></li>
-        <li class="rss-menu" data-rss-menu>
-          <button
-            type="button"
-            class="rss-trigger"
-            data-rss-trigger
-            aria-expanded="false"
-            aria-haspopup="dialog"
-          >
-            RSS
-          </button>
-          <div class="rss-popover" data-rss-popover role="dialog" hidden>
-            <ul class="rss-feed-list">
-              {rssLinks.map((link) => (
-                <li>
-                  <a href={link.href}>{link.label}</a>
-                  <button
-                    type="button"
-                    class="rss-copy"
-                    data-copy-rss
-                    data-copy-url={link.href}
-                    aria-label={`${copyAriaLabelPrefix} ${link.label}`}
-                    title={`${copyAriaLabelPrefix} ${link.label}`}
-                  >
-                    <svg
-                      class="rss-copy-icon rss-copy-icon--default"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fill="currentColor"
-                        d="M8 7a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2zm2 0v12h9V7zM3 4a2 2 0 0 1 2-2h10v2H5v12h1v2H5a2 2 0 0 1-2-2z"
-                      ></path>
-                    </svg>
-                    <svg
-                      class="rss-copy-icon rss-copy-icon--success"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fill="currentColor"
-                        d="M9.55 18 4.6 13.05l1.4-1.4 3.55 3.55L18 6.75l1.4 1.4z"
-                      ></path>
-                    </svg>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </li>
-        <li><a href={rightLinks[1].href}>{rightLinks[1].label}</a></li>
-      </ul>
-    </div>
+      <div class="links-block">
+        <div class="link-columns">
+          <ul>
+            {leftLinks.map((link) => (
+              <li><a href={link.href}>{link.label}</a></li>
+            ))}
+          </ul>
+          <ul>
+            {rightLinks.map((link) => (
+              <li><a href={link.href}>{link.label}</a></li>
+            ))}
+          </ul>
+        </div>
+      </div>
 
-    <section class="mission">
-      <p>{t.home.intro}</p>
-      <small>&copy; {today.getFullYear()} Tim Adler</small>
-    </section>
+      <section class="mission">
+        <h3 class="mission-site-title">{footerText.siteTitle}</h3>
+        <p class="mission-site-body">
+          {footerText.siteBodyPrefix}<a href={`/${lang}`}>{footerText.siteOwnerLabel}</a>{footerText.siteBodySuffix}
+        </p>
+        <p class="mission-note">{footerText.note}</p>
+      </section>
+
+      <aside class="footer-avatar" aria-hidden="true">
+        <Image
+          src={avatarSerious}
+          alt=""
+          width={96}
+          height={96}
+          class="footer-note-avatar"
+          loading="lazy"
+          decoding="async"
+        />
+      </aside>
+    </div>
   </Center>
 </footer>
-
-<script is:inline>
-  (() => {
-    let isGlobalOutsideClickBound = false;
-
-    const copyToClipboard = async (text) => {
-      if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(text);
-        return;
-      }
-
-      const textarea = document.createElement("textarea");
-      textarea.value = text;
-      textarea.setAttribute("readonly", "");
-      textarea.style.position = "absolute";
-      textarea.style.left = "-9999px";
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textarea);
-    };
-
-    const initRssMenus = () => {
-      const menus = document.querySelectorAll("[data-rss-menu]");
-
-      if (!isGlobalOutsideClickBound) {
-        document.addEventListener("click", (event) => {
-          const menusInDom = document.querySelectorAll("[data-rss-menu]");
-          menusInDom.forEach((menu) => {
-            if (!(menu instanceof HTMLElement)) {
-              return;
-            }
-
-            const trigger = menu.querySelector("[data-rss-trigger]");
-            const popover = menu.querySelector("[data-rss-popover]");
-
-            if (!(trigger instanceof HTMLButtonElement) || !(popover instanceof HTMLElement)) {
-              return;
-            }
-
-            if (!menu.contains(event.target)) {
-              popover.hidden = true;
-              trigger.setAttribute("aria-expanded", "false");
-            }
-          });
-        });
-
-        isGlobalOutsideClickBound = true;
-      }
-
-      menus.forEach((menu) => {
-        if (!(menu instanceof HTMLElement) || menu.dataset.rssBound === "true") {
-          return;
-        }
-
-        const trigger = menu.querySelector("[data-rss-trigger]");
-        const popover = menu.querySelector("[data-rss-popover]");
-
-        if (!(trigger instanceof HTMLButtonElement) || !(popover instanceof HTMLElement)) {
-          return;
-        }
-
-        menu.dataset.rssBound = "true";
-
-        const closePopover = () => {
-          popover.hidden = true;
-          trigger.setAttribute("aria-expanded", "false");
-        };
-
-        const openPopover = () => {
-          popover.hidden = false;
-          trigger.setAttribute("aria-expanded", "true");
-        };
-
-        trigger.addEventListener("click", () => {
-          if (popover.hidden) {
-            openPopover();
-          } else {
-            closePopover();
-          }
-        });
-
-        menu.addEventListener("keydown", (event) => {
-          if (event.key === "Escape") {
-            closePopover();
-            trigger.focus();
-          }
-        });
-
-        const copyButtons = menu.querySelectorAll("[data-copy-rss]");
-        copyButtons.forEach((button) => {
-          if (!(button instanceof HTMLButtonElement)) {
-            return;
-          }
-
-          button.addEventListener("click", async () => {
-            const copyPath = button.dataset.copyUrl;
-            if (!copyPath) {
-              return;
-            }
-
-            const copyText = new URL(copyPath, window.location.origin).toString();
-
-            try {
-              await copyToClipboard(copyText);
-              button.classList.add("is-copied");
-              window.setTimeout(() => {
-                button.classList.remove("is-copied");
-              }, 1300);
-            } catch {
-              button.classList.remove("is-copied");
-            }
-          });
-        });
-      });
-    };
-
-    initRssMenus();
-    document.addEventListener("astro:after-swap", initRssMenus);
-    document.addEventListener("astro:page-load", initRssMenus);
-  })();
-</script>
 
 <style>
   .site-footer {
@@ -239,6 +86,12 @@ const copyAriaLabelPrefix = lang === "de" ? "RSS-Link kopieren fuer" : "Copy RSS
     }
   }
 
+  .links-block {
+    display: grid;
+    gap: var(--space-m);
+    align-content: start;
+  }
+
   .link-columns {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -253,92 +106,11 @@ const copyAriaLabelPrefix = lang === "de" ? "RSS-Link kopieren fuer" : "Copy RSS
     gap: var(--space-xs);
   }
 
-  .link-columns a,
-  .rss-trigger {
+  .link-columns a {
     text-decoration: underline;
     text-underline-offset: 0.12em;
-    font-size: inherit;
-    line-height: inherit;
-  }
-
-  .rss-menu {
-    position: relative;
-  }
-
-  .rss-trigger {
-    appearance: none;
-    border: 0;
-    margin: 0;
-    padding: 0;
-    background: transparent;
-    color: inherit;
-    font: inherit;
-    vertical-align: baseline;
-    cursor: pointer;
-  }
-
-  .rss-popover {
-    position: absolute;
-    bottom: calc(100% + var(--space-xs));
-    left: 0;
-    z-index: 30;
-    min-inline-size: 16rem;
-    background: var(--gray-1);
-    border: 1px solid var(--gray-5);
-    border-radius: var(--radius-s);
-    box-shadow: var(--shadow-s);
-    padding: var(--space-s);
-  }
-
-  .rss-feed-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: var(--space-xs);
-  }
-
-  .rss-feed-list li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-s);
-  }
-
-  .rss-copy {
-    appearance: none;
-    border: 1px solid var(--gray-5);
-    background: var(--gray-1);
-    color: var(--gray-12);
-    border-radius: var(--radius-xs);
-    inline-size: 1.8rem;
-    block-size: 1.8rem;
-    padding: 0;
-    display: inline-grid;
-    place-items: center;
-    cursor: pointer;
-  }
-
-  .rss-copy:hover {
-    background: var(--gray-2);
-  }
-
-  .rss-copy-icon {
-    inline-size: 1rem;
-    block-size: 1rem;
-    display: block;
-  }
-
-  .rss-copy-icon--success {
-    display: none;
-  }
-
-  .rss-copy.is-copied .rss-copy-icon--default {
-    display: none;
-  }
-
-  .rss-copy.is-copied .rss-copy-icon--success {
-    display: block;
+    font-size: var(--step-1);
+    line-height: var(--line-height-snug);
   }
 
   .mission {
@@ -353,11 +125,78 @@ const copyAriaLabelPrefix = lang === "de" ? "RSS-Link kopieren fuer" : "Copy RSS
 
   .mission p {
     margin: 0;
+  }
+
+  .mission-site-title {
+    font-size: var(--step-1);
+    font-weight: var(--font-weight-bold);
+    color: var(--gray-12);
+    margin: 0;
+  }
+
+  .mission-site-body {
+    font-size: var(--step-1);
+    color: var(--gray-11);
+    margin: 0;
+    line-height: var(--line-height-snug);
+  }
+
+  .mission-note {
+    margin: 0;
+    color: var(--gray-10);
     font-size: var(--step-1);
     line-height: var(--line-height-snug);
   }
 
   .mission small {
+    font-size: var(--step--1);
     color: var(--gray-10);
+  }
+
+  .footer-avatar {
+    --stamp-r: 5px;
+    --stamp-s: 14px;
+
+    justify-self: start;
+    align-self: start;
+    background: var(--gray-3);
+    padding: 0.5rem;
+    display: inline-grid;
+
+    /* Briefmarken-Stanzeffekt: 4 Lagen, je eine Kante, via intersect kombiniert */
+    -webkit-mask:
+      radial-gradient(circle at 50% 0%, #0000 var(--stamp-r), #000 calc(var(--stamp-r) + .5px))
+        0 0 / var(--stamp-s) 100%,
+      radial-gradient(circle at 50% 100%, #0000 var(--stamp-r), #000 calc(var(--stamp-r) + .5px))
+        0 0 / var(--stamp-s) 100%,
+      radial-gradient(circle at 0% 50%, #0000 var(--stamp-r), #000 calc(var(--stamp-r) + .5px))
+        0 0 / 100% var(--stamp-s),
+      radial-gradient(circle at 100% 50%, #0000 var(--stamp-r), #000 calc(var(--stamp-r) + .5px))
+        0 0 / 100% var(--stamp-s);
+    -webkit-mask-composite: source-in, source-in, source-in;
+
+    mask:
+      radial-gradient(circle at 50% 0%, #0000 var(--stamp-r), #000 calc(var(--stamp-r) + .5px))
+        0 0 / var(--stamp-s) 100%,
+      radial-gradient(circle at 50% 100%, #0000 var(--stamp-r), #000 calc(var(--stamp-r) + .5px))
+        0 0 / var(--stamp-s) 100%,
+      radial-gradient(circle at 0% 50%, #0000 var(--stamp-r), #000 calc(var(--stamp-r) + .5px))
+        0 0 / 100% var(--stamp-s),
+      radial-gradient(circle at 100% 50%, #0000 var(--stamp-r), #000 calc(var(--stamp-r) + .5px))
+        0 0 / 100% var(--stamp-s);
+    mask-composite: intersect;
+
+    @media (width >= 900px) {
+      justify-self: end;
+    }
+  }
+
+  .footer-note-avatar {
+    inline-size: 6rem;
+    block-size: 6rem;
+    object-fit: cover;
+    object-position: top;
+    image-rendering: pixelated;
+    display: block;
   }
 </style>
