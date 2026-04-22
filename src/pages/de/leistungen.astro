@@ -4,6 +4,7 @@ import ContentSection from "../../components/ContentSection.astro";
 import WorkAccordionList from "../../components/WorkAccordionList.astro";
 import { i18n } from "../../i18n";
 import { projectEntries } from "../../content/work";
+import indexHero from "../../assets/index-hero-2.png";
 
 const lang = "de";
 const t = i18n[lang];
@@ -149,6 +150,8 @@ const career = [
   title={`Leistungen · ${t.siteTitle}`}
   description={t.siteDescription}
   lang={lang}
+  ogImage={indexHero.src}
+  ogAlt="Tim Adler bei der Arbeit"
   padTop
   padBottom
 >

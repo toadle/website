@@ -76,12 +76,20 @@ const leadText = entry.body
   .split(/\n\s*\n/)[0]
   ?.replace(/\n+/g, " ")
   .trim();
+const ogImage =
+  entry.data.image?.src ?? entry.data.richlink?.cover?.src ?? "/og/default.png";
+const ogAlt =
+  entry.data.image?.alt ??
+  entry.data.richlink?.cover?.alt ??
+  "Now-Notiz von Tim Adler";
 ---
 
 <ContainerLayout
   title={`${formattedDate} · ${t.now.title} · ${t.siteTitle}`}
   description={t.siteDescription}
   lang={lang}
+  ogImage={ogImage}
+  ogAlt={ogAlt}
   languageSwitchHref={languageSwitchHref}
   padTop
   padBottom
