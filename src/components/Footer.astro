@@ -32,6 +32,16 @@ const footerAvatarSources = [
   avatarFunny1.src,
   avatarFunny2.src,
 ];
+const legalLinks =
+  lang === "en"
+    ? [
+        { label: "Privacy Policy", href: "/en/privacy" },
+        { label: "Imprint", href: "/en/imprint" },
+      ]
+    : [
+        { label: "Datenschutzerklaerung", href: "/de/datenschutz" },
+        { label: "Impressum", href: "/de/impressum" },
+      ];
 ---
 
 <footer class="site-footer">
@@ -79,6 +89,15 @@ const footerAvatarSources = [
         />
       </aside>
     </div>
+
+    <nav class="legal-links" aria-label={lang === "en" ? "Legal" : "Rechtliches"}>
+      {legalLinks.map((link, index) => (
+        <>
+          <a href={link.href}>{link.label}</a>
+          {index < legalLinks.length - 1 && <span aria-hidden="true">·</span>}
+        </>
+      ))}
+    </nav>
   </Center>
 </footer>
 
@@ -176,6 +195,7 @@ const footerAvatarSources = [
   .inner {
     display: grid;
     gap: var(--space-xl);
+    margin-bottom: var(--space-l);
 
     @media (width >= 900px) {
       grid-template-columns: 1fr 1.3fr auto;
@@ -308,5 +328,28 @@ const footerAvatarSources = [
     image-rendering: pixelated;
     display: block;
     pointer-events: none;
+  }
+
+  .legal-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--gray-10);
+    font-size: var(--step--1);
+  }
+
+  .legal-links a {
+    color: var(--gray-10);
+    text-decoration-color: var(--gray-8);
+  }
+
+  .legal-links a:hover {
+    color: var(--gray-12);
+    text-decoration-color: var(--gray-10);
+  }
+
+  .legal-links span {
+    color: var(--gray-8);
   }
 </style>

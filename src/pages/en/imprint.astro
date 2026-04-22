@@ -1,0 +1,50 @@
+---
+import ContainerLayout from "../../layouts/ContainerLayout.astro";
+import { i18n } from "../../i18n";
+
+const lang = "en";
+const t = i18n[lang];
+---
+
+<ContainerLayout
+  title={`Imprint · ${t.siteTitle}`}
+  description="Legal notice and contact information."
+  lang={lang}
+  languageSwitchHref="/de/impressum"
+  padTop
+  padBottom
+>
+  <section class="legal-page">
+    <h1>Imprint</h1>
+    <p>This website is a journalistic offer of:</p>
+    <p>
+      Tim Adler<br />
+      Torstr. 16b<br />
+      22525 Hamburg<br />
+      E-Mail: mail@tim-adler.de
+    </p>
+    <p>Responsible in the sense of §5 TMG, §55 RfStV:</p>
+    <p>Tim Adler, address as above.</p>
+    <p>
+      Can also be reached via the other contact options described on this website.
+    </p>
+  </section>
+</ContainerLayout>
+
+<style>
+  .legal-page {
+    max-width: 76ch;
+    margin-inline: auto;
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  .legal-page h1 {
+    margin: 0 0 var(--space-s);
+  }
+
+  .legal-page p {
+    margin: 0;
+    line-height: var(--line-height-body);
+  }
+</style>

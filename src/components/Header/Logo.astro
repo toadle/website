@@ -1,9 +1,9 @@
 ---
-import logoSrc from "../../assets/logo.svg";
+import logoMarkup from "../../assets/logo.svg?raw";
 ---
 
 <a id="logo" href="/" data-fathom="logo" transition:persist="logo" aria-label="Tim Adler">
-  <img src={logoSrc.src} alt="Tim Adler" width="60" height="26" loading="eager" decoding="async" />
+  <Fragment set:html={logoMarkup} />
 </a>
 
 <style lang="scss">
@@ -12,11 +12,13 @@ import logoSrc from "../../assets/logo.svg";
     transform: translateY(-0.1em);
     flex-shrink: 0;
     display: inline-flex;
+    color: inherit;
   }
 
-  #logo img {
+  #logo :global(svg) {
     width: 100%;
     height: auto;
     display: block;
+    fill: currentColor;
   }
 </style>
