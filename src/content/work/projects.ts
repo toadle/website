@@ -145,7 +145,7 @@ export const projectEntries: WorkEntry[] = [
       en: "iPad edition",
     },
     description: {
-      de: "Als Produktmanager war ich fuer die Entwicklung der Desktop- und Mobile-App der ersten iPad-Version eines grossen deutschen Nachrichtenmagazins verantwortlich.",
+      de: "Als Produktmanager war ich für die Entwicklung der Desktop- und Mobile-App der ersten iPad-Version eines großen deutschen Nachrichtenmagazins verantwortlich.",
       en: "As product manager I was responsible for the desktop and mobile app development of the first iPad version of a major German news magazine.",
     },
     url: "https://www.stern.de",

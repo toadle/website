@@ -7,6 +7,6 @@ richlink:
   url: "https://www.audible.de/pd/Jenseits-von-Putin-Hoerbuch/B0BYKH69DV"
   kind: recommendation
   backlink: false
-  description: "Schau dir dieses Hoerbuch auf Audible.de an. Als Russland am 24..."
+  description: "Schau dir dieses Hörbuch auf Audible.de an. Als Russland am 24..."
 ---
 Dieses Buch hat mir bisher am meisten geholfen das "Warum?" des Ukraine-Kriegs zu verstehen. Und vor allem auch: "Warum tut niemand was?"
