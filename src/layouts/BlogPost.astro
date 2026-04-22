@@ -36,9 +36,25 @@ const otherLang: Locale = lang === "de" ? "en" : "de";
 const blogLanguageSwitchHref = translationHref
   ? normalizeHref(translationHref)
   : `/${otherLang}/blog`;
+const articlePublishedTime = pubDate.toISOString();
+const articleModifiedTime = updatedDate?.toISOString();
+const articleOgAlt =
+  lang === "en"
+    ? `${title} - article by Tim Adler`
+    : `${title} - Artikel von Tim Adler`;
 
 ---
-<BaseLayout title={title} description={description} lang={lang}>
+<BaseLayout
+  title={title}
+  description={description}
+  lang={lang}
+  ogType="article"
+  ogImage={heroImage?.src}
+  ogAlt={articleOgAlt}
+  articlePublishedTime={articlePublishedTime}
+  articleModifiedTime={articleModifiedTime}
+  articleAuthor="Tim Adler"
+>
   <Header lang={lang} languageSwitchHref={blogLanguageSwitchHref} />
   <main class="main">
     <Center>

@@ -20,6 +20,8 @@ const hasNextPage = posts.length > PAGE_SIZE;
   title={`${t.blog.title} · ${t.siteTitle}`}
   description={t.siteDescription}
   lang={lang}
+  ogImage="/og/default.png"
+  ogAlt="Blog by Tim Adler"
   feedLinks={getSectionFeedLinks(lang, "blog")}
   padTop
   padBottom
