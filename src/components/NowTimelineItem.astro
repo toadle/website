@@ -58,7 +58,7 @@ const toEmbedUrl = (url: string) => {
   )}
   {entry.data.reviewText && <p class="opinion">{entry.data.reviewText}</p>}
   {entry.data.opinion && <p class="opinion">{entry.data.opinion}</p>}
-  {entry.data.richlink && <Richlink link={entry.data.richlink} />}
+  {entry.data.richlink && <Richlink link={entry.data.richlink} variant={entry.data.richlink.kind === 'movie' ? 'now' : 'blog'} />}
   {entry.data.youtube && (
     <div class="embed">
       <iframe
