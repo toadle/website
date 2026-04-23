@@ -8,8 +8,7 @@ const blog = defineCollection({
 	schema: ({ image }) =>
 		z.object({
 				lang: z.enum(['de', 'en']).optional(),
-			title: z.string(),
-			description: z.string(),
+			title: z.string(),				subtitle: z.string().optional(),			description: z.string(),
 			// Transform string to Date object
 			pubDate: z.coerce.date(),
 			updatedDate: z.coerce.date().optional(),

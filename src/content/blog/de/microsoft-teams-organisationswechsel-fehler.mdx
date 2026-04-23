@@ -1,0 +1,80 @@
+---
+lang: 'de'
+title: 'Microsoft Teams: Beim „Organisationswechsel ist ein Fehler aufgetreten"'
+subtitle: 'Oder: Wie ich drei Stunden meines Lebens damit verbracht habe, drei Zeilen aus dem macOS-Schlüsselbund zu löschen.'
+description: 'TODO: Kurzbeschreibung ergaenzen.'
+pubDate: '2026-04-23T00:00:00.000+02:00'
+heroImage: '../../../assets/blog/support_hell.png'
+---
+
+import Richlink from "../../../components/Richlink.astro";
+
+Es gibt Momente, in denen man einer Software direkt ins Gesicht sehen möchte, um zu fragen: *Bist du dir bewusst, was du gerade tust?* **Microsoft Teams ist so eine Software.**
+
+## Das Problem, das keins sein sollte
+
+Der Auslöser war harmlos: Ich habe einen User bei Microsoft, der zum einen "privat" ist, aber als Gast in mehreren Organisationen aktiv ist. Diese Organisationen nutzen Teams und damit ich das als Gast mitnutzen kann, muss ich die Organisation wechseln können. 
+
+Nun scheint mein privater Account irgendwie kaputt gegangen zu sein, denn der Wechsel zu einer anderen Organisation schlägt mit der Fehlermeldung fehl:
+
+![Screenshot der Fehlermeldung: 'Achtung! Beim Wechsel zum ausgewählten Konto oder der ausgewählten Organisation sind Probleme aufgetreten.'](../../../assets/blog/teams_fehler.jpg)
+
+Man denkt: OK, kein Problem, das kriegen wir schon hin. Vermutlich einfach einmal komplett abmelden und neu anmelden, dann sollte das Problem behoben sein. Das ist ja schließlich die Standardlösung für alle möglichen Software-Probleme.
+
+Also Teams war neu installiert und alle App-Daten mit einem App-Cleaner gelöscht. Aber schon nach dem ersten Start konnte man sehen: Da war nicht alles weg. Teams zeigte immer noch die vormals genutzten Konten an und der Wechsel funktionierte immer noch nicht.
+
+Diese Odyssee habe ich mehrfach hinter mich gebracht. Teams erinnert sich *immer*.
+
+Die Begrüßung nach jedem Neustart: die alten Konten und beim Wechselversuch die freundliche Meldung:
+
+> **Achtung! Beim Wechsel zum ausgewählten Konto oder der ausgewählten Organisation sind Probleme aufgetreten.**
+
+OK. Danke, Teams.
+
+## Der Support-Odyssee erster Teil: Microsoft schickt mich zu Apple
+
+Da ich offensichtlich selbst nicht weiterkomme, kontaktiere ich den Microsoft-Support. Was folgt, ist ein kleines Meisterwerk der Verantwortungsverschiebung.
+
+Ich erkläre das Problem. Die Teams-App auf dem Mac funktioniert nicht korrekt. Der Support-Mitarbeiter — nennen wir ihn Shilpa — hört aufmerksam zu und kommt zu einem klaren Schluss: *Das ist ein Apple-Problem. Bitte wenden Sie sich an den Apple Support, da die Anwendung im macOS-Kontext ausgeführt wird.*
+
+Ich zitiere aus dem Chat-Verlauf, weil es sonst niemand glaubt.
+
+Ich frage: *"Sie sind doch der Microsoft-Support für Ihre Teams-App?"*
+
+Die Antwort: Es funktioniere ja auf einem neuen macOS-Benutzerprofil einwandfrei — also liege es am alten Profil. Und für Profil-Migration sei Apple zuständig. 
+
+Tatsächlich hatte ich herausgefunden, dass es auf einem neuen Benutzerprofil funktioniert. Aber man richtet ja nicht mal eben einen neuen Benutzer ein und überträgt alle Daten, nur um eine App zum Laufen zu bringen.
+
+Ich erkläre, dass ich kein neues macOS-Benutzerprofil anlegen möchte, weil ich herausfinden will, was Teams in meinem *bestehenden* Profil kaputt macht. Ich sollte zum Unternehmenssupport gehen, da ich ja Gast in Unternehmenskonten bin.
+
+Ich weise darauf hin, dass es sich um ein *privates* Konto handelt. Der Unternehmenssupport hatte mich zum Endkunden-Support geschickt und schickt man mich wieder zum Unternehmenssupport. Das ist kein Ping-Pong — das ist eine geschlossene Schleife. Ein Perpetuum mobile - es raubt einem für alle Unendlichkeit alle Energie.
+
+## Die Lösung: Archäologie im Schlüsselbund
+
+Nach Stunden eigener Recherche kam ich schließlich auf die Ursache. Teams v2 auf macOS hinterlässt persistente Auth-Tokens im macOS-Schlüsselbund — auch nach vollständiger Deinstallation und Datenlöschung. Konkret sind es drei Einträge:
+
+- `OneAuthAccount`
+- `login.windows.net`
+- `authority_map`
+
+Vor allem `authority_map` scheint der Übeltäter zu sein: er enthält die Zuordnung von Konten zu Organisationen und überlebt munter jede Neuinstallation.
+
+Das Fix-Skript dafür — also die Lösung, die Microsoft hätte kennen und nennen sollen — ist [auf GitHub](https://github.com/toadle/microsoft_teams2_macos_cleanup), umfasst ein Shell-Script und wenige Dutzend Zeilen. Es beendet Teams-Prozesse, räumt Cache und Container auf und löscht gezielt diese drei Schlüsselbund-Einträge. Danach: frisch anmelden, fertig.
+
+Drei Stunden. Ein Script. Dreißig Zeilen.
+
+Ich habs auch Shilpa geschickt. Aber leider darf sie es nicht anschauen, weil Github für Support-Mitarbeitende gesperrt ist.
+
+## Was das eigentlich bedeutet
+
+Microsoft Teams ist ein Produkt mit Milliarden-Budget, Enterprise-Kundenschaft und einem globalen Support-Apparat. Und doch schafft es die Anwendung, bei einer simplen Operation wie "Organisation wechseln" derart tief in OS-Infrastruktur einzugreifen, dass ein kompletter Neuinstall das Problem nicht löst — und der Support keine Ahnung hat, warum.
+
+Das ist kein Bug. Das ist ein Designproblem. Wenn Auth-State in macOS-Systemkomponenten persistiert wird, ohne dass Deinstallation oder App-Reset diese Daten berühren, dann hat jemand im Architekturprozess eine Entscheidung getroffen, deren Konsequenzen er offensichtlich nicht zu Ende gedacht hat.
+
+Oder schlimmer: Er hat sie zu Ende gedacht und trotzdem so gebaut. So verbaut, dass der eigene Support nicht mehr durchblickt.
+
+Microsoft ist an einem Punkt angelangt, an dem die Komplexität seiner eigenen Software die Fähigkeit übersteigt, Support dafür zu leisten. Nicht weil die Support-Mitarbeitenden schlecht wären — sondern weil das System so undurchsichtig geworden ist, dass niemand mehr wirklich weiß, was Teams alles anfasst.
+
+Zum Glück gibt es GitHub. Auch wenn der Support dort nicht hinschauen darf.
+
+<Richlink link={{ url: "https://github.com/toadle/microsoft_teams2_macos_cleanup" }} />

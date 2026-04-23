@@ -21,6 +21,7 @@ type Props = CollectionEntry<'blog'>['data'] & {
 
 const {
   title,
+  subtitle,
   description,
   pubDate,
   updatedDate,
@@ -93,7 +94,7 @@ const titleHtml = renderInlineMarkdown(title);
               }
             </div>
             <h1 set:html={titleHtml} />
-            <hr />
+            {subtitle && <p class="subtitle">{subtitle}</p>}
           </div>
           <slot />
           <ArticleNav
@@ -149,6 +150,14 @@ const titleHtml = renderInlineMarkdown(title);
   .title {
     display: grid;
     gap: var(--space-xs);
+  }
+
+  .subtitle {
+    font-size: var(--step-3);
+    line-height: var(--line-height-tight);
+    max-width: 30ch;
+    margin: 0;
+    color: var(--gray-12);
   }
 
   .meta-row {
