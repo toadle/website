@@ -103,84 +103,97 @@ const legalLinks =
 
 <script is:inline>
   (() => {
-    const stampNodes = document.querySelectorAll("[data-avatar-stamp]");
+    const initFooterAvatarStamps = (root = document) => {
+      const stampNodes = root.querySelectorAll("[data-avatar-stamp]");
 
-    for (const stampNode of stampNodes) {
-      if (!(stampNode instanceof HTMLElement)) {
-        continue;
-      }
-
-      const avatarImage = stampNode.querySelector("img[data-avatar-image]");
-      const rawSources = stampNode.getAttribute("data-avatar-sources");
-
-      if (!(avatarImage instanceof HTMLImageElement) || !rawSources) {
-        continue;
-      }
-
-      let sources = [];
-      try {
-        const parsed = JSON.parse(rawSources);
-        if (Array.isArray(parsed)) {
-          sources = parsed.filter((source) => typeof source === "string");
-        }
-      } catch {
-        sources = [];
-      }
-
-      if (sources.length === 0) {
-        continue;
-      }
-
-      let sourceIndex = 0;
-      avatarImage.src = sources[sourceIndex] ?? avatarImage.src;
-
-      const clearPressed = () => {
-        stampNode.classList.remove("is-pressed");
-      };
-
-      const onPointerDown = (event) => {
-        if (event.pointerType !== "mouse" && event.pointerType !== "touch") {
-          return;
+      for (const stampNode of stampNodes) {
+        if (!(stampNode instanceof HTMLElement)) {
+          continue;
         }
 
-        if (event.pointerType === "mouse" && event.button !== 0) {
-          return;
+        if (stampNode.dataset.avatarInitialized === "true") {
+          continue;
         }
 
-        stampNode.classList.add("is-pressed");
+        const avatarImage = stampNode.querySelector("img[data-avatar-image]");
+        const rawSources = stampNode.getAttribute("data-avatar-sources");
+
+        if (!(avatarImage instanceof HTMLImageElement) || !rawSources) {
+          continue;
+        }
+
+        let sources = [];
         try {
-          stampNode.setPointerCapture(event.pointerId);
+          const parsed = JSON.parse(rawSources);
+          if (Array.isArray(parsed)) {
+            sources = parsed.filter((source) => typeof source === "string");
+          }
         } catch {
-          // Ignore unsupported pointer capture in older engines.
-        }
-      };
-
-      const onPointerUp = (event) => {
-        if (!stampNode.classList.contains("is-pressed")) {
-          return;
+          sources = [];
         }
 
-        clearPressed();
-
-        if (event.pointerType !== "mouse" && event.pointerType !== "touch") {
-          return;
+        if (sources.length === 0) {
+          continue;
         }
 
-        sourceIndex = (sourceIndex + 1) % sources.length;
-        avatarImage.src = sources[sourceIndex];
+        stampNode.dataset.avatarInitialized = "true";
 
-        try {
-          stampNode.releasePointerCapture(event.pointerId);
-        } catch {
-          // Ignore unsupported pointer capture release.
-        }
-      };
+        let sourceIndex = 0;
+        avatarImage.src = sources[sourceIndex] ?? avatarImage.src;
 
-      stampNode.addEventListener("pointerdown", onPointerDown);
-      stampNode.addEventListener("pointerup", onPointerUp);
-      stampNode.addEventListener("pointercancel", clearPressed);
-      stampNode.addEventListener("pointerleave", clearPressed);
-    }
+        const clearPressed = () => {
+          stampNode.classList.remove("is-pressed");
+        };
+
+        const onPointerDown = (event) => {
+          if (event.pointerType !== "mouse" && event.pointerType !== "touch") {
+            return;
+          }
+
+          if (event.pointerType === "mouse" && event.button !== 0) {
+            return;
+          }
+
+          stampNode.classList.add("is-pressed");
+          try {
+            stampNode.setPointerCapture(event.pointerId);
+          } catch {
+            // Ignore unsupported pointer capture in older engines.
+          }
+        };
+
+        const onPointerUp = (event) => {
+          if (!stampNode.classList.contains("is-pressed")) {
+            return;
+          }
+
+          clearPressed();
+
+          if (event.pointerType !== "mouse" && event.pointerType !== "touch") {
+            return;
+          }
+
+          sourceIndex = (sourceIndex + 1) % sources.length;
+          avatarImage.src = sources[sourceIndex];
+
+          try {
+            stampNode.releasePointerCapture(event.pointerId);
+          } catch {
+            // Ignore unsupported pointer capture release.
+          }
+        };
+
+        stampNode.addEventListener("pointerdown", onPointerDown);
+        stampNode.addEventListener("pointerup", onPointerUp);
+        stampNode.addEventListener("pointercancel", clearPressed);
+        stampNode.addEventListener("pointerleave", clearPressed);
+      }
+    };
+
+    initFooterAvatarStamps();
+    document.addEventListener("astro:after-swap", () => {
+      initFooterAvatarStamps();
+    });
   })();
 </script>
 
