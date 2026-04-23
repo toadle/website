@@ -1,5 +1,6 @@
 ---
 import { i18n, type Locale } from "../i18n";
+import { renderInlineMarkdown } from "../lib/renderInlineMarkdown";
 
 type PostLink = {
   title: string;
@@ -21,13 +22,15 @@ type Props = {
 const { lang, prev, next, translationLink } = Astro.props;
 const t = i18n[lang].blog.articleNav;
 const normalizeHref = (href: string) => (href.startsWith("/") ? href : `/${href}`);
+const prevTitleHtml = prev ? renderInlineMarkdown(prev.title) : "";
+const nextTitleHtml = next ? renderInlineMarkdown(next.title) : "";
 ---
 
 {(prev || next || translationLink) && (
   <nav class="article-nav" aria-label="Article navigation">
     <div class="prev-next">
-      {prev ? <a href={`/${lang}/blog/${prev.slug}`}>← {t.prev}: {prev.title}</a> : <span />}
-      {next ? <a href={`/${lang}/blog/${next.slug}`}>{t.next}: {next.title} →</a> : <span />}
+      {prev ? <a href={`/${lang}/blog/${prev.slug}`}>← {t.prev}: <span set:html={prevTitleHtml} /></a> : <span />}
+      {next ? <a href={`/${lang}/blog/${next.slug}`}>{t.next}: <span set:html={nextTitleHtml} /> →</a> : <span />}
     </div>
     {translationLink && (
       <p class="translation">

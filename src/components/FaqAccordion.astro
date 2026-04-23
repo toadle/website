@@ -1,0 +1,111 @@
+---
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: FaqItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<ul class="faq-list">
+  {items.map((item) => (
+    <li class="faq-list__item">
+      <details>
+        <summary>
+          <span class="faq-list__lead">
+            <span class="faq-list__chevron" aria-hidden="true"></span>
+            <span class="faq-list__question">{item.question}</span>
+          </span>
+        </summary>
+
+        <div class="faq-list__panel">
+          <p>{item.answer}</p>
+        </div>
+      </details>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .faq-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .faq-list__item {
+    border-bottom: 1px solid var(--gray-5);
+  }
+
+  .faq-list__item:last-child {
+    border-bottom: 0;
+  }
+
+  details {
+    padding-block: var(--space-m);
+  }
+
+  summary {
+    list-style: none;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-l);
+    cursor: pointer;
+    align-items: start;
+    overflow: visible;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-list__lead {
+    min-width: 0;
+    position: relative;
+    padding-inline-start: 0;
+  }
+
+  .faq-list__question {
+    display: block;
+    font-size: var(--step-1);
+    line-height: var(--line-height-tight);
+    font-weight: var(--font-weight-medium);
+    padding-inline-start: 1.5rem;
+  }
+
+  .faq-list__chevron {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-right: 2px solid var(--gray-9);
+    border-bottom: 2px solid var(--gray-9);
+    transform: translateY(-50%) rotate(-45deg);
+    transform-origin: center;
+    transition: transform 180ms ease, border-color 180ms ease;
+  }
+
+  details[open] .faq-list__chevron {
+    transform: translateY(-50%) rotate(45deg);
+  }
+
+  .faq-list__panel {
+    margin-top: var(--space-m);
+    padding-inline-start: 1.5rem;
+  }
+
+  .faq-list__panel p {
+    margin: 0;
+  }
+
+  summary:focus-visible {
+    outline: 2px solid var(--gray-9);
+    outline-offset: 0.25rem;
+    border-radius: var(--radius-xs);
+  }
+</style>

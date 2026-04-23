@@ -5,6 +5,7 @@ import FormattedDate from "../../../components/FormattedDate.astro";
 import { i18n } from "../../../i18n";
 import { isEntryInLocale } from "../../../lib/contentLocale";
 import { normalizeBlogSlug } from "../../../lib/contentSlug";
+import { renderInlineMarkdown } from "../../../lib/renderInlineMarkdown";
 import { getSectionFeedLinks } from "../../../lib/rss";
 
 const lang = "en";
@@ -35,7 +36,7 @@ const hasNextPage = posts.length > PAGE_SIZE;
       {firstPagePosts.map((post) => (
         <li>
           <a href={`/en/blog/${normalizeBlogSlug(post.id)}/`}>
-            <h4 class="title">{post.data.title}</h4>
+            <h4 class="title" set:html={renderInlineMarkdown(post.data.title)} />
             <p class="date">
               <FormattedDate date={post.data.pubDate} locale="en-US" />
             </p>

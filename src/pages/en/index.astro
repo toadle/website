@@ -5,6 +5,7 @@ import { i18n } from "../../i18n";
 import indexHero from "../../assets/index-hero-2.png";
 import { isEntryInLocale } from "../../lib/contentLocale";
 import { normalizeBlogSlug } from "../../lib/contentSlug";
+import { renderInlineMarkdown } from "../../lib/renderInlineMarkdown";
 
 const lang = "en";
 const t = i18n[lang];
@@ -58,7 +59,7 @@ const posts = (await getCollection("blog"))
       {posts.map((post) => (
         <li>
           <a href={`/en/blog/${normalizeBlogSlug(post.id)}/`}>
-            <span class="title">{post.data.title}</span>
+            <span class="title" set:html={renderInlineMarkdown(post.data.title)} />
             <span class="meta">
               {post.data.pubDate.toLocaleDateString("en-US", {
                 year: "numeric",

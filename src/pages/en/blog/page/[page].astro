@@ -5,6 +5,7 @@ import FormattedDate from "../../../../components/FormattedDate.astro";
 import { i18n } from "../../../../i18n";
 import { isEntryInLocale } from "../../../../lib/contentLocale";
 import { normalizeBlogSlug } from "../../../../lib/contentSlug";
+import { renderInlineMarkdown } from "../../../../lib/renderInlineMarkdown";
 
 const lang = "en";
 const t = i18n[lang];
@@ -49,7 +50,7 @@ const normalizePageUrl = (href: string | undefined) => {
       {page.data.map((post: any) => (
         <li>
           <a href={`/en/blog/${normalizeBlogSlug(post.id)}/`}>
-            <h4 class="title">{post.data.title}</h4>
+            <h4 class="title" set:html={renderInlineMarkdown(post.data.title)} />
             <p class="date">
               <FormattedDate date={post.data.pubDate} locale="en-US" />
             </p>

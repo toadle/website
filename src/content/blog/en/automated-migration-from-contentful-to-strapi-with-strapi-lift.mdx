@@ -1,0 +1,493 @@
+---
+lang: en
+title: Automated Migration from Contentful to Strapi with `strapi_lift`
+description: "TODO: Add short description."
+pubDate: 2025-08-06T00:00:00+02:00
+alternateLanguageUrl: /de/blog/automatisierte-migration-von-contentful-zu-strapi-mit-strapi-lift/
+---
+
+import FaqAccordion from "../../../components/FaqAccordion.astro";
+import Richlink from "../../../components/Richlink.astro";
+import migrationImage from "../../../assets/blog/strapi_lift_migration.png";
+
+export const faqItems = [
+  {
+    question: "I’m getting errors during import. How do I find the cause?",
+    answer:
+      "Check log.jsonl. All errors are logged in a structured format. Use jq or grep to filter for errors.",
+  },
+  {
+    question: "The import was interrupted—do I have to start from scratch?",
+    answer:
+      "No. Just restart the import. The tool checks each entry by contentful_id and only updates as needed.",
+  },
+  {
+    question: "Some relations or assets are missing after migration. What can I do?",
+    answer:
+      "Make sure all linked content types exist in Strapi and that your representers/models are configured correctly. You can repair 0-byte assets with fix-assets.",
+  },
+  {
+    question: "How can I migrate only certain content types or specific entries?",
+    answer: "Use the --content-types and --ids options to target what you want to import.",
+  },
+  {
+    question: "Anything special to consider for single content types?",
+    answer:
+      "In the intermediate model, set the single_content_type! flag. This way, even Contentful types with multiple entries can be mapped as single types in Strapi.",
+  },
+  {
+    question: "How do I deal with very large amounts of assets?",
+    answer:
+      "Allow for sufficient time and disk space, and check after import to confirm all files are present in your target CDN.",
+  },
+  {
+    question: "Is strapi_lift suitable for every Contentful project?",
+    answer:
+      "The tool is very flexible, but complex edge cases or heavy localization are (still) not fully automated. Some technical customization is always required.",
+  },
+];
+
+## 1. Introduction
+
+For many years, Contentful was our preferred solution for headless CMS—established, performant, and packed with enterprise features. But Contentful’s pricing has never really targeted small or medium projects. When a noticeable price increase was announced for our project [hochzeitsplaza.de](https://www.hochzeitsplaza.de), it became clear that a migration was unavoidable.
+
+At the same time, Strapi has evolved significantly as an open-source CMS. For the average project, Strapi now offers practically the same functionality as Contentful—especially regarding modern APIs, workflows, and integrations. For us, the availability of a **GraphQL API** was a crucial factor.
+
+So, the decision was clear: escape vendor lock-in, get rid of the high costs, and switch to an open, flexible, and now mature alternative. The only challenge left was migrating all content and assets as automatically, reliably, and efficiently as possible.
+
+Since there was no off-the-shelf tool for this, we developed our own migration utility—**strapi_lift**—that does exactly that. In this article, we show how you can largely automate your migration from Contentful to Strapi, and what to watch out for.
+
+
+##### This article is a cross-post from
+<Richlink link={{ url: "https://strapi.io/blog/migrate-from-contenful-to-strapi" }} />
+
+##### You can find the project itself on GitHub
+<Richlink link={{ url: "https://github.com/toadle/strapi_lift" }} />
+
+## **2. Preparation**
+
+Before you can start the actual migration from Contentful to Strapi, several steps are necessary. Here’s an overview of the key preparations:
+
+### **2.1 Export from Contentful**
+
+The first step is to export all content and assets from Contentful. The most reliable way is using the official [Contentful CLI Tool](https://www.contentful.com/developers/docs/tutorials/cli/). This will give you a JSON export file and all the assets as downloads.
+
+##### Export command:
+
+```other
+npx contentful-cli space export --space-id <space-id> --content-only --download-assets
+```
+
+This command ensures that all content and related assets are stored locally. Depending on your project’s size, this process might take a while.
+
+What you’ll get is a JSON file like contentful-export-space-id master-2025-XX-XXTXX-XX-XX.json and several folders (such as assets.ctfassets.net) containing the exported assets.
+
+You’ll need the JSON file later as contentful_content and the folder with the *.ctfassets.net subfolders as assets_folder.
+
+### **2.2 Choosing a CDN**
+
+Contentful serves assets (images, videos, etc.) through a powerful CDN, including flexible image transformation (e.g., on-the-fly resizing). When migrating to Strapi, you’ll need an alternative with similar features. We chose **Cloudinary** so we could keep using dynamic image resizing and optimization. In principle, you can use any CDN that fits your requirements. For Cloudinary, Strapi even provides direct support and an [integration guide](https://strapi.io/blog/add-cloudinary-support-to-your-strapi-application).
+
+Of course, you can also migrate without a CDN and serve assets directly from Strapi. In this case, there’s no dynamic image resizing, so you’ll need to work with the image sizes configurable in Strapi.
+
+### **2.3 Creating Content Types in Strapi**
+
+strapi_lift does **not** create content types “on the fly.” All required types must exist beforehand. You must replicate all content types present in the export in Strapi—including all fields and relations.
+
+**Tip:** Stick as closely as possible to your Contentful data model. Ideally, use the same field names. If you used snake_case in Contentful and want to switch to camelCase in Strapi, that’s no problem: strapi_lift supports these changes.
+
+##### Important:
+
+Every content type in Strapi must have an additional contentful_id field. This ensures that the migration tool can link documents in Strapi to the original Contentful export—even after import. Once the migration is complete and you’re sure you don’t need to import again, you can safely remove these fields.
+
+### **2.4 Basic Configuration of strapi_lift**
+
+Before strapi_lift can run, you’ll need some basics set up:
+
+- **Installation:** Clone the repository.
+- **Ruby Setup:** You need Ruby, at least version 2.75.
+- Run bundle install.
+- Adjust the .env file:
+
+```other
+STRAPI_API_TOKEN=your_strapi_token
+STRAPI_URL=your_strapi_url
+```
+
+- **Representers and Intermediate Models:**
+
+    For every content type from Contentful, you’ll need a custom representer and a matching Ruby model (more on this in the next section).
+
+## **3. Adjusting the Migration Tool**
+
+A simple Contentful export and the setup of content types in Strapi aren’t enough for **strapi_lift** to run smoothly. The most important part of preparation is adapting the migration tool to your specific data structures and relationships. This is mostly about the so-called “mapping logic”: Contentful data must be correctly mapped to Strapi structures.
+
+<img src={migrationImage.src} alt="Mapping Logic" />
+
+### **3.1 Contentful Representers**
+
+For every content type in Contentful, create a *representer* in Ruby. This describes how fields and relations from the Contentful JSON export are read. The representer ensures that fields are assigned correctly and that relationships, links, and assets are properly handled.
+
+##### Example (abridged):
+
+```other
+module Contentful
+  class ArticleRepresenter < Representable::Decorator
+    include Representable::JSON
+
+    nested :fields do
+      %w(title slug content).each do |property_name|
+        nested property_name do
+          property property_name, as: :de_de
+        end
+      end
+      nested :category do
+        property :category_link, decorator: Contentful::EntryLinkRepresenter, class: Contentful::CategoryLink, as: :de_de
+      end
+      # ... other relations and assets
+    end
+
+    nested :sys do
+      property :contentful_id, as: :id
+    end
+  end
+end
+```
+
+##### Note:
+
+Every field or relation you use in Contentful must be mapped in the representer. Especially relations and assets are only stored as links here, and must be specially handled.
+
+### **3.2 Intermediate Models**
+
+Next, you’ll create an *intermediate model* for each content type—a Ruby class that temporarily holds and prepares the data from the Contentful export during migration.
+
+##### Example:
+
+```other
+module Contentful
+  class Article
+    include StrapiDocumentConnected
+    attr_accessor :title, :slug, :category
+    rich_text source: :content, target: :content
+    link_object source: :category_link, target: :category
+    api_path "/api/articles"
+    contentful_content_type "5duKiNPsR20mgISegMYmwK"
+  end
+end
+```
+
+##### Key methods/features:
+
+- rich_text source: , target:: Use for text fields that are Markdown and may contain images/assets inline. strapi_lift uploads these assets to Strapi and replaces the links in the text before saving the content.
+- link_object source: ..., target: ...: Defines a relation to another entry (turning a link into an object). For single links (e.g., top_article).
+- link_asset source: ..., target: ...: Handles asset associations (e.g., images), uploads them, and links them.
+- link_objects: For multi-relations, such as related_articles.
+- api_path: The endpoint in Strapi where the data should land.
+- contentful_content_type: The unique content type ID in Contentful for this model. Used to identify entries of this type in the Contentful export.
+
+##### Explanation:
+
+You might wonder why the Contentful representer is written to extract links, even though you want to create a relation. Contentful always stores relations as links—the intermediate model loads these, and during migration, they’re resolved into real objects and transferred to Strapi.
+
+##### Mapping Links as Intermediate Models
+
+To resolve relationships between different content types correctly during migration, you need to define a “link class” as an intermediate model for every kind of relation. These classes encapsulate a reference (link) from the Contentful export as a Ruby object and resolve it during import.
+
+For example, here’s a Contentful::ArticleLink class:
+
+```other
+require_relative 'entry_link'
+
+module Contentful
+  class ArticleLink < EntryLink
+    attr_accessor :id
+
+    def representer_class
+      Contentful::ArticleRepresenter
+    end
+
+    def target_class
+      Contentful::Article
+    end
+  end
+end
+```
+
+##### Important:
+
+You need such link classes for **all objects that can appear as relations/links in Contentful** (categories, authors, galleries, etc.). That’s how the importer knows how to resolve these links during mapping.
+
+For **assets**, you can reuse the generic Contentful::AssetLink class. For all other content types (like CategoryLink, AuthorLink), create similar link classes.
+
+##### In summary:
+
+- Every link/relation needs a matching intermediate model.
+- These link objects store only the ID and contain methods to resolve them during import.
+- This is the only way to have relations and associations created automatically and correctly during import.
+
+### **3.3 Handling “Single Content Types” (e.g., Homepage)**
+
+One important difference: Contentful has no real concept to distinguish between single-entry and multi-entry content types. In Strapi, you can choose this (e.g., for homepages, settings, etc.).
+
+With strapi_lift, you can map this via the single_content_type! method in your intermediate model. Example:
+
+```other
+single_content_type!
+```
+
+This ensures a Contentful type (even if multi-entry in Contentful) is treated as a single type in Strapi.
+
+##### Note:
+
+If you have more than one entry for a content type in Contentful, but treat it as a single type in Strapi, only the “last” entry from your export will be used. Make sure you only have one entry for content types you want to import as a single type.
+
+### **3.4 Strapi Representers**
+
+For every content type, you also need a *Strapi representer*. This ensures data from the intermediate model is formatted for the Strapi API.
+
+##### Example:
+
+```other
+module Strapi
+  class ArticleRepresenter < Strapi::BaseRepresenter
+    property :title
+    property :slug
+    property :content
+    property :category
+    # other fields
+  end
+end
+```
+
+Only list fields that aren’t relations (like assets or other classes). This is because strapi_lift handles these relations in a separate step, using the links you configured in 3.2.
+
+### **3.5 Adjusting the EntriesImporter**
+
+To let **strapi_lift** know which content types to import, you’ll need to adjust the EntriesImporter. In lib/importer/entries_importer.rb, there’s a list of all models to be imported. Only those models are considered and processed during import.
+
+##### Example (excerpt):
+
+```other
+[
+  Contentful::Author,
+  Contentful::Category,
+  Contentful::Article,
+  Contentful::Homepage
+].each do |model|
+  # ...
+end
+```
+
+##### What to do:
+
+- Add each new content type you want to import to this list (e.g., Contentful::Product).
+- Only models in this list are actually processed.
+
+##### Note:
+
+This approach lets you control exactly which models and entries are handled—very handy for large projects or test migrations.
+
+### **3.6 Adjusting the Reset Function**
+
+To ensure all imported content can be reliably deleted from Strapi after test runs or failed migrations, the **reset function** in /bin/strapi_lift must also be updated. Only the content types explicitly listed in the reset section will actually be cleared with the reset command.
+
+##### What to do:
+
+- For every new content type, add a reset call:
+
+```other
+Contentful::Product.reset_strapi!
+```
+
+- The reset_strapi! method is automatically present if the model includes StrapiDocumentConnected.
+
+##### Example (excerpt from bin/strapi_lift):
+
+```other
+def reset
+  logger = SemanticLogger['strapi_lift']
+  logger.info("Starting reset process...")
+  Contentful::Article.reset_strapi!
+  Contentful::Category.reset_strapi!
+  Contentful::Product.reset_strapi!   # <- newly added content type
+  logger.info("Reset process completed successfully.")
+end
+```
+
+## **4. Running the Migration**
+
+With the preparations and models in place, you’re ready for migration! Here’s how the process works, how **strapi_lift** functions, and what our performance/issue experience was like.
+
+### **4.1 Starting the Import: The Basic Command**
+
+Start the import from the command line like this:
+
+```other
+./bin/strapi_lift import --contentful_content contentful_export.json --assets_folder assets
+```
+
+##### Parameters:
+
+- \--contentful_content: Path to your Contentful export file (the JSON generated by the CLI tool).
+- \--assets_folder: Path to the local folder where the downloaded assets (images, PDFs, videos, etc.) are stored.
+
+You can restart the import at any time—strapi_lift will check if entries already exist and will update rather than duplicate them.
+
+During import, strapi_lift outputs progress info:
+
+```other
+2025-05-17 20:42:39.296377 I [58556:740] strapi_lift -- Starting import process...
+2025-05-17 20:42:39.299585 I [58556:740] EntriesImporter -- Processing 1/1011 -- {:id=>"4dukPV8tjWOGGKEoeAuOUm", :model=>"articles"}
+...
+```
+
+All log entries are also written to log.jsonl and can be analyzed in detail using tools like jq and grep.
+
+### **4.2 How the Tool Works**
+
+**strapi_lift** works as follows:
+
+- All entries are read from the Contentful export.
+- The tool creates a new document in Strapi for each entry—or updates it if it already exists.
+- It then resolves and creates all assets and 1-level-deep relations (relations are only resolved one level deep).
+- This approach prevents infinite loops during import, as relations aren’t recursively imported, but handled sequentially. Every entry must be imported at least once so that all its relations are set correctly.
+
+Migration steps:
+
+1. **Assets used in entries (e.g., in rich text fields) are uploaded.**
+2. **Entries are created with all values.**
+3. **Assets are processed, uploaded, and linked to entries.**
+4. **Relations to other entries are resolved and set** once the target objects exist.
+
+### **4.3 Duration and Performance**
+
+In our project, migration involved about **2,000 entries** and **over 11GB of assets**. The entire migration took about **7 hours**.
+
+The duration mainly depends on:
+
+- Number of entries
+- Number and size of assets
+- Performance of your Strapi instance and chosen CDN
+
+### **4.4 Error Handling and Repeatability**
+
+One of **strapi_lift’s** major advantages is that migrations can be repeated and resumed at any time:
+
+- **Interruptions or errors** during import are no problem. On restart, the tool checks if each entry already exists (using contentful_id) and updates as needed.
+- This also means that after improving your data model or exporting new content, you can simply run another import—existing objects are updated, new entries are added.
+- **Reset:** With the reset command (bin/strapi_lift reset), you can cleanly remove imported data for a fresh start if needed.
+
+### **4.5 Testing with Subsets**
+
+To test migrations (e.g., just certain content types or specific entries), use:
+
+- \--content-types: Only import certain types, optionally with a limit (e.g., articles:10,categories)
+- \--ids: Only import specific entry IDs
+- \--skip: Start at a certain point if an import was interrupted or you want to skip entries
+
+This makes it easy to run targeted tests before a full migration.
+
+### **4.6 Logging & Troubleshooting**
+
+A key feature of **strapi_lift** is extensive logging—in both the console and as a structured log.jsonl file. For larger migrations, this is extremely helpful for quickly spotting and fixing errors.
+
+##### Example log entry in log.jsonl:
+
+```other
+{
+  "host": "MacBook-Pro.localdomain",
+  "application": "Semantic Logger",
+  "timestamp": "2025-05-12T11:00:28.145047Z",
+  "level": "info",
+  "level_index": 2,
+  "pid": 20720,
+  "thread": "740",
+  "name": "Contentful::ImageGalleryLink",
+  "message": "Resolving",
+  "payload": {
+    "id": "4qEQIjYBkImcY4EaQSe8MK"
+  }
+}
+```
+
+##### Finding errors/warnings with jq:
+
+To search for errors (level: "error") or warnings (level: "warn"), use the [jq](https://stedolan.github.io/jq/) tool:
+
+```other
+cat log.jsonl | jq 'select(.level == "error")'
+cat log.jsonl | jq 'select(.level == "warn")'
+```
+
+##### Pro tip:
+
+When an error occurs, you’ll often see an error about an asset or link first. But the *actual* problem might be in one of the preceding entries—for example, a missing, broken, or wrongly linked asset. Search for the relevant object (by contentful_id or asset ID) in the log and check the previous lines to trace the real cause.
+
+This lets you track down exactly which entry caused the problem and fix it before restarting the import.
+
+## **5. Common Pitfalls and Best Practices**
+
+Migration from Contentful to Strapi with **strapi_lift** rarely works perfectly on the first try—especially for larger or older projects. Here are the main pitfalls and proven tips from experience:
+
+### **5.1 Common Errors**
+
+- **Missing contentful_id field in Strapi:**
+
+    The tool can’t map old and new entries without this field. Make sure every relevant content type has it before importing.
+
+- **Non-matching field names and structures:**
+
+    Strapi and Contentful handle fields differently (required fields, data types, relations, etc.). Adjust your content types in Strapi to be compatible with Contentful data—especially for complex or nested fields.
+
+- **Missing or broken assets:**
+
+    Contentful exports sometimes include assets with 0 bytes if something failed during download. Use the fix-assets command from strapi_lift to automatically re-download missing or broken assets.
+
+- **Complex or multi-level relations:**
+
+    Relations in Contentful are only stored as links. All linked entries must be imported at least once for relations to be resolved in Strapi. Watch out for “loops” (circular relations) to avoid endless cycles.
+
+### **5.2 Tips for a Smooth Migration**
+
+- **Start with small subsets:**
+
+    Use --content-types and --ids to test with single content types or selected entries first. This lets you catch mapping issues early and saves debugging time.
+
+- **Plan for multiple imports:**
+
+    Since you can repeat the import, fix mapping issues or add missing logic and simply re-import—without risking duplicates.
+
+- **Make use of logs:**
+
+    Always check log.jsonl after each run. Tools like jq help you quickly find errors (e.g., cat log.jsonl | jq 'select(.level == "error")').
+
+- **Use the reset function:**
+
+    If things go wrong or you need to adjust the data model, use the reset command (bin/strapi_lift reset) to start clean.
+
+- **Be patient with large datasets:**
+
+    Importing (especially uploading assets to a new CDN) takes longer with large asset counts. Allow plenty of time and disk space.
+
+### **5.3 Lessons Learned**
+
+- It’s worth spending more time preparing and mapping rather than fixing things by hand later.
+- Migrations almost always work better iteratively, not as a big bang: Start with a test run, then roll out step by step.
+- Align Contentful and Strapi structures as much as possible beforehand—it saves hassle and simplifies representer logic.
+
+## **6. Conclusion and Lessons Learned**
+
+Migrating from Contentful to Strapi isn’t plug-and-play—but with the right preparation and the help of **strapi_lift**, it’s absolutely doable for technical teams. Especially for projects looking to save costs, gain independence, and control over their content, making the switch is a solid choice.
+
+As of mid-2025, Contentful seems to be pushing many old plans onto much more expensive ones for existing customers. In those cases, Strapi is a much more affordable alternative—even if you pay for Cloudinary on top.
+
+`strapi_lift` was developed by me, and the project would benefit from more polish. For example, reducing configuration overhead (perhaps via a central YML file instead of multiple Ruby classes) would be great.
+
+If you’d like to contribute or need help with your Contentful to Strapi migration, feel free to get in touch!
+
+## **7. FAQ & Troubleshooting**
+
+<FaqAccordion items={faqItems} />
+
+
