@@ -1,0 +1,107 @@
+---
+interface Props {
+  name: string;
+  street: string;
+  locality: string;
+  email: string;
+  fallbackText: string;
+  emailLabel?: string;
+  class?: string;
+}
+
+const {
+  name,
+  street,
+  locality,
+  email,
+  fallbackText,
+  emailLabel = "E-Mail",
+  class: className,
+} = Astro.props;
+
+const encode = (value: string) => Buffer.from(value, "utf-8").toString("base64");
+---
+
+<obfuscated-contact
+  class={className}
+  data-name={encode(name)}
+  data-street={encode(street)}
+  data-locality={encode(locality)}
+  data-email={encode(email)}
+  data-email-label={encode(emailLabel)}
+>
+  {fallbackText}
+</obfuscated-contact>
+
+<script is:inline>
+  const decodeBase64 = (value) => {
+    try {
+      const bytes = Uint8Array.from(atob(value), (character) =>
+        character.charCodeAt(0)
+      );
+
+      return new TextDecoder().decode(bytes);
+    } catch {
+      return "";
+    }
+  };
+
+  const renderObfuscatedContact = (element) => {
+    if (element.dataset.rendered === "true") {
+      return;
+    }
+
+    const name = decodeBase64(element.dataset.name ?? "");
+    const street = decodeBase64(element.dataset.street ?? "");
+    const locality = decodeBase64(element.dataset.locality ?? "");
+    const email = decodeBase64(element.dataset.email ?? "");
+    const emailLabel = decodeBase64(element.dataset.emailLabel ?? "");
+
+    if (!name || !street || !locality || !email) {
+      return;
+    }
+
+    element.replaceChildren();
+
+    [name, street, locality].forEach((line, index) => {
+      if (index > 0) {
+        element.append(document.createElement("br"));
+      }
+
+      element.append(document.createTextNode(line));
+    });
+
+    element.append(document.createElement("br"));
+    element.append(document.createTextNode(`${emailLabel}: `));
+
+    const link = document.createElement("a");
+    link.href = `mailto:${email}`;
+    link.textContent = email;
+    element.append(link);
+
+    element.dataset.rendered = "true";
+  };
+
+  if (!customElements.get("obfuscated-contact")) {
+    customElements.define(
+      "obfuscated-contact",
+      class extends HTMLElement {
+        connectedCallback() {
+          renderObfuscatedContact(this);
+        }
+      }
+    );
+  }
+</script>
+
+<style>
+  obfuscated-contact {
+    display: block;
+    margin: 0;
+    line-height: var(--line-height-body);
+  }
+
+  obfuscated-contact a {
+    color: inherit;
+  }
+</style>
