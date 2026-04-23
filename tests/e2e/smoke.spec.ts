@@ -84,9 +84,12 @@ test("blog language selector links to translated article when available", async 
   );
 });
 
-test("blog language selector falls back to other locale blog index", async ({
+test("blog language selector links to translated article for giantbomb post", async ({
   page,
 }) => {
   await page.goto("/en/blog/a-new-ruby-gem-for-the-giantbomb-api/");
-  await expect(page.locator("a.lang")).toHaveAttribute("href", "/de/blog");
+  await expect(page.locator("a.lang")).toHaveAttribute(
+    "href",
+    "/de/blog/ein-neues-ruby-gem-fuer-die-giantbomb-api/"
+  );
 });
