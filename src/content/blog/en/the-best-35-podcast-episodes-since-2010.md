@@ -3,6 +3,7 @@ lang: 'en'
 title: 'The best 35 podcast-episodes since 2010'
 description: 'Today is a really sad day for me. My beloved Podcast-Client [Instacast](http://vemedio.com/products/instacast) has closed down due to „no money left“. I normall'
 pubDate: '2015-06-14T00:00:00.000+02:00'
+alternateLanguageUrl: '/de/blog/die-besten-35-podcast-episoden-seit-2010/'
 ---
 
 Today is a really sad day for me. My beloved Podcast-Client [Instacast](http://vemedio.com/products/instacast) has closed down due to „no money left“. I normally can remember very vividly things or places that that I’ve been to when listening to spoken words. Therefore the following list is something personal.

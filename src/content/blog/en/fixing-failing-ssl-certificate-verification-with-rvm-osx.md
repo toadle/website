@@ -3,6 +3,7 @@ lang: 'en'
 title: 'Fixing failing SSL-certificate verification with RVM/OSX'
 description: 'Ruby installed with RVM under OSX gives you and error OpenSSL::SSL::SSLError which stops you from connecting to any kind os SSL-secured destination. Here is how to fix it.'
 pubDate: '2015-04-16T00:00:00.000+02:00'
+alternateLanguageUrl: '/de/blog/ssl-zertifikat-fehler-rvm-osx-beheben/'
 ---
 
 I just returned from a world of hate and am going to tell you my war story, in order to spare you the trip.

@@ -4,6 +4,7 @@ title: 'How to add more games to NES Mini Classic using hakchi2 and a Mac'
 description: 'The [NES Mini Classic](http://bit.ly/nesminiclassic) is a wonderful little box. It captures most of the **old gaming feeling** by putting you close to the scree'
 pubDate: '2017-02-03T00:00:00.000+02:00'
 heroImage: '../../../assets/blog/legacy/how-to-add-more-games-to-nes-mini-classic-using-hakchi2-and-a-mac-1cda43de.jpg'
+alternateLanguageUrl: '/de/blog/mehr-spiele-nes-mini-classic-hakchi2-mac/'
 ---
 
 The [NES Mini Classic](http://bit.ly/nesminiclassic) is a wonderful little box. It captures most of the **old gaming feeling** by putting you close to the screen and giving you authentic feeling controllers. That all while displaying everything in a modern fashion on a up-to-date HDMI-capable device or TV.

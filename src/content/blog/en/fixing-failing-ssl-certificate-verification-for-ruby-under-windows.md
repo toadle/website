@@ -3,6 +3,7 @@ lang: 'en'
 title: 'Fixing failing SSL-certificate verification for Ruby under Windows'
 description: 'A while ago I wrote a [little piece](/2015/04/16/fixing-failing-ssl-verification-with-rvm.html) that was ment to safe people from the SSL-certificate problems t'
 pubDate: '2016-08-23T00:00:00.000+02:00'
+alternateLanguageUrl: '/de/blog/ssl-zertifikat-fehler-ruby-unter-windows-beheben/'
 ---
 
 A while ago I wrote a [little piece](/2015/04/16/fixing-failing-ssl-verification-with-rvm.html) that was ment to safe people from the SSL-certificate problems that might occur using RVM.

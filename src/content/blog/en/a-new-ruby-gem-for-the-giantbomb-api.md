@@ -3,6 +3,7 @@ lang: 'en'
 title: 'A new Ruby-gem for the Giantbomb API'
 description: 'A new, very ruby-ish GEM for the Giantbomb-API. Because I like Ruby and video-games.'
 pubDate: '2015-09-19T00:00:00.000+02:00'
+alternateLanguageUrl: '/de/blog/ein-neues-ruby-gem-fuer-die-giantbomb-api/'
 ---
 
 You know, I really like **videogames**. I also really like **structured data** about stuff. e.g. [IMDB](http://www.imdb.com) or [TheMovieDB](https://www.themoviedb.org/). When it comes to data for videogames the best place for structured data is hidden in the editorial content of [Giantbomb](http://www.giantbomb.com/). They also offer a great [API](http://api.giantbomb.com) that gives access for this data. Sadly the ruby-support in gems was a bit limited.

@@ -4,6 +4,7 @@ title: 'The speed of product development is just a feeling'
 description: 'You know, I often get a very strange itch, when on a long-distance flight: After let''s say 3-5 hours after take-off, when I''ve watched the first 0815-movie, loo'
 pubDate: '2015-08-13T00:00:00.000+02:00'
 heroImage: '../../../assets/blog/legacy/the-speed-of-product-development-is-just-a-feeling-3e3f0fba.jpg'
+alternateLanguageUrl: '/de/blog/die-geschwindigkeit-der-produktentwicklung-ist-nur-ein-gefuehl/'
 ---
 
 You know, I often get a very strange itch, when on a long-distance flight: After let's say 3-5 hours after take-off, when I've watched the first 0815-movie, looked through the stuff on my iPad, tried to connect to the non-existing wifi - **I sometimes hope for turbulence**. Not because I'm with my own Tyler Durden, but because it gives me a feeling of "moving forward". Meaning that something is actually happening with the plane and we are making progress towards the destination. I catch myself smiling sometimes when then actually some bumps happen.
