@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: toadle-website
+    env: static
+    branch: main
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: NODE_VERSION
+        value: 22
