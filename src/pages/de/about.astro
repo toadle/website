@@ -1,7 +1,6 @@
 ---
 import ContainerLayout from "../../layouts/ContainerLayout.astro";
 import { i18n } from "../../i18n";
-import portrait from "../../assets/legacy/ich.png";
 
 const lang = "de";
 const t = i18n[lang];
@@ -11,29 +10,33 @@ const t = i18n[lang];
   title={`${t.about.title} · ${t.siteTitle}`}
   description={t.siteDescription}
   lang={lang}
-  ogImage={portrait.src}
   ogAlt="Portraet von Tim Adler"
   padTop
   padBottom
 >
   <section class="page">
     <h1>{t.about.title}</h1>
-    <img class="portrait" src={portrait.src} width={portrait.width} height={portrait.height} alt="Portraet von Tim Adler" />
     <p class="lead">
-      Seit mehr als 15 Jahren arbeite ich als Designer, Entwickler und Technik-Manager.
-      Von den ersten Schritten als Junior-Programmierer bis zur Verantwortung als CTO
-      habe ich in unterschiedlichen Rollen immer hands-on in der technischen
-      Produktentwicklung gearbeitet.
+      Seit ueber 15 Jahren bewege ich mich in der Luecke zwischen "das muesste technisch
+      eigentlich gehen" und "aber bitte bis Freitag". Ich habe als Junior-Programmierer
+      angefangen und mich zum CTO hochgearbeitet - und dabei vor allem gelernt, wie viel
+      schiefgehen kann, wenn Technik und Geschaeft aneinander vorbeikommunizieren.
     </p>
     <p>
-      Ich entscheide nicht nur mit, ich packe auch in der Umsetzung an: vom Programmieren
-      bis zum taeglichen Status-Meeting. In allen Rollen war ich Uebersetzer zwischen
-      Geschaeftsanforderungen und technischen Rahmenbedingungen.
+      Heute arbeite ich als Freelancer - an Produkt, Code und den Prozessen dazwischen.
+      Hands-on, nicht nur beratend. Ich sitze im Daily, sehe die Tickets wachsen und weiss,
+      dass die "kleine Anpassung" selten eine ist.<br/>
+      Mein Werkzeugkasten reicht von ISO-27001-Audits bis zu CI/CD-Pipelines, von Coaching
+      fuer Entwicklerteams bis zur Frage, ob ein Feature wirklich gebaut werden muss oder ob
+      das Problem auch anders loesbar waere. Letzteres ist meistens unbequemer, aber nuetzlicher.<br/>
+      Ich uebersetze. Zwischen Entwicklern und Stakeholdern, zwischen dem, was technisch
+      sinnvoll ist, und dem, was sich im Markt bewaehrt. Frameworks gibt es fuer fast alles -
+      fuer klare Entscheidungen muss meistens jemand im Raum sein, der beide Sprachen spricht.
     </p>
     <ul class="claims">
-      {t.home.roles.map((role) => (
-        <li>{role}</li>
-      ))}
+      <li>Gelernter Programmierer.</li>
+      <li>Arbeitet an Produkt, Code und Teamprozessen.</li>
+      <li>Als Freelancer in Projekten auf Zeit.</li>
     </ul>
 
   </section>

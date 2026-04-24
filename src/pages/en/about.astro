@@ -1,7 +1,6 @@
 ---
 import ContainerLayout from "../../layouts/ContainerLayout.astro";
 import { i18n } from "../../i18n";
-import portrait from "../../assets/legacy/ich.png";
 
 const lang = "en";
 const t = i18n[lang];
@@ -11,28 +10,33 @@ const t = i18n[lang];
   title={`${t.about.title} · ${t.siteTitle}`}
   description={t.siteDescription}
   lang={lang}
-  ogImage={portrait.src}
   ogAlt="Portrait of Tim Adler"
   padTop
   padBottom
 >
   <section class="page">
     <h1>{t.about.title}</h1>
-    <img class="portrait" src={portrait.src} width={portrait.width} height={portrait.height} alt="Portrait of Tim Adler" />
     <p class="lead">
-      For more than 15 years I have been working as a designer, developer and
-      technical manager. From my first steps as a junior programmer to leading
-      as CTO, I have contributed to technical product development in hands-on roles.
+      For over 15 years I have been operating in the gap between "that should technically
+      be possible" and "but we need it by Friday". I started as a junior programmer and
+      worked my way up to CTO - and learned above all how much can go wrong when
+      technology and business talk past each other.
     </p>
     <p>
-      I like not only to help decide, but also to execute: from programming to the
-      daily status meeting. Across all roles, I have been a translator between
-      business requirements and technical constraints.
+      Today I work as a freelancer - on product, code, and the processes in between.
+      Hands-on, not just advisory. I sit in the daily, watch the tickets pile up, and know
+      that the "small change" rarely is one.<br/>
+      My toolbox ranges from ISO 27001 audits to CI/CD pipelines, from coaching
+      developer teams to questioning whether a feature really needs to be built or whether
+      the problem could be solved another way. The latter is usually less comfortable, but more useful.<br/>
+      I translate. Between developers and stakeholders, between what makes technical sense
+      and what works in the market. There are frameworks for almost everything - for clear
+      decisions, someone usually needs to be in the room who speaks both languages.
     </p>
     <ul class="claims">
-      {t.home.roles.map((role) => (
-        <li>{role}</li>
-      ))}
+      <li>Trained programmer.</li>
+      <li>Works on product, code, and team processes.</li>
+      <li>As a freelancer on fixed-term projects.</li>
     </ul>
 
   </section>
