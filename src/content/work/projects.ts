@@ -12,7 +12,7 @@ export const projectEntries: WorkEntry[] = [
       en: "PropTech / NLP",
     },
     description: {
-      de: "Fuer das PropTech-Startup gridapp.ai habe ich eine kundenspezifische NLP-Loesung auf Basis von spaCy umgesetzt, um fachliche Anforderungen in eine belastbare AI-Anwendung zu ueberfuehren.",
+      de: "Für das PropTech-Startup gridapp.ai habe ich eine kundenspezifische NLP-Lösung auf Basis von spaCy umgesetzt, um fachliche Anforderungen in eine belastbare AI-Anwendung zu überführen.",
       en: "For the PropTech startup gridapp.ai I implemented a custom NLP solution based on spaCy to turn domain-specific requirements into a reliable AI application.",
     },
     year: 2025,
@@ -31,7 +31,7 @@ export const projectEntries: WorkEntry[] = [
       en: "Meditation app / ISO 27001",
     },
     description: {
-      de: "Fuer Balloon habe ich die ISO-27001-Zertifizierung als Berater und in der Implementierung mit umgesetzt, von der Uebersetzung der Anforderungen in Prozesse bis zur praktischen Verankerung im Team.",
+      de: "Für Balloon habe ich die ISO-27001-Zertifizierung als Berater und in der Implementierung mit umgesetzt, von der Übersetzung der Anforderungen in Prozesse bis zur praktischen Verankerung im Team.",
       en: "For Balloon I supported the ISO 27001 certification as both advisor and implementer, from translating requirements into working processes to embedding them in the team day to day.",
     },
     year: 2024,
@@ -50,7 +50,7 @@ export const projectEntries: WorkEntry[] = [
       en: "Food platform / Subscription",
     },
     description: {
-      de: "Ich war verantwortlich fuer die gesamte IT-Abteilung bei der Entwicklung eines neuen B2C-Geschaeftsmodells auf Abonnementbasis fuer die groesste europaeische nutzergenerierte Food-Plattform. Wir entwickelten das Produkt fuer Web, iOS und Android.",
+      de: "Ich war verantwortlich für die gesamte IT-Abteilung bei der Entwicklung eines neuen B2C-Geschäftsmodells auf Abonnementbasis für die größte europäische nutzergenerierte Food-Plattform. Wir entwickelten das Produkt für Web, iOS und Android.",
       en: "I was responsible for the whole IT department during development of a new B2C subscription-based business model for the largest European user-generated food platform. We developed the product for web, iOS and Android.",
     },
     url: "https://www.chefkoch.de/",
@@ -69,7 +69,7 @@ export const projectEntries: WorkEntry[] = [
       en: "Interval Fasting / Mobile App",
     },
     description: {
-      de: "In einem mit SCRUM organisierten Projekt leitete ich ein Team von bis zu acht Entwicklern, Designern und Produktinhabern. Wir mussten einen engen Zeitplan einhalten und Apps und Backend in etwa drei Monaten einfuehren.",
+      de: "In einem mit SCRUM organisierten Projekt leitete ich ein Team von bis zu acht Entwicklern, Designern und Produktinhabern. Wir mussten einen engen Zeitplan einhalten und Apps und Backend in etwa drei Monaten einführen.",
       en: "I managed a team of up to eight developers, designers and product owners in a SCRUM project. We had to meet a tight deadline and launch apps and backend in around three months.",
     },
     url: "https://www.hirschhausen-diaet.de/",
@@ -88,7 +88,7 @@ export const projectEntries: WorkEntry[] = [
       en: "Meditation / Mobile App",
     },
     description: {
-      de: "Ich uebernahm einen ausschliesslich auf Swift basierenden iOS-Prototypen und stabilisierte ihn fuer etwa ein Jahr im Produktionsbetrieb. Dann leitete ich den Prozess zur Entwicklung und Einfuehrung einer Multiplattform-Version der Anwendung.",
+      de: "Ich übernahm einen ausschließlich auf Swift basierenden iOS-Prototypen und stabilisierte ihn für etwa ein Jahr im Produktionsbetrieb. Dann leitete ich den Prozess zur Entwicklung und Einführung einer Multiplattform-Version der Anwendung.",
       en: "I took over a Swift-based iOS-only prototype and stabilized it for about one year in production. Then I guided the process to design and launch a multi-platform version.",
     },
     url: "https://www.balloonapp.de/",
@@ -107,7 +107,7 @@ export const projectEntries: WorkEntry[] = [
       en: "Wedding platform / Headless CMS",
     },
     description: {
-      de: "Ich verantworte die Wartung und Entwicklung dieser Webseite seit dem Relaunch 2015. Die damals gewaehlten Technologien halten sich weiterhin gut: ein Headless-CMS hinter einer Rails-App.",
+      de: "Ich verantworte die Wartung und Entwicklung dieser Webseite seit dem Relaunch 2015. Die damals gewählten Technologien halten sich weiterhin gut: ein Headless-CMS hinter einer Rails-App.",
       en: "I have been heading maintenance and development of this site since the 2015 relaunch. The chosen technologies still hold up nicely, with a headless CMS behind a Rails app.",
     },
     url: "https://www.hochzeitsplaza.de/",
@@ -126,7 +126,7 @@ export const projectEntries: WorkEntry[] = [
       en: "PropTech / Lead Generation",
     },
     description: {
-      de: "Innerhalb weniger Wochen baute ich den MVP fuer eine suchmaschinenoptimierte Plattform zur Generierung von Leads fuer eine Immobilienmakler-Website.",
+      de: "Innerhalb weniger Wochen baute ich den MVP für eine suchmaschinenoptimierte Plattform zur Generierung von Leads für eine Immobilienmakler-Website.",
       en: "Within a few weeks I built the MVP for an SEO-oriented platform to generate leads for a real estate brokerage website.",
     },
     url: "https://www.hausgold.de/",
@@ -145,7 +145,7 @@ export const projectEntries: WorkEntry[] = [
       en: "Social commerce / Social payment",
     },
     description: {
-      de: "Ich leitete das Entwicklungs- und Produktmanagement, um eine Plattform zur Bezahlung von Guetern mit sozialer Reichweite neu zu launchen.",
+      de: "Ich leitete das Entwicklungs- und Produktmanagement, um eine Plattform zur Bezahlung von Gütern mit sozialer Reichweite neu zu launchen.",
       en: "I guided development and product management to relaunch a platform that allows paying for goods with social reach.",
     },
     url: "https://www.paywithatweet.com/",
@@ -164,7 +164,7 @@ export const projectEntries: WorkEntry[] = [
       en: "Luxury resale / Marketplace",
     },
     description: {
-      de: "Ich leitete Entwicklung und Produktmanagement beim Aufbau der ersten Version eines kundenspezifischen Marktplatzes. Zusaetzlich entstanden Logistikloesung und eine iOS-basierte B2B-Reseller-App.",
+      de: "Ich leitete Entwicklung und Produktmanagement beim Aufbau der ersten Version eines kundenspezifischen Marktplatzes. Zusätzlich entstanden Logistiklösung und eine iOS-basierte B2B-Reseller-App.",
       en: "I guided development and product management for the first version of a custom marketplace, including logistics and an iOS-based B2B reseller app.",
     },
     url: "https://www.rebelle.com/",

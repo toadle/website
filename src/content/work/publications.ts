@@ -17,7 +17,7 @@ export const publicationEntries: WorkEntry[] = [
       en: "First steps with Git and a code hosting platform",
     },
     description: {
-      de: "Fuer die Ausgabe 07/2024 habe ich die Titelstory geschrieben und einen praxisnahen Einstieg in Git und Code-Hosting-Plattformen gegeben.",
+      de: "Für die Ausgabe 07/2024 habe ich die Titelstory geschrieben und einen praxisnahen Einstieg in Git und Code-Hosting-Plattformen gegeben.",
       en: "For issue 07/2024, I wrote the cover story and provided a practical introduction to Git and code hosting platforms.",
     },
     url: "https://www.linux-magazin.de/ausgaben/2024/07/git-einfuehrung/",
@@ -46,7 +46,7 @@ export const publicationEntries: WorkEntry[] = [
       en: "CTO-SPECIAL #18",
     },
     description: {
-      de: "In dieser Folge sprach ich noch als CTO von Chefkoch ueber meinen Lebenslauf und warum bei mir das Pendel immer zwischen Hands-on-Development und Management wechselt.",
+      de: "In dieser Folge sprach ich noch als CTO von Chefkoch über meinen Lebenslauf und warum bei mir das Pendel immer zwischen Hands-on-Development und Management wechselt.",
       en: "In this episode I talked, still as CTO of Chefkoch, about my CV and why I regularly switch between hands-on development and management.",
     },
     url: "https://www.programmier.bar/podcast/cto-special-18-tim-adler-von-chefkoch",
@@ -104,7 +104,7 @@ export const publicationEntries: WorkEntry[] = [
       en: "Methods - Tools - Practical Examples",
     },
     description: {
-      de: "In diesem deutschen Buch ueber digitales Produktmanagement habe ich ein Kapitel darueber geschrieben, wie Produkte effizient erstellt und geliefert werden koennen.",
+      de: "In diesem deutschen Buch über digitales Produktmanagement habe ich ein Kapitel darüber geschrieben, wie Produkte effizient erstellt und geliefert werden können.",
       en: "In this German book on digital product management, I contributed a chapter on efficiently building and delivering products.",
     },
     url: "https://www.springer.com/de/book/9783658306281#aboutAuthors",
@@ -129,11 +129,11 @@ export const publicationEntries: WorkEntry[] = [
       en: "Product podcast",
     },
     subtitle: {
-      de: "Ein Podcast ueber Konflikte und Herausforderungen im digitalen Produktmanagement",
+      de: "Ein Podcast über Konflikte und Herausforderungen im digitalen Produktmanagement",
       en: "A podcast on conflicts and challenges in digital product management",
     },
     description: {
-      de: "Zusammen mit meinem Kollegen und Freund Tim Herbig moderierte ich ueber etwa 15 Folgen einen Podcast, in dem wir wiederkehrende Probleme und Konflikte im digitalen Produktmanagement diskutierten.",
+      de: "Zusammen mit meinem Kollegen und Freund Tim Herbig moderierte ich über etwa 15 Folgen einen Podcast, in dem wir wiederkehrende Probleme und Konflikte im digitalen Produktmanagement diskutierten.",
       en: "Together with my colleague and friend Tim Herbig, I co-hosted around 15 episodes discussing recurring product management problems and conflicts.",
     },
     year: 2019,

@@ -39,7 +39,7 @@ export const openSourceEntries: WorkEntry[] = [
       en: "CLI migration from Contentful to Strapi",
     },
     description: {
-      de: "Ruby-basiertes CLI-Tool zur Migration von Eintraegen und Assets von Contentful nach Strapi.",
+      de: "Ruby-basiertes CLI-Tool zur Migration von Einträgen und Assets von Contentful nach Strapi.",
       en: "Ruby-based CLI tool for migrating entries and assets from Contentful to Strapi.",
     },
     url: "https://github.com/toadle/strapi_lift",
@@ -58,11 +58,11 @@ export const openSourceEntries: WorkEntry[] = [
       en: "Terminal launcher",
     },
     subtitle: {
-      de: "Ein einfach zu konfigurierender Quicklauncher fuer die Kommandozeile",
+      de: "Ein einfach zu konfigurierender Quicklauncher für die Kommandozeile",
       en: "An easily configurable command-line quicklauncher",
     },
     description: {
-      de: "Wie Alfred, Launchbar oder Raycast fuer das Terminal.",
+      de: "Wie Alfred, Launchbar oder Raycast für das Terminal.",
       en: "Think of it like Alfred, Launchbar, or Raycast for your terminal.",
     },
     url: "https://github.com/toadle/lit",
@@ -81,11 +81,11 @@ export const openSourceEntries: WorkEntry[] = [
       en: "Ruby gem",
     },
     subtitle: {
-      de: "Rubygem fuer den Zugriff auf die Giantbomb-API",
+      de: "Rubygem für den Zugriff auf die Giantbomb-API",
       en: "Rubygem to access the Giantbomb API",
     },
     description: {
-      de: "Open-Source-Rubygem fuer die Giantbomb-API.",
+      de: "Open-Source-Rubygem für die Giantbomb-API.",
       en: "Open-source Rubygem to access the Giantbomb API.",
     },
     url: "https://github.com/toadle/giant_bomb_api",
@@ -108,7 +108,7 @@ export const openSourceEntries: WorkEntry[] = [
       en: "Battlefield 1942/Vietnam logfile parser",
     },
     description: {
-      de: "Fruehes Open-Source-Projekt und damals verfuegbarer Logfile-Parser fuer Battlefield 1942 bis Vietnam.",
+      de: "Frühes Open-Source-Projekt und damals verfügbarer Logfile-Parser für Battlefield 1942 bis Vietnam.",
       en: "Early open-source project and at the time the only available logfile parser for Battlefield 1942 to Vietnam.",
     },
     url: "https://sourceforge.net/projects/selectbf/",
