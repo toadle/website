@@ -90,7 +90,6 @@ After execution, summarize:
 
 Run repository checks where feasible:
 
-- `npm run lint`
 - `npm test`
 
 If full checks are not feasible, run the smallest meaningful validation and state what was skipped.

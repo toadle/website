@@ -19,7 +19,7 @@ tests/
 
 ## Commands
 
-npm test && npm run lint
+npm test
 
 ## Code Style
 

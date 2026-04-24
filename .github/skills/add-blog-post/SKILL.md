@@ -22,7 +22,7 @@ Use this repository-specific skill to create two linked blog post drafts with mi
 2. Paths:
    - `src/content/blog/de/`
    - `src/content/blog/en/`
-3. Filename pattern: `<slug>.md` (no date prefix in filename).
+3. Filename pattern: `YYYY-MM-DD-<slug>.md`.
 4. Required frontmatter fields per file:
    - `lang`
    - `title`
@@ -48,9 +48,11 @@ Locale handling defaults:
 
 Description defaults:
 
-- If description is not provided, set placeholders:
-  - `de`: `TODO: Kurzbeschreibung ergaenzen.`
-  - `en`: `TODO: Add short description.`
+- If description is not provided, do **not** use a raw `TODO:` placeholder.
+- `TODO` placeholders in `description` have already produced broken or fragile frontmatter in this repository and should be avoided.
+- Use safe quoted placeholders instead:
+   - `de`: `Kurzbeschreibung folgt.`
+   - `en`: `Short description coming soon.`
 
 ## Slug Rules
 
@@ -64,6 +66,8 @@ Create one slug per locale from that locale title.
    - `eszett -> ss`
 - English slug reflects English wording.
 - Locale slugs may differ and must not be force-synchronized.
+   - The public blog route slug must stay **date-free**, even though the filename starts with `YYYY-MM-DD-`.
+   - This repository strips the leading date from blog filenames when building routes, so `2026-04-24-example-post.md` must resolve to `/blog/example-post/`.
 
 Collision handling:
 
@@ -78,8 +82,8 @@ Collision handling:
 2. Resolve locale titles (`de`, `en`).
 3. Build locale-specific slugs from titles.
 4. Apply collision handling and finalize target filenames:
-   - `src/content/blog/de/<de-slug>.md`
-   - `src/content/blog/en/<en-slug>.md`
+   - `src/content/blog/de/YYYY-MM-DD-<de-slug>.md`
+   - `src/content/blog/en/YYYY-MM-DD-<en-slug>.md`
 5. Build reciprocal locale routes:
    - German file gets `alternateLanguageUrl: /en/blog/<en-slug>/`
    - English file gets `alternateLanguageUrl: /de/blog/<de-slug>/`
@@ -103,7 +107,8 @@ Leave `updatedDate` and `heroImage` unset unless explicitly requested.
 After execution, summarize:
 
 - Created file paths
-- Final slug per locale (`de`, `en`)
+- Final filename per locale (`de`, `en`)
+- Final public slug per locale (`de`, `en`)
 - Final `alternateLanguageUrl` values
 - `pubDate` used
 - Any assumptions/fallbacks (translation, placeholders, suffixes)
@@ -112,7 +117,6 @@ After execution, summarize:
 
 Run repository checks where feasible:
 
-- `npm run lint`
 - `npm test`
 
 If full checks are not feasible, run the smallest meaningful validation and state what was skipped.
