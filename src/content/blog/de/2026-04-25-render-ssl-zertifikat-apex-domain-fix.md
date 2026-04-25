@@ -1,6 +1,6 @@
 ---
 lang: de
-title: "Render stellt kein SSL-Zertifikat für deine Apex-Domain aus? Schau dir das DNS an."
+title: "Render stellt kein SSL-Zertifikat für deine Apex-Domain aus? Check den DNS."
 subtitle: "ALIAS-Records klingen richtig — aber sie zeigen auf die falschen IPs für die Zertifikatsausstellung."
 description: "Wenn Render bei der SSL-Zertifikatsausstellung für deine Apex-Domain feststeckt, könnte ein ALIAS-Record das Problem sein. Ein einfacher A-Record auf 216.24.57.1 löst es sofort."
 pubDate: '2026-04-25T00:00:00.000+02:00'
