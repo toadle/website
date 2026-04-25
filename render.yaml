@@ -3,7 +3,7 @@ services:
     name: toadle-website
     env: static
     branch: main
-    buildCommand: npm ci && npm run build
+    buildCommand: npm ci && rm -rf .astro && npm run build
     staticPublishPath: dist
     envVars:
       - key: NODE_VERSION
