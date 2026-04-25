@@ -1,7 +1,13 @@
+import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import type { APIContext } from "astro";
+import rss from "@astrojs/rss";
 import { SITE_TITLE } from "../consts";
 import { i18n, type Locale } from "../i18n";
+import { isEntryInLocale } from "./contentLocale";
+import { normalizeBlogSlug, normalizeNowSlug } from "./contentSlug";
+import { sortNowEntries } from "./sortNowEntries";
+import { DATE_LOCALE } from "./dates";
 
 type FeedLink = {
   title: string;
@@ -21,7 +27,6 @@ export function buildFeedTitle(locale: Locale, sectionTitle: string): string {
 
 export function getBlogFeedMetadata(locale: Locale) {
   const t = i18n[locale];
-
   return {
     title: buildFeedTitle(locale, t.blog.title),
     description: t.blog.lead,
@@ -30,10 +35,9 @@ export function getBlogFeedMetadata(locale: Locale) {
 
 export function getNowFeedMetadata(locale: Locale) {
   const t = i18n[locale];
-
   return {
     title: buildFeedTitle(locale, t.now.title),
-    description: splitLeadText(t.now.lead),
+    description: splitNowLead(t.now.lead).summary,
   };
 }
 
@@ -56,6 +60,35 @@ export function getSectionFeedLinks(locale: Locale, section: "blog" | "now"): Fe
 
 export function getSiteUrl(context: APIContext): URL {
   return context.site ?? new URL(context.url.origin);
+}
+
+export function splitNowLead(lead: string): { summary: string; updated: string } {
+  const markerMatch = lead.match(/(Stand:|Updated)/i);
+
+  if (!markerMatch || markerMatch.index === undefined) {
+    return { summary: normalizeWhitespace(lead), updated: "" };
+  }
+
+  const markerIndex = markerMatch.index;
+  const summary = normalizeWhitespace(lead.slice(0, markerIndex).replace(/[\s.]+$/, "."));
+  const updated = lead.slice(markerIndex).trim();
+  return { summary, updated };
+}
+
+export function buildNowFeedTitle(entry: CollectionEntry<"now">, locale: Locale): string {
+  if (entry.data.richlink?.title) {
+    return entry.data.richlink.title;
+  }
+
+  if (entry.data.quote) {
+    return entry.data.quote;
+  }
+
+  return entry.data.date.toLocaleDateString(DATE_LOCALE[locale], {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 }
 
 export function buildNowFeedDescription(entry: CollectionEntry<"now">, locale: Locale): string {
@@ -110,14 +143,53 @@ export function buildNowFeedDescription(entry: CollectionEntry<"now">, locale: L
   return parts.filter(Boolean).join("\n\n");
 }
 
-function splitLeadText(lead: string): string {
-  const markerMatch = lead.match(/(Stand:|Updated)/i);
+export function createBlogRSSHandler(locale: Locale) {
+  return async function GET(context: APIContext) {
+    const posts = (await getCollection("blog"))
+      .filter((post) => isEntryInLocale(post.id, locale, post.data.lang))
+      .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-  if (!markerMatch || markerMatch.index === undefined) {
-    return normalizeWhitespace(lead);
-  }
+    const metadata = getBlogFeedMetadata(locale);
 
-  return normalizeWhitespace(lead.slice(0, markerMatch.index));
+    return rss({
+      title: metadata.title,
+      description: metadata.description,
+      site: getSiteUrl(context),
+      items: posts.map((post) => ({
+        title: post.data.title,
+        description: post.data.description,
+        pubDate: post.data.pubDate,
+        ...(post.data.updatedDate
+          ? { customData: `<updated>${post.data.updatedDate.toUTCString()}</updated>` }
+          : {}),
+        link: `/${locale}/blog/${normalizeBlogSlug(post.id)}/`,
+      })),
+    });
+  };
+}
+
+export function createNowRSSHandler(locale: Locale) {
+  return async function GET(context: APIContext) {
+    const entries = sortNowEntries(
+      (await getCollection("now")).filter((entry) =>
+        isEntryInLocale(entry.id, locale, entry.data.lang)
+      )
+    );
+
+    const metadata = getNowFeedMetadata(locale);
+
+    return rss({
+      title: metadata.title,
+      description: metadata.description,
+      site: getSiteUrl(context),
+      items: entries.map((entry) => ({
+        title: buildNowFeedTitle(entry, locale),
+        description: buildNowFeedDescription(entry, locale),
+        pubDate: entry.data.date,
+        link: `/${locale}/now/${normalizeNowSlug(entry.id)}/`,
+      })),
+    });
+  };
 }
 
 function normalizeWhitespace(value: string): string {

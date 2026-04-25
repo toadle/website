@@ -70,10 +70,20 @@ type LocaleStrings = {
     detailDatePrefix: string;
     fromNowLinkLabel: string;
     updates: string[];
+    ratingLabel: string;
+    loadMore: string;
+    ogAlt: string;
+    updatedPrefix: string;
   };
   blog: {
     title: string;
     lead: string;
+    ogAlt: string;
+    pagination: {
+      prev: string;
+      next: string;
+      page: string;
+    };
     articleNav: {
       prev: string;
       next: string;
@@ -214,10 +224,20 @@ export const i18n: Record<Locale, LocaleStrings> = {
         "Workshops zu Produktstrategie und Technikausrichtung in Planung.",
         "Mehr Zeit für Open-Source und Community-Arbeit reserviert.",
       ],
+      ratingLabel: "Meine Bewertung",
+      loadMore: "Mehr laden",
+      ogAlt: "Now-Notiz von Tim Adler",
+      updatedPrefix: "Stand:",
     },
     blog: {
       title: "Blog",
       lead: "Texte, Notizen und Erkenntnisse aus Produkt, Technik und Teamarbeit.",
+      ogAlt: "Blog von Tim Adler",
+      pagination: {
+        prev: "← Vorherige Seite",
+        next: "Nächste Seite →",
+        page: "Seite",
+      },
       articleNav: {
         prev: "Voriger Artikel",
         next: "Nächster Artikel",
@@ -350,16 +370,26 @@ export const i18n: Record<Locale, LocaleStrings> = {
       microblogTitle: "Microblog",
       updatesTitle: "Updates",
       detailDatePrefix: "on",
-      fromNowLinkLabel: "in Tim's Now",
+      fromNowLinkLabel: "in Tim’s Now",
       updates: [
         "Expanding the personal blog and resource page.",
         "Workshops on product strategy and technical direction in planning.",
         "Reserving more time for open source and community work.",
       ],
+      ratingLabel: "My rating",
+      loadMore: "Load more",
+      ogAlt: "Now note by Tim Adler",
+      updatedPrefix: "Updated",
     },
     blog: {
       title: "Blog",
       lead: "Notes and insights on product, technology, and team work.",
+      ogAlt: "Blog by Tim Adler",
+      pagination: {
+        prev: "← Previous page",
+        next: "Next page →",
+        page: "Page",
+      },
       articleNav: {
         prev: "Previous article",
         next: "Next article",

@@ -1,0 +1,355 @@
+---
+import { getCollection, render } from "astro:content";
+import ContainerLayout from "./ContainerLayout.astro";
+import { i18n, type Locale } from "../i18n";
+import { isEntryInLocale } from "../lib/contentLocale";
+import { normalizeNowSlug } from "../lib/contentSlug";
+import { getSectionFeedLinks, splitNowLead } from "../lib/rss";
+import { sortNowEntries } from "../lib/sortNowEntries";
+import { formatNowDate, formatNowDateLong } from "../lib/dates";
+import NowTimelineItem from "../components/NowTimelineItem.astro";
+
+type Props = {
+  lang: Locale;
+};
+
+const { lang } = Astro.props;
+const t = i18n[lang];
+const PAGE_SIZE = 10;
+
+const rawEntries = sortNowEntries(
+  (await getCollection("now")).filter((entry) =>
+    isEntryInLocale(entry.id, lang, entry.data.lang)
+  )
+);
+
+const entries = await Promise.all(
+  rawEntries.map(async (entry) => {
+    const { Content } = await render(entry);
+    return { entry, Content };
+  })
+);
+
+const initialEntries = entries.slice(0, PAGE_SIZE);
+const totalPages = Math.ceil(entries.length / PAGE_SIZE);
+
+const leadParts = splitNowLead(t.now.lead);
+
+const updatedLabel = rawEntries[0]?.data?.date
+  ? `${t.now.updatedPrefix} ${formatNowDateLong(rawEntries[0].data.date, lang)}.`
+  : leadParts.updated;
+---
+
+<ContainerLayout
+  title={`${t.now.title} · ${t.siteTitle}`}
+  description={t.siteDescription}
+  lang={lang}
+  ogImage="/og/default.png"
+  ogAlt={t.now.ogAlt}
+  feedLinks={getSectionFeedLinks(lang, "now")}
+  padTop
+  padBottom
+>
+  <section class="page">
+    <header class="intro">
+      <h1>{t.now.title}</h1>
+      <p class="lead">{leadParts.summary}</p>
+      {updatedLabel && <p class="updated">{updatedLabel}</p>}
+    </header>
+
+    <ol id="now-timeline" class="timeline" data-load-more-list data-locale={lang}>
+      {initialEntries.map(({ entry, Content }) => (
+        <NowTimelineItem
+          entry={entry}
+          Content={Content}
+          dateText={formatNowDate(entry.data.date, lang)}
+          ratingLabel={t.now.ratingLabel}
+          dateHref={`/${lang}/now/${normalizeNowSlug(entry.id)}/`}
+        />
+      ))}
+    </ol>
+
+    {totalPages > 1 && (
+      <div class="load-more-wrap">
+        <button
+          type="button"
+          class="load-more"
+          data-load-more-button
+          aria-controls="now-timeline"
+          data-current-page="1"
+          data-total-pages={String(totalPages)}
+        >
+          {t.now.loadMore}
+        </button>
+      </div>
+    )}
+  </section>
+</ContainerLayout>
+
+<script>
+  const list = document.querySelector("[data-load-more-list]");
+  const button = document.querySelector("[data-load-more-button]");
+
+  if (list instanceof HTMLElement && button instanceof HTMLButtonElement) {
+    const classifyRichlinkCover = (cover: Element) => {
+      const image = cover.querySelector("img");
+
+      if (!image) {
+        return;
+      }
+
+      const update = () => {
+        const width = image.naturalWidth;
+        const height = image.naturalHeight;
+
+        if (!width || !height) {
+          return;
+        }
+
+        const ratio = width / height;
+        cover.classList.remove("is-poster", "is-square", "is-landscape");
+
+        if (ratio > 1.2) {
+          cover.classList.add("is-landscape");
+        } else if (ratio >= 0.85) {
+          cover.classList.add("is-square");
+        } else {
+          cover.classList.add("is-poster");
+        }
+      };
+
+      if (image.complete) {
+        update();
+      } else {
+        image.addEventListener("load", update, { once: true });
+      }
+    };
+
+    const initRichlinkCovers = (root: ParentNode) => {
+      root
+        .querySelectorAll(".richlink-cover[data-auto-cover]")
+        .forEach((cover) => classifyRichlinkCover(cover));
+    };
+
+    const locale = list.dataset.locale ?? "de";
+    let currentPage = Number.parseInt(button.dataset.currentPage ?? "1", 10);
+    const totalPages = Number.parseInt(button.dataset.totalPages ?? "1", 10);
+
+    const updateButton = () => {
+      button.hidden = currentPage >= totalPages;
+    };
+
+    button.addEventListener("click", async () => {
+      const nextPage = currentPage + 1;
+
+      if (nextPage > totalPages || button.disabled) {
+        return;
+      }
+
+      button.disabled = true;
+
+      try {
+        const response = await fetch(`/${locale}/now/partial/${nextPage}/`);
+        if (!response.ok) {
+          return;
+        }
+
+        const html = await response.text();
+        const documentFragment = new DOMParser().parseFromString(html, "text/html");
+        const items = Array.from(documentFragment.querySelectorAll("[data-now-item]"));
+
+        if (!items.length) {
+          currentPage = totalPages;
+          updateButton();
+          return;
+        }
+
+        items.forEach((item) => list.appendChild(item));
+        initRichlinkCovers(list);
+
+        currentPage = nextPage;
+        button.dataset.currentPage = String(currentPage);
+        updateButton();
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    updateButton();
+  }
+</script>
+
+<style>
+  :global(body) {
+    background-color: var(--gray-1);
+    color: var(--gray-12);
+  }
+
+  :global(a) {
+    color: inherit;
+    text-decoration-color: var(--gray-7);
+  }
+
+  .page {
+    display: grid;
+    gap: var(--space-2xl);
+  }
+
+  .lead {
+    margin: 0;
+    font-size: var(--step-3);
+    line-height: var(--line-height-tight);
+    max-width: 30ch;
+    color: var(--gray-12);
+  }
+
+  .updated {
+    margin: 0;
+    font-size: var(--step--1);
+    line-height: 1.3;
+    color: var(--gray-9);
+  }
+
+  .intro {
+    display: grid;
+    gap: var(--space-xs);
+  }
+
+  .intro h1 {
+    margin: 0;
+  }
+
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-xl);
+    position: relative;
+  }
+
+  .timeline::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 10px;
+    width: 2px;
+    background: var(--gray-4);
+    border-radius: 999px;
+  }
+
+  .timeline :global(.now-timeline-item) {
+    position: relative;
+    padding-left: var(--space-2xl);
+    display: grid;
+    gap: var(--space-xs);
+  }
+
+  .timeline :global(.now-timeline-item)::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 4px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--gray-7);
+    border: 2px solid var(--gray-2);
+    box-shadow: 0 0 0 2px var(--gray-1);
+  }
+
+  .timeline :global(time) {
+    font-size: var(--step--1);
+    color: var(--gray-10);
+    letter-spacing: 0.02em;
+  }
+
+  .timeline :global(p) {
+    margin: 0;
+    font-size: var(--step-0);
+    line-height: var(--line-height-body);
+    max-width: 70ch;
+  }
+
+  .timeline :global(.body p) {
+    margin: 0;
+    font-size: var(--step-0);
+    line-height: var(--line-height-body);
+    max-width: 70ch;
+    color: var(--gray-12);
+  }
+
+  .timeline :global(blockquote) {
+    position: relative;
+    margin: 0;
+    padding-left: 2.5rem;
+    color: var(--gray-10);
+    font-size: var(--step-0);
+    font-variation-settings: "slnt" -6;
+    line-height: var(--line-height-body);
+  }
+
+  .timeline :global(blockquote::before) {
+    content: "\201C";
+    position: absolute;
+    left: 0;
+    top: -0.1rem;
+    font-size: 3.5rem;
+    font-style: normal;
+    color: var(--gray-7);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .timeline :global(.opinion) {
+    color: var(--gray-12);
+  }
+
+  .timeline :global(figure) {
+    margin: 0;
+  }
+
+  .timeline :global(img) {
+    width: 100%;
+    border-radius: var(--radius-m);
+    border: 1px solid var(--gray-4);
+    display: block;
+  }
+
+  .timeline :global(.embed) {
+    position: relative;
+    padding-top: 56.25%;
+    border-radius: var(--radius-m);
+    border: 1px solid var(--gray-4);
+    overflow: hidden;
+    background: var(--gray-2);
+  }
+
+  .timeline :global(.embed iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .load-more-wrap {
+    display: flex;
+    justify-content: center;
+  }
+
+  .load-more {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--gray-10);
+    font-size: var(--step--1);
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 160ms ease;
+  }
+
+  .load-more:hover {
+    color: var(--gray-12);
+  }
+</style>

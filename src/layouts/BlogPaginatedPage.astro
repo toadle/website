@@ -1,0 +1,106 @@
+---
+import type { CollectionEntry } from "astro:content";
+import ContainerLayout from "./ContainerLayout.astro";
+import FormattedDate from "../components/FormattedDate.astro";
+import { i18n, type Locale } from "../i18n";
+import { normalizeBlogSlug } from "../lib/contentSlug";
+import { renderInlineMarkdown } from "../lib/renderInlineMarkdown";
+import { DATE_LOCALE } from "../lib/dates";
+
+type Props = {
+  lang: Locale;
+  posts: CollectionEntry<"blog">[];
+  currentPage: number;
+  prevUrl: string | undefined;
+  nextUrl: string | undefined;
+};
+
+const { lang, posts, currentPage, prevUrl, nextUrl } = Astro.props;
+const t = i18n[lang];
+---
+
+<ContainerLayout
+  title={`${t.blog.title} · ${t.siteTitle}`}
+  description={t.siteDescription}
+  lang={lang}
+  ogImage="/og/default.png"
+  ogAlt={t.blog.ogAlt}
+  padTop
+  padBottom
+>
+  <section class="page-wrap">
+    <header class="intro">
+      <h1>{t.blog.title}</h1>
+      <p>{t.blog.lead}</p>
+    </header>
+
+    <ul class="posts">
+      {posts.map((post) => (
+        <li>
+          <a href={`/${lang}/blog/${normalizeBlogSlug(post.id)}/`}>
+            <h4 class="title" set:html={renderInlineMarkdown(post.data.title)} />
+            <p class="date">
+              <FormattedDate date={post.data.pubDate} locale={DATE_LOCALE[lang]} />
+            </p>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <nav class="pagination" aria-label="Blog pagination">
+      {prevUrl ? (
+        <a href={prevUrl}>{t.blog.pagination.prev}</a>
+      ) : (
+        <span />
+      )}
+      <span>{t.blog.pagination.page} {currentPage}</span>
+      {nextUrl ? <a href={nextUrl}>{t.blog.pagination.next}</a> : <span />}
+    </nav>
+  </section>
+</ContainerLayout>
+
+<style>
+  .page-wrap {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .intro {
+    display: grid;
+    gap: var(--space-xs);
+    max-width: 60ch;
+  }
+
+  .posts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .posts a {
+    text-decoration: none;
+    display: grid;
+    gap: var(--space-xs);
+    padding-block: var(--space-xs);
+    border-bottom: 1px solid var(--gray-4);
+  }
+
+  .posts li:last-child a {
+    border-bottom: none;
+  }
+
+  .date {
+    font-size: var(--step--1);
+    color: var(--gray-10);
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-s);
+    border-top: 1px solid var(--gray-4);
+    padding-top: var(--space-s);
+  }
+</style>

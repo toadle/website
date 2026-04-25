@@ -74,7 +74,7 @@ Der erste Schritt ist ein vollständiger Export aller Inhalte und Assets aus Con
 
 ##### Kommando für den Export:
 
-```other
+```bash
 npx contentful-cli space export --space-id <space-id> --content-only --download-assets
 ```
 
@@ -109,7 +109,7 @@ Bevor `strapi_lift` loslegen kann, braucht das Tool ein paar Basisinfos:
 -  `bundle install`  ausführen
 - **.env-Datei** anpassen:
 
-```sql
+```bash
 STRAPI_API_TOKEN=your_strapi_token
 STRAPI_URL=your_strapi_url
 ```
@@ -130,7 +130,7 @@ Für jeden Content Type in Contentful wird ein sogenannter *Representer* in Ruby
 
 ##### Beispiel (gekürzt):
 
-```other
+```ruby
 module Contentful
   class ArticleRepresenter < Representable::Decorator
     include Representable::JSON
@@ -164,7 +164,7 @@ Im nächsten Schritt wird für jeden Content Type ein sogenanntes Zwischenmodell
 
 ##### Beispiel:
 
-```other
+```ruby
 module Contentful
   class Article
     include StrapiDocumentConnected
@@ -196,7 +196,7 @@ Damit Relationen zwischen verschiedenen Content Types bei der Migration korrekt 
 
 Ein Beispiel für einen solchen Link ist die Klasse `Contentful::ArticleLink`:
 
-```other
+```ruby
 require_relative 'entry_link'
 
 module Contentful
@@ -234,7 +234,7 @@ Ein wichtiger Unterschied: In Contentful gibt es kein Konzept, das zwischen Sing
 
 Mit `strapi_lift` kannst Du das per single_content_type!-Methode im Zwischenmodell abbilden. Beispiel:
 
-```other
+```ruby
 single_content_type!
 ```
 
@@ -250,7 +250,7 @@ Für jeden Content Type muss auch ein *Strapi-Representer* gebaut werden. Dieser
 
 ##### Beispiel:
 
-```other
+```ruby
 module Strapi
   class ArticleRepresenter < Strapi::BaseRepresenter
     property :title
@@ -270,7 +270,7 @@ Damit **strapi_lift** weiß, welche Content Types tatsächlich importiert werden
 
 ##### Beispiel (Ausschnitt):
 
-```other
+```ruby
 [
   Contentful::Author,
   Contentful::Category,
@@ -298,7 +298,7 @@ Damit nach Testläufen oder fehlerhaften Migrationen alle importierten Inhalte a
 
 - Ergänze für jeden neuen Content Type, den Du importierst, einen eigenen Reset-Aufruf:
 
-```other
+```ruby
 Contentful::Product.reset_strapi!
 ```
 
@@ -306,7 +306,7 @@ Contentful::Product.reset_strapi!
 
 ##### Beispiel (Ausschnitt aus bin/strapi_lift):
 
-```other
+```ruby
 def reset
   logger = SemanticLogger['strapi_lift']
   logger.info("Starting reset process...")
@@ -325,7 +325,7 @@ Mit den Vorbereitungen und der Anpassung der Models und Representer steht der ei
 
 Der eigentliche Import wird über die Kommandozeile mit folgendem Befehl gestartet:
 
-```other
+```bash
 ./bin/strapi_lift import --contentful_content contentful_export.json --assets_folder assets
 ```
 
@@ -338,7 +338,7 @@ Du kannst den Import jederzeit erneut starten – das Tool prüft, ob Einträge 
 
 Während des Import gibt `strapi_lift` Infos über den Fortschritt aus:
 
-```sql
+```plaintext
 2025-05-17 20:42:39.296377 I [58556:740] strapi_lift -- Starting import process...
 2025-05-17 20:42:39.299585 I [58556:740] EntriesImporter -- Processing 1/1011 -- {:id=>"4dukPV8tjWOGGKEoeAuOUm", :model=>"articles"}
 2025-05-17 20:42:39.300466 I [58556:740] Contentful::CategoryLink -- Resolving -- {:id=>"4QOCXj1qeAO0UeCmykS6uc"}
@@ -402,7 +402,7 @@ Ein zentrales Feature von **strapi_lift** ist das ausführliche Logging – sowo
 
 ##### Beispiel für einen Log-Eintrag in log.jsonl:
 
-```other
+```json
 {
   "host": "MacBook-Pro.localdomain",
   "application": "Semantic Logger",
@@ -425,7 +425,7 @@ Um gezielt nach Fehlern (level: "error") oder Warnungen (level: "warn") zu suche
 
 Hier zwei praktische Beispiele:
 
-```other
+```bash
 cat log.jsonl | jq 'select(.level == "error")'
 cat log.jsonl | jq 'select(.level == "warn")'
 ```

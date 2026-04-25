@@ -1,49 +1,21 @@
 ---
-import { getCollection, render } from "astro:content";
+import { type CollectionEntry, render } from "astro:content";
 import NowTimelineItem from "../../../../components/NowTimelineItem.astro";
-import { isEntryInLocale } from "../../../../lib/contentLocale";
+import { i18n } from "../../../../i18n";
 import { normalizeNowSlug } from "../../../../lib/contentSlug";
-import { sortNowEntries } from "../../../../lib/sortNowEntries";
+import { formatNowDate } from "../../../../lib/dates";
+import { getNowPartialPaths } from "../../../../lib/staticPaths";
+
+export const getStaticPaths = () => getNowPartialPaths("en");
 
 const lang = "en";
-const PAGE_SIZE = 10;
+const t = i18n[lang];
 
-const formatNowDate = (date: Date) =>
-  date.toLocaleDateString("en-US", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-
-const rawEntries = sortNowEntries(
-  (await getCollection("now")).filter((entry) =>
-    isEntryInLocale(entry.id, lang, entry.data.lang)
-  )
-);
-
-export async function getStaticPaths() {
-  const lang = "en";
-  const PAGE_SIZE = 10;
-
-  const rawEntries = sortNowEntries(
-    (await getCollection("now")).filter((entry) =>
-      isEntryInLocale(entry.id, lang, entry.data.lang)
-    )
-  );
-
-  const totalPages = Math.ceil(rawEntries.length / PAGE_SIZE);
-
-  return Array.from({ length: Math.max(totalPages - 1, 0) }, (_, index) => ({
-    params: { page: String(index + 2) },
-  }));
-}
-
-const page = Number.parseInt(Astro.params.page ?? "1", 10);
-const start = (page - 1) * PAGE_SIZE;
-const end = start + PAGE_SIZE;
+type Props = { pageEntries: CollectionEntry<"now">[] };
+const { pageEntries } = Astro.props;
 
 const entries = await Promise.all(
-  rawEntries.slice(start, end).map(async (entry) => {
+  pageEntries.map(async (entry) => {
     const { Content } = await render(entry);
     return { entry, Content };
   })
@@ -55,8 +27,8 @@ const entries = await Promise.all(
     <NowTimelineItem
       entry={entry}
       Content={Content}
-      dateText={formatNowDate(entry.data.date)}
-      ratingLabel="My rating"
+      dateText={formatNowDate(entry.data.date, lang)}
+      ratingLabel={t.now.ratingLabel}
       dateHref={`/${lang}/now/${normalizeNowSlug(entry.id)}/`}
     />
   ))}

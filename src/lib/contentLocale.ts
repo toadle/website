@@ -1,11 +1,11 @@
-export type ContentLocale = "de" | "en";
+import type { Locale } from "../i18n";
 
-const CONTENT_LOCALE_SET = new Set<ContentLocale>(["de", "en"]);
+const CONTENT_LOCALE_SET = new Set<Locale>(["de", "en"]);
 
-export function getLocaleFromContentId(id: string): ContentLocale | undefined {
+export function getLocaleFromContentId(id: string): Locale | undefined {
   const firstSegment = id.split("/")[0];
-  if (CONTENT_LOCALE_SET.has(firstSegment as ContentLocale)) {
-    return firstSegment as ContentLocale;
+  if (CONTENT_LOCALE_SET.has(firstSegment as Locale)) {
+    return firstSegment as Locale;
   }
 
   if (id.endsWith("--de")) {
@@ -21,8 +21,8 @@ export function getLocaleFromContentId(id: string): ContentLocale | undefined {
 
 export function isEntryInLocale(
   id: string,
-  locale: ContentLocale,
-  frontmatterLang?: ContentLocale
+  locale: Locale,
+  frontmatterLang?: Locale
 ): boolean {
   const localeFromId = getLocaleFromContentId(id);
 

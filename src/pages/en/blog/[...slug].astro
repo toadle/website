@@ -1,40 +1,11 @@
 ---
-import { type CollectionEntry, getCollection, render } from "astro:content";
+import { type CollectionEntry, render } from "astro:content";
 import BlogPost from "../../../layouts/BlogPost.astro";
-import { isEntryInLocale } from "../../../lib/contentLocale";
-import { normalizeBlogSlug } from "../../../lib/contentSlug";
+import { getBlogStaticPaths } from "../../../lib/staticPaths";
 
 type NavPost = { title: string; slug: string };
 
-export async function getStaticPaths() {
-  const posts = (await getCollection("blog"))
-    .filter((post) => isEntryInLocale(post.id, "en", post.data.lang))
-    .sort(
-    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-  );
-
-  return posts.map((post, index) => {
-    const prev = posts[index - 1];
-    const next = posts[index + 1];
-
-    const normalizedSlug = normalizeBlogSlug(post.id);
-
-    return {
-    params: { slug: normalizedSlug },
-    props: {
-      ...post,
-      lang: "en",
-      prevPost: prev
-        ? { title: prev.data.title, slug: normalizeBlogSlug(prev.id) }
-        : undefined,
-      nextPost: next
-        ? { title: next.data.title, slug: normalizeBlogSlug(next.id) }
-        : undefined,
-      translationHref: post.data.alternateLanguageUrl,
-    },
-  };
-  });
-}
+export const getStaticPaths = () => getBlogStaticPaths("en");
 
 type Props = CollectionEntry<"blog"> & {
   lang: "en";
@@ -46,7 +17,6 @@ type Props = CollectionEntry<"blog"> & {
 const post = Astro.props as Props;
 const { Content } = await render(post);
 ---
-
 <BlogPost
   {...post.data}
   lang={post.lang}

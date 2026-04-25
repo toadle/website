@@ -1,0 +1,210 @@
+---
+import { type CollectionEntry, render } from "astro:content";
+import NowTimelineItem from "../components/NowTimelineItem.astro";
+import { i18n, type Locale } from "../i18n";
+import ContainerLayout from "./ContainerLayout.astro";
+import { formatNowDate } from "../lib/dates";
+
+type Props = {
+  entry: CollectionEntry<"now">;
+  lang: Locale;
+  languageSwitchHref: string;
+};
+
+const { entry, lang, languageSwitchHref } = Astro.props;
+const t = i18n[lang];
+const { Content } = await render(entry);
+
+const formattedDate = formatNowDate(entry.data.date, lang);
+
+const leadText = entry.body
+  ?.trim()
+  .split(/\n\s*\n/)[0]
+  ?.replace(/\n+/g, " ")
+  .trim();
+
+const ogImage =
+  entry.data.image?.src ?? entry.data.richlink?.cover?.src ?? "/og/default.png";
+const ogAlt =
+  entry.data.image?.alt ?? entry.data.richlink?.cover?.alt ?? t.now.ogAlt;
+---
+
+<ContainerLayout
+  title={`${formattedDate} · ${t.now.title} · ${t.siteTitle}`}
+  description={t.siteDescription}
+  lang={lang}
+  ogImage={ogImage}
+  ogAlt={ogAlt}
+  languageSwitchHref={languageSwitchHref}
+  padTop
+  padBottom
+>
+  <section class="page">
+    <header class="intro">
+      <p class="meta">
+        {t.now.detailDatePrefix} {formattedDate} <a href={`/${lang}/now/`}>{t.now.fromNowLinkLabel}</a>
+      </p>
+    </header>
+
+    <ol class="timeline">
+      {leadText && <li class="timeline-lead">{leadText}</li>}
+      <NowTimelineItem
+        entry={entry}
+        Content={Content}
+        dateText={formattedDate}
+        ratingLabel={t.now.ratingLabel}
+        hideDate
+        hideBody
+      />
+    </ol>
+  </section>
+</ContainerLayout>
+
+<style>
+  :global(body) {
+    background-color: var(--gray-1);
+    color: var(--gray-12);
+  }
+
+  :global(a) {
+    color: inherit;
+    text-decoration-color: var(--gray-7);
+  }
+
+  .page {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .intro {
+    display: grid;
+    gap: 0;
+  }
+
+  .meta {
+    margin: 0;
+    color: var(--gray-9);
+    font-size: var(--step--1);
+  }
+
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-xl);
+    position: relative;
+  }
+
+  .timeline::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 10px;
+    width: 2px;
+    background: var(--gray-4);
+    border-radius: 999px;
+  }
+
+  .timeline :global(.now-timeline-item) {
+    position: relative;
+    padding-left: var(--space-2xl);
+    display: grid;
+    gap: var(--space-xs);
+  }
+
+  .timeline-lead {
+    margin: 0;
+    list-style: none;
+    position: relative;
+    padding-left: var(--space-2xl);
+    font-size: var(--step-2);
+    line-height: var(--line-height-tight);
+    max-width: 42ch;
+  }
+
+  .timeline-lead::before {
+    content: none;
+  }
+
+  .timeline :global(.now-timeline-item)::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 4px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--gray-7);
+    border: 2px solid var(--gray-2);
+    box-shadow: 0 0 0 2px var(--gray-1);
+  }
+
+  .timeline :global(p) {
+    margin: 0;
+    font-size: var(--step-0);
+    line-height: var(--line-height-body);
+    max-width: 70ch;
+  }
+
+  .timeline :global(.body p) {
+    margin: 0;
+    font-size: var(--step-0);
+    line-height: var(--line-height-body);
+    max-width: 70ch;
+    color: var(--gray-12);
+  }
+
+  .timeline :global(blockquote) {
+    position: relative;
+    margin: 0;
+    padding-left: 2.5rem;
+    color: var(--gray-10);
+    font-size: var(--step-0);
+    font-variation-settings: "slnt" -6;
+    line-height: var(--line-height-body);
+  }
+
+  .timeline :global(blockquote::before) {
+    content: "\201C";
+    position: absolute;
+    left: 0;
+    top: -0.1rem;
+    font-size: 3.5rem;
+    font-style: normal;
+    color: var(--gray-7);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .timeline :global(.opinion) {
+    color: var(--gray-12);
+  }
+
+  .timeline :global(figure) {
+    margin: 0;
+  }
+
+  .timeline :global(img) {
+    width: 100%;
+    border-radius: var(--radius-m);
+    border: 1px solid var(--gray-4);
+    display: block;
+  }
+
+  .timeline :global(.embed) {
+    position: relative;
+    padding-top: 56.25%;
+    border-radius: var(--radius-m);
+    border: 1px solid var(--gray-4);
+    overflow: hidden;
+    background: var(--gray-2);
+  }
+
+  .timeline :global(.embed iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+</style>
