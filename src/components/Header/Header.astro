@@ -169,6 +169,12 @@ const navigation = i18n[currentLang].nav;
     align-items: stretch;
     gap: var(--space-2xs);
     margin-inline-end: calc(-1 * var(--space-s));
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    @media (max-width: 40rem) {
+      mask-image: linear-gradient(to right, black calc(100% - 3rem), transparent 100%);
+    }
 
     a,
     button {
