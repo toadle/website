@@ -1,0 +1,76 @@
+---
+import ContainerLayout from "../layouts/ContainerLayout.astro";
+import hero from "../assets/404-hero.png";
+---
+
+<ContainerLayout
+  title="404"
+  description="Diese Seite existiert nicht. / This page does not exist."
+  padTop
+>
+  <section class="hero">
+    <img
+      class="hero-image"
+      src={hero.src}
+      width={hero.width}
+      height={hero.height}
+      alt="404"
+      loading="eager"
+      decoding="async"
+    />
+    <div class="hero-text">
+      <h1>404</h1>
+      <p class="de">Diese Seite existiert nicht. Aber du hast sie gefunden – fast schon ein Talent.</p>
+      <p class="en">This page doesn't exist. But you found it – almost impressive.</p>
+      <div class="links">
+        <a href="/de/">Startseite</a>
+        <a href="/en/">Home</a>
+      </div>
+    </div>
+  </section>
+</ContainerLayout>
+
+<style>
+  .hero {
+    display: grid;
+    gap: var(--space-2xl);
+    align-items: center;
+    padding-block: var(--space-2xl) var(--space-3xl);
+  }
+
+  .hero-image {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-s);
+    object-fit: cover;
+  }
+
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+  }
+
+  h1 {
+    font-size: var(--step-6);
+    line-height: 1;
+  }
+
+  p {
+    font-size: var(--step-1);
+    line-height: var(--line-height-tight);
+    color: var(--gray-10);
+  }
+
+  .links {
+    display: flex;
+    gap: var(--space-m);
+    margin-top: var(--space-s);
+  }
+
+  .links a {
+    font-weight: var(--font-weight-bold);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+</style>
