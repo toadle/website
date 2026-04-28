@@ -1,0 +1,16 @@
+{
+  "name": "Tim Adler",
+  "short_name": "Tim Adler",
+  "description": "Tim Adler baut Technik, die funktioniert und echten Wert schafft.",
+  "start_url": "/",
+  "display": "browser",
+  "theme_color": "#FCFCFC",
+  "background_color": "#111111",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
