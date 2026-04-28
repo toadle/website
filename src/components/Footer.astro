@@ -138,6 +138,11 @@ const legalLinks =
 
         stampNode.dataset.avatarInitialized = "true";
 
+        for (const src of sources) {
+          const preload = new Image();
+          preload.src = src;
+        }
+
         let sourceIndex = 0;
         avatarImage.src = sources[sourceIndex] ?? avatarImage.src;
 
