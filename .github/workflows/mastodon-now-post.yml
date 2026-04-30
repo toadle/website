@@ -1,8 +1,5 @@
 name: Mastodon Now Mirror
 
-# Runs after a successful "Test" workflow run on main.
-# Only processes the first run-attempt of the triggering test run —
-# re-runs of the test job do not produce duplicate posts.
 on:
   workflow_dispatch:
     inputs:
@@ -24,9 +21,6 @@ jobs:
   mirror:
     name: Mirror new now-posts to Mastodon
     runs-on: ubuntu-latest
-
-    # Gate: automatic runs only proceed after a successful first-attempt test run.
-    # Manual workflow_dispatch runs are always allowed.
     if: >
       github.event_name == 'workflow_dispatch' ||
       (
@@ -35,37 +29,20 @@ jobs:
       )
 
     steps:
-      # Automatic runs: checkout the exact commit that triggered the test workflow.
-      # fetch-depth: 2 gives us HEAD and HEAD~1 for the git diff.
       - uses: actions/checkout@v4
-        if: ${{ github.event_name == 'workflow_run' }}
         with:
-          ref: ${{ github.event.workflow_run.head_sha }}
-          fetch-depth: 2
-
-      # Manual runs: optionally target a specific commit SHA.
-      # Empty commit_sha means the latest commit on the selected branch.
-      - uses: actions/checkout@v4
-        if: ${{ github.event_name == 'workflow_dispatch' }}
-        with:
-          ref: ${{ inputs.commit_sha != '' && inputs.commit_sha || github.ref }}
-          fetch-depth: 2
+          ref: ${{ github.event_name == 'workflow_dispatch' && github.ref || format('refs/heads/{0}', github.event.repository.default_branch) }}
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
 
-      # Run the publisher. The script exits cleanly when no new DE now-files
-      # are found, so this step is always safe to run.
       - name: Mirror new DE now-posts to Mastodon
         env:
-          # Secrets — set these in: Settings → Secrets and variables → Actions → Secrets
           MASTODON_BASE_URL: ${{ secrets.MASTODON_BASE_URL }}
           MASTODON_ACCESS_TOKEN: ${{ secrets.MASTODON_ACCESS_TOKEN }}
-          # Variables — set these in: Settings → Secrets and variables → Actions → Variables
-          # MASTODON_VISIBILITY: public | unlisted | private  (default: public)
           MASTODON_VISIBILITY: ${{ vars.MASTODON_VISIBILITY }}
-          # Automatic runs use the repository variable MASTODON_DRY_RUN.
-          # Manual runs can override it per dispatch.
           DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || vars.MASTODON_DRY_RUN }}
+          TARGET_COMMIT_SHA: ${{ github.event_name == 'workflow_dispatch' && (inputs.commit_sha != '' && inputs.commit_sha || github.sha) || github.event.workflow_run.head_sha }}
         run: node scripts/mastodon-now-publisher.mjs
