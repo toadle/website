@@ -66,7 +66,53 @@ npm run import:imdb-now -- --input=specs/004-imdb-now-import/imdb-ratings-snapsh
 - `--limit`: Maximum number of ratings to process.
 - `--dry-run`: Print options without writing content files.
 
-## 👀 Want to learn more?
+## � Mastodon Now Mirror
+
+Every new DE now-post that is pushed to `main` is automatically mirrored to Mastodon via the `.github/workflows/mastodon-now-post.yml` workflow.
+
+### How it works
+
+1. The **Test** workflow runs first (build + E2E).
+2. On success, the **Mastodon Now Mirror** job starts.
+3. It diffs `HEAD~1..HEAD` for newly added files under `src/content/now/de/`.
+4. For each new file the toot text is composed directly from the frontmatter and body — no rewriting.
+5. Movie richlinks include the film URL so Mastodon renders a preview card.
+
+### Required GitHub secrets
+
+| Secret | Description |
+| :--- | :--- |
+| `MASTODON_BASE_URL` | Your instance URL, e.g. `https://mastodon.social` |
+| `MASTODON_ACCESS_TOKEN` | App access token with `write:statuses` scope |
+
+Set these under **Settings → Secrets and variables → Actions → Secrets**.
+
+### Optional GitHub variables
+
+| Variable | Default | Description |
+| :--- | :--- | :--- |
+| `MASTODON_VISIBILITY` | `public` | `public`, `unlisted`, or `private` |
+| `MASTODON_DRY_RUN` | `true` | Set to `false` to enable live posting |
+
+Set these under **Settings → Secrets and variables → Actions → Variables**.
+
+> **Start with Dry-Run.** The default configuration never posts. Check the workflow summary to see what would be posted, then set `MASTODON_DRY_RUN` to `false` when ready.
+
+### Local test
+
+```sh
+DRY_RUN=true node scripts/mastodon-now-publisher.mjs
+```
+
+### Manual run in GitHub Actions
+
+You can also start the workflow manually via **Actions → Mastodon Now Mirror → Run workflow**.
+
+- Leave `commit_sha` empty to mirror the latest commit on the selected branch.
+- Set `commit_sha` to a specific commit if you want to replay or retry an older now-post addition.
+- `dry_run` defaults to `true` for manual runs, so you can safely test first.
+
+## �👀 Want to learn more?
 
 Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
 
