@@ -43,6 +43,10 @@ jobs:
           MASTODON_BASE_URL: ${{ secrets.MASTODON_BASE_URL }}
           MASTODON_ACCESS_TOKEN: ${{ secrets.MASTODON_ACCESS_TOKEN }}
           MASTODON_VISIBILITY: ${{ vars.MASTODON_VISIBILITY }}
-          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || vars.MASTODON_DRY_RUN }}
+          # Precedence:
+          # 1) vars.MASTODON_DRY_RUN (global kill switch)
+          # 2) workflow_dispatch input dry_run
+          # 3) safe default true
+          DRY_RUN: ${{ vars.MASTODON_DRY_RUN != '' && vars.MASTODON_DRY_RUN || (github.event_name == 'workflow_dispatch' && (inputs.dry_run && 'true' || 'false') || 'true') }}
           TARGET_COMMIT_SHA: ${{ github.event_name == 'workflow_dispatch' && (inputs.commit_sha != '' && inputs.commit_sha || github.sha) || github.event.workflow_run.head_sha }}
         run: node scripts/mastodon-now-publisher.mjs
