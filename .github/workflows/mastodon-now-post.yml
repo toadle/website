@@ -38,6 +38,27 @@ jobs:
         with:
           node-version-file: .node-version
 
+      - name: Log effective mirror config
+        env:
+          EFFECTIVE_DRY_RUN: ${{ vars.MASTODON_DRY_RUN != '' && vars.MASTODON_DRY_RUN || (github.event_name == 'workflow_dispatch' && (inputs.dry_run && 'true' || 'false') || 'true') }}
+          EFFECTIVE_TARGET_COMMIT_SHA: ${{ github.event_name == 'workflow_dispatch' && (inputs.commit_sha != '' && inputs.commit_sha || github.sha) || github.event.workflow_run.head_sha }}
+          EFFECTIVE_VISIBILITY: ${{ vars.MASTODON_VISIBILITY != '' && vars.MASTODON_VISIBILITY || 'public' }}
+        run: |
+          echo "Resolved config:"
+          echo "- event_name=${GITHUB_EVENT_NAME}"
+          echo "- dry_run=${EFFECTIVE_DRY_RUN}"
+          echo "- target_commit_sha=${EFFECTIVE_TARGET_COMMIT_SHA}"
+          echo "- visibility=${EFFECTIVE_VISIBILITY}"
+          if [ -n "${GITHUB_STEP_SUMMARY}" ]; then
+            {
+              echo "## Mastodon mirror config"
+              echo "- event_name: ${GITHUB_EVENT_NAME}"
+              echo "- dry_run: ${EFFECTIVE_DRY_RUN}"
+              echo "- target_commit_sha: ${EFFECTIVE_TARGET_COMMIT_SHA}"
+              echo "- visibility: ${EFFECTIVE_VISIBILITY}"
+            } >> "${GITHUB_STEP_SUMMARY}"
+          fi
+
       - name: Mirror new DE now-posts to Mastodon
         env:
           MASTODON_BASE_URL: ${{ secrets.MASTODON_BASE_URL }}

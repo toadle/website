@@ -124,40 +124,42 @@ function stripMarkdown(text) {
 }
 
 function composeText({ frontmatter, body }) {
-  const parts = [];
+  const textParts = [];
+  const linkParts = [];
 
   if (frontmatter.richlink && frontmatter.richlink.title) {
     const title =
       frontmatter.rating && frontmatter.rating.display
         ? `${frontmatter.richlink.title} (${frontmatter.rating.display})`
         : frontmatter.richlink.title;
-    parts.push(title);
-  }
-
-  if (frontmatter.richlink && frontmatter.richlink.kind === 'movie' && frontmatter.richlink.url) {
-    parts.push(String(frontmatter.richlink.url));
+    textParts.push(title);
   }
 
   if (frontmatter.quote) {
-    parts.push(`»${frontmatter.quote}«`);
+    textParts.push(`»${frontmatter.quote}«`);
     if (frontmatter.opinion) {
-      parts.push(String(frontmatter.opinion));
+      textParts.push(String(frontmatter.opinion));
     }
   }
 
   if (body) {
-    parts.push(stripMarkdown(body));
+    textParts.push(stripMarkdown(body));
+  }
+
+  if (textParts.length === 0 && frontmatter.image && frontmatter.image.alt) {
+    textParts.push(String(frontmatter.image.alt));
+  }
+
+  // Links always go last so Mastodon can render a preview card at the bottom
+  if (frontmatter.richlink && frontmatter.richlink.kind === 'movie' && frontmatter.richlink.url) {
+    linkParts.push(String(frontmatter.richlink.url));
   }
 
   if (frontmatter.youtube) {
-    parts.push(String(frontmatter.youtube));
+    linkParts.push(String(frontmatter.youtube));
   }
 
-  if (parts.length === 0 && frontmatter.image && frontmatter.image.alt) {
-    parts.push(String(frontmatter.image.alt));
-  }
-
-  return parts.join('\n\n').trim();
+  return [...textParts, ...linkParts].join('\n\n').trim();
 }
 
 function truncate(text, limit) {
