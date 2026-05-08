@@ -21,6 +21,25 @@ export const projectEntries: WorkEntry[] = [
     technologies: ["Python", "spaCy", "NLP", "Custom AI"],
   },
   {
+    id: "emilia",
+    title: {
+      de: "Emilia",
+      en: "Emilia",
+    },
+    summary: {
+      de: "PropTech / Mobile App",
+      en: "PropTech / Mobile App",
+    },
+    description: {
+      de: "Für das PropTech-Startup emilia.app habe ich an einer plattformunabhängigen React Native App samt Rails-basierter GraphQL-API mitgearbeitet.",
+      en: "For the PropTech startup emilia.app I worked on a cross-platform React Native app with a Rails-based GraphQL API.",
+    },
+    year: 2025,
+    url: "https://emilia.app",
+    linkText: "Emilia",
+    technologies: ["React Native", "Ruby On Rails", "GraphQL"],
+  },
+  {
     id: "balloon-iso-27001",
     title: {
       de: "Balloon",
@@ -78,25 +97,6 @@ export const projectEntries: WorkEntry[] = [
     technologies: ["React Native", "Ruby On Rails", "Amazon Web Services"],
   },
   {
-    id: "balloon",
-    title: {
-      de: "Balloon",
-      en: "Balloon",
-    },
-    summary: {
-      de: "Meditationen / Mobile App",
-      en: "Meditation / Mobile App",
-    },
-    description: {
-      de: "Ich übernahm einen ausschließlich auf Swift basierenden iOS-Prototypen und stabilisierte ihn für etwa ein Jahr im Produktionsbetrieb. Dann leitete ich den Prozess zur Entwicklung und Einführung einer Multiplattform-Version der Anwendung.",
-      en: "I took over a Swift-based iOS-only prototype and stabilized it for about one year in production. Then I guided the process to design and launch a multi-platform version.",
-    },
-    url: "https://www.balloonapp.de/",
-    linkText: "Balloon",
-    year: 2018,
-    technologies: ["React Native", "Ruby On Rails", "Amazon Web Services"],
-  },
-  {
     id: "hochzeitsplaza",
     title: {
       de: "Hochzeitsplaza",
@@ -113,7 +113,7 @@ export const projectEntries: WorkEntry[] = [
     url: "https://www.hochzeitsplaza.de/",
     linkText: "Hochzeitsplaza",
     year: 2015,
-    technologies: ["Ruby On Rails", "Amazon Web Services", "Contentful"],
+    technologies: ["Ruby On Rails", "Amazon Web Services", "Contentful", "Strapi"],
   },
   {
     id: "hausgold",
