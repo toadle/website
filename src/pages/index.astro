@@ -6,13 +6,18 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>Redirecting…</title>
+		<title>Redirecting...</title>
 		<noscript>
 			<meta http-equiv="refresh" content="0; url=/en" />
 		</noscript>
 	</head>
 	<body>
 		<script>
+			const redirectTitles = {
+				de: "Weiterleitung...",
+				en: "Redirecting...",
+			};
+
 			const resolveTarget = () => {
 				try {
 					const stored = window.localStorage.getItem("lang");
@@ -30,6 +35,8 @@
 			};
 
 			const target = resolveTarget();
+			document.documentElement.lang = target;
+			document.title = redirectTitles[target];
 			window.location.replace(`/${target}`);
 		</script>
 	</body>
