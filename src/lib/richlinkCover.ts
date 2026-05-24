@@ -68,6 +68,17 @@ const readImdbId = (url: string): string | null => {
   return match ? match[0].toLowerCase() : null;
 };
 
+const pickSuggestionByImdbId = <T extends { id?: string }>(
+  suggestions: T[] | undefined,
+  imdbId: string
+): T | undefined => {
+  if (!suggestions?.length) {
+    return undefined;
+  }
+
+  return suggestions.find((entry) => entry.id?.toLowerCase() === imdbId) ?? suggestions[0];
+};
+
 const fetchSuggestionCover = async (imdbId: string): Promise<string | null> => {
   try {
     const controller = new AbortController();
@@ -93,7 +104,12 @@ const fetchSuggestionCover = async (imdbId: string): Promise<string | null> => {
       d?: Array<{ l?: string; i?: { imageUrl?: string } }>;
     };
 
-    return parsed.d?.[0]?.i?.imageUrl ?? null;
+    const match = pickSuggestionByImdbId(
+      parsed.d as Array<{ id?: string; l?: string; i?: { imageUrl?: string } }> | undefined,
+      imdbId
+    );
+
+    return match?.i?.imageUrl ?? null;
   } catch {
     return null;
   }
@@ -123,17 +139,17 @@ const fetchSuggestionData = async (
     }
 
     const parsed = (await response.json()) as {
-      d?: Array<{ l?: string; i?: { imageUrl?: string } }>;
+      d?: Array<{ id?: string; l?: string; i?: { imageUrl?: string } }>;
     };
 
-    const first = parsed.d?.[0];
-    if (!first) {
+    const match = pickSuggestionByImdbId(parsed.d, imdbId);
+    if (!match) {
       return null;
     }
 
     return {
-      title: first.l,
-      cover: first.i?.imageUrl,
+      title: match.l,
+      cover: match.i?.imageUrl,
     };
   } catch {
     return null;
