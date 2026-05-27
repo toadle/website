@@ -226,6 +226,46 @@ const titleHtml = renderInlineMarkdown(title);
     display: block;
   }
 
+  .prose :global(em),
+  .prose :global(i) {
+    font-style: italic;
+    font-synthesis: style;
+    font-variation-settings: "slnt" -5;
+  }
+
+  .prose > :global(p + blockquote),
+  .prose > :global(h2 + blockquote),
+  .prose > :global(h3 + blockquote),
+  .prose > :global(h4 + blockquote) {
+    margin-top: var(--space-xl);
+  }
+
+  .prose :global(blockquote) {
+    position: relative;
+    margin: 0;
+    padding-left: 2.5rem;
+    color: var(--gray-10);
+    font-size: var(--step-0);
+    font-variation-settings: "slnt" -6;
+    line-height: var(--line-height-body);
+  }
+
+  .prose :global(blockquote::before) {
+    content: "\201C";
+    position: absolute;
+    left: 0;
+    top: -0.1rem;
+    font-size: 3.5rem;
+    font-style: normal;
+    color: var(--gray-7);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .prose :global(blockquote p) {
+    margin: 0;
+  }
+
   hr {
     border: none;
     border-top: 1px solid var(--gray-4);

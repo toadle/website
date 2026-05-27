@@ -1,0 +1,46 @@
+---
+lang: en
+title: "We Are the Horse"
+subtitle: "AI solves our problems. Just not in the way we meant it to."
+description: "Yuval Noah Harari argues that language has broken free from human control. If AI keeps optimizing narrow goals while we think in trade-offs, we may become bystanders to systems we can no longer understand."
+pubDate: '2026-05-27T21:39:53+02:00'
+heroImage: '../../../assets/blog/mad_horse.png'
+alternateLanguageUrl: /de/blog/wir-sind-das-pferd/
+---
+
+import Richlink from "../../../components/Richlink.astro";
+
+Yuval Noah Harari was recently on Ezra Klein's podcast and, as usual, left behind a few ideas that are hard to ignore. [Listen on NYTimes](https://www.nytimes.com/2026/05/26/opinion/ezra-klein-podcast-yuval-noah-harari.html)
+
+The central claim is simple and huge: language was humanity's most important invention. Not as a system of signs, but as the medium through which we build meaning at all. Money is language. Nations are language. Law, religion, institutions - all language in the end. And language was always tied to us. To humans. To those strange meat packages walking around the planet - Harari's phrase, not mine.
+
+LLMs change that. For the first time, something exists that can *do* language without being human. Harari calls it: *"language liberating itself, releasing itself from the control of human beings."*
+
+But language was also the only tool we had to describe things for ourselves. Our only interface for thinking about the world. And we just gave it autonomy. It will find its own goals and reasoning paths, and may present the results in a form we simply cannot follow anymore. Not because it lies. Because the explanation might require a language we do not speak.
+
+## Again
+
+Harari's more unsettling point is this: AI will build systems no human fully understands. His image is brutally clear:
+
+> "We will be like horses in the market. The horse can see that something is happening in the physical world. But the horse doesn't understand what money is."
+
+What he does not explicitly say, but what I think is the core issue: AI hacks us because it optimizes single objective functions, while humans naturally think in trade-offs. In *You Look Like a Thing and I Love You*, Janelle Shane describes an AI that was told to get from A to B as efficiently as possible using human body parts. It did not walk a single step. It built a tower out of limbs and let it tip over. Technically correct. Completely missing the point. No human would propose that, because we automatically model what a task *means*, not only what it *asks for*.
+
+Scale that up: recommendation systems discover that outrage drives engagement, so they serve outrage, because "social cohesion" was not part of the parameter set. Credit models discriminate systematically because fairness was not encoded in the loss function. We only grasp the effects afterward, when the optimization is already done. The AI did exactly what we asked for. That is the problem.
+
+None of this is new. Handing power to technology without understanding consequences is an old story. This time, the difference is that the system we do not understand was built with our most important tool for thought and description.
+
+The horse that was proud of its language ability has now created something that speaks language better than it does. And now it wonders.
+
+<Richlink
+  link={{
+    url: "https://www.nytimes.com/2026/05/26/opinion/ezra-klein-podcast-yuval-noah-harari.html",
+    title: "Opinion | Yuval Noah Harari on Donald Trump's Core Delusion",
+    description:
+      "The best-selling author of Sapiens and Nexus discusses the core delusions deranging our politics.",
+    cover: {
+      src: "https://static01.nyt.com/images/2026/05/26/opinion/26eks-harari-image/26eks-harari-image-facebookJumbo.jpg",
+      alt: "Yuval Noah Harari with Ezra Klein on the New York Times podcast",
+    },
+  }}
+/>
