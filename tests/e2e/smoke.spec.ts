@@ -1,11 +1,13 @@
 import { expect, test } from "@playwright/test";
 
+const gotoOptions = { waitUntil: "domcontentloaded" as const };
+
 // ---------------------------------------------------------------------------
 // Root redirect
 // ---------------------------------------------------------------------------
 
 test("root redirects to a locale prefix", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/", gotoOptions);
   await expect(page).toHaveURL(/(de|en)(\/|$)/);
 });
 
@@ -14,18 +16,18 @@ test("root redirects to a locale prefix", async ({ page }) => {
 // ---------------------------------------------------------------------------
 
 test("DE homepage loads", async ({ page }) => {
-  await page.goto("/de");
+  await page.goto("/de", gotoOptions);
   await expect(page.locator("header")).toBeVisible();
   await expect(page.locator(".hero")).toBeVisible();
 });
 
 test("DE blog index loads", async ({ page }) => {
-  await page.goto("/de/blog");
+  await page.goto("/de/blog", gotoOptions);
   await expect(page.locator("h1").first()).toBeVisible();
 });
 
 test("DE now hub loads with timeline", async ({ page }) => {
-  await page.goto("/de/now");
+  await page.goto("/de/now", gotoOptions);
   await expect(page.locator("#now-timeline")).toBeVisible();
   await expect(page.locator("#now-timeline li").first()).toBeVisible();
 });
@@ -35,18 +37,18 @@ test("DE now hub loads with timeline", async ({ page }) => {
 // ---------------------------------------------------------------------------
 
 test("EN homepage loads", async ({ page }) => {
-  await page.goto("/en");
+  await page.goto("/en", gotoOptions);
   await expect(page.locator("header")).toBeVisible();
   await expect(page.locator(".hero")).toBeVisible();
 });
 
 test("EN blog index loads", async ({ page }) => {
-  await page.goto("/en/blog");
+  await page.goto("/en/blog", gotoOptions);
   await expect(page.locator("h1").first()).toBeVisible();
 });
 
 test("EN now hub loads with timeline", async ({ page }) => {
-  await page.goto("/en/now");
+  await page.goto("/en/now", gotoOptions);
   await expect(page.locator("#now-timeline")).toBeVisible();
   await expect(page.locator("#now-timeline li").first()).toBeVisible();
 });
@@ -56,7 +58,7 @@ test("EN now hub loads with timeline", async ({ page }) => {
 // ---------------------------------------------------------------------------
 
 test("theme toggle switches body class", async ({ page }) => {
-  await page.goto("/de");
+  await page.goto("/de", gotoOptions);
   const toggle = page.locator("[data-theme-toggle]");
   await toggle.click();
   await expect(page.locator("body")).toHaveClass(/dark/);
@@ -65,19 +67,19 @@ test("theme toggle switches body class", async ({ page }) => {
 });
 
 test("language switch on DE homepage points to EN", async ({ page }) => {
-  await page.goto("/de");
+  await page.goto("/de", gotoOptions);
   await expect(page.locator("a.lang")).toHaveAttribute("href", /^\/en/);
 });
 
 test("language switch on EN homepage points to DE", async ({ page }) => {
-  await page.goto("/en");
+  await page.goto("/en", gotoOptions);
   await expect(page.locator("a.lang")).toHaveAttribute("href", /^\/de/);
 });
 
 test("blog language selector links to translated article when available", async ({
   page,
 }) => {
-  await page.goto("/en/blog/terminal-as-an-app-launcher-alternative-on-the-mac/");
+  await page.goto("/en/blog/terminal-as-an-app-launcher-alternative-on-the-mac/", gotoOptions);
   await expect(page.locator("a.lang")).toHaveAttribute(
     "href",
     "/de/blog/terminal-as-launchbar-alfred-alternative-auf-dem-mac/"
@@ -87,7 +89,7 @@ test("blog language selector links to translated article when available", async 
 test("blog language selector links to translated article for giantbomb post", async ({
   page,
 }) => {
-  await page.goto("/en/blog/a-new-ruby-gem-for-the-giantbomb-api/");
+  await page.goto("/en/blog/a-new-ruby-gem-for-the-giantbomb-api/", gotoOptions);
   await expect(page.locator("a.lang")).toHaveAttribute(
     "href",
     "/de/blog/ein-neues-ruby-gem-fuer-die-giantbomb-api/"

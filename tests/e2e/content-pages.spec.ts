@@ -4,6 +4,7 @@ import { dirname, join } from "path";
 import { expect, test } from "@playwright/test";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const gotoOptions = { waitUntil: "domcontentloaded" as const };
 
 function blogSlug(filename: string): string {
   return filename
@@ -22,7 +23,7 @@ for (const lang of ["en", "de"]) {
 
 for (const { lang, slug } of blogEntries) {
   test(`blog/${lang}/${slug}`, async ({ page }) => {
-    const response = await page.goto(`/${lang}/blog/${slug}/`);
+    const response = await page.goto(`/${lang}/blog/${slug}/`, gotoOptions);
     expect(response?.status()).toBeLessThan(400);
     await expect(page.locator("h1").first()).toBeVisible();
   });
@@ -43,7 +44,7 @@ for (const lang of ["en", "de"]) {
 
 for (const { lang, slug } of nowEntries) {
   test(`now/${lang}/${slug}`, async ({ page }) => {
-    const response = await page.goto(`/${lang}/now/${slug}/`);
+    const response = await page.goto(`/${lang}/now/${slug}/`, gotoOptions);
     expect(response?.status()).toBeLessThan(400);
     await expect(page.locator("header").first()).toBeVisible();
   });
